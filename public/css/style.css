@@ -1,0 +1,15 @@
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/Nunito/Nunito-Regular.ttf');
+}
+
+
+body {
+    font-family: 'Nunito';
+    min-height: 100vh;
+    max-height: 100vh;
+    scroll-behavior: smooth;
+    font-size: medium;
+}
+
