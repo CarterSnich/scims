@@ -13,7 +13,6 @@
 
     <title>Senior Citizen ID #{{ $citizen['citizenId'] }} {{ $citizen['fullname'] }}</title>
 
-
     <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
     <style>
         body {
@@ -34,7 +33,6 @@
 
 <body>
     <iframe></iframe>
-
     <script>
         let citizen = JSON.parse(document.querySelector('meta[name=citizen]').getAttribute('value'))
         let barangay = JSON.parse(document.querySelector('meta[name=barangay]').getAttribute('value'))
@@ -163,10 +161,17 @@
         doc.text(citizen['marital_status'][0].toUpperCase() + citizen['marital_status'].substring(1), 6.6, 6.98, align_center) // marital status
 
         // picture ID
-        doc.addImage(document.querySelector('meta[name=picture]').getAttribute('value'), "PNG", 6.27, .6, 1, 1); // picture
+        let pictureId = document.querySelector('meta[name=picture]').getAttribute('value');
+        let pictureFormat = pictureId.split('.').pop().toUpperCase();
+        doc.addImage(pictureId, pictureFormat, 6.27, .6, 1, 1);
 
         // set pdf to iframe
         document.querySelector('iframe').setAttribute('src', doc.output('datauristring'))
+        doc.save(`${document.title}.pdf`)
+
+        if (!!window.chrome) {
+            alert("On Chromium-based browsers, PDF may fail rendering, instead it will be downloaded. If there is no downloaded PDF file, please contact the system administration.")
+        }
     </script>
 </body>
 

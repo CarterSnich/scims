@@ -13,6 +13,14 @@
             overflow-y: auto;
             overflow-x: hidden
         }
+
+        #picture-placeholder {
+            min-height: 200px;
+            min-width: 200px;
+            max-height: 200px;
+            max-width: 200px;
+            aspect-ratio: 1/1
+        }
     </style>
     {{-- main content --}}
     <div id="main">
@@ -26,8 +34,11 @@
                     </svg>
                     <span class="visually-hidden">Go back</span>
                 </a>
-                <h2 class="my-auto">
-                    {{ $citizen['lastname'] }}, {{ $citizen['firstname'] }} {{ $citizen['middlename'] }}
+                <h2 class="my-auto ">
+                    Senior Citizen <span class="text-primary">#{{ $citizen->citizen_id }}</span>
+                    @if ($citizen->is_delisted)
+                        <code class="fs-5 text-danger">DELISTED</code>
+                    @endif
                 </h2>
             </div>
             {{-- button toolbar --}}
@@ -41,164 +52,316 @@
                         <span class="visually-hidden">Update</span>
                     </a>
                     {{-- print button --}}
-                    <a href="/citizens/{{ $citizen['id'] }}/print" id="print-button" class="btn btn-secondary" data-has-tooltip="true" data-bs-placement="bottom" title="Print" target="_blank">
+                    <a href="/print/citizen/{{ $citizen['id'] }}" id="print-button" class="btn btn-secondary" data-has-tooltip="true" data-bs-placement="bottom" title="Print" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
                             <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
                             <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
                         </svg>
                         <span class="visually-hidden">Print</span>
                     </a>
+                    {{-- apply ID --}}
+                    <a href="/id_applications/apply/{{ $citizen->id }}" id="apply-id-button" class="btn btn-secondary" data-has-tooltip="true" data-bs-placement="bottom" title="Apply ID">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card-2-front" viewBox="0 0 16 16">
+                            <path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z" />
+                            <path d="M2 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z" />
+                        </svg>
+                        <span class="visually-hidden">Apply ID</span>
+                    </a>
                 </div>
                 <div class="btn-group" role="group" aria-label="Third group">
-                    {{-- button delist/remove --}}
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" data-has-tooltip="true" data-bs-placement="bottom" title="Delist">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                        </svg>
-                        <span class="visually-hidden">Delete</span>
-                    </button>
+                    @if ($citizen->is_delisted)
+                        {{-- button recover --}}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#recover-modal" data-has-tooltip="true" data-bs-placement="bottom" title="Recover">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                            </svg>
+                            <span class="visually-hidden">Recover</span>
+                        </button>
+                    @else
+                        {{-- button delist/remove --}}
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delist-modal" data-has-tooltip="true" data-bs-placement="bottom" title="Delist">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                            <span class="visually-hidden">Delist</span>
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
         <hr style="min-height: 1px">
         {{-- data wrapper --}}
-        <div id="data-wrapper" class="bg-dark">
-            <div class="px-3 pb-3 gap-5">
+        <div id="data-wrapper" class="bg-dark px-3 pb-3">
 
-                <div class="d-flex">
-                    <h3 class="h3 mb-0 me-3">Personal information</h3>
-                    <hr class="flex-fill">
+            <div class="d-grid gap-5">
+
+
+                @if ($citizen->is_delisted)
+                    {{-- delist details --}}
+                    <div>
+                        <div class="d-flex gap-3">
+                            <h3>Delisting details</h3>
+                            <hr class="flex-fill">
+                        </div>
+
+                        <div class="row ps-3 g-3 flex-fill">
+
+                            {{-- emergency contact person --}}
+                            <div class="col">
+                                <label for="first_dose_date" class="form-label text-info">Delist reason</label>
+                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                    {{ $citizen->delist_reason }}
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                @endif
+
+
+                {{-- personal information --}}
+                <div>
+                    <div class="d-flex gap-3">
+                        <h3>Personal information</h3>
+                        <hr class="flex-fill">
+                    </div>
+
+                    <div class="d-flex gap-3 ps-3">
+                        <div class="row g-3 flex-fill">
+
+                            {{-- lastname --}}
+                            <div class="col-6">
+                                <label for="lastname" class="form-label text-info">Last name</label>
+                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->lastname }}</p>
+                            </div>
+
+                            {{-- firstname --}}
+                            <div class="col-6">
+                                <label for="firstname" class="form-label text-info">First name</label>
+                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->firstname }}</p>
+                            </div>
+
+                            {{-- middlename --}}
+                            <div class="col-9">
+                                <label for="middlename" class="form-label text-info">Middle name</label>
+                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                    @if ($citizen->middlename)
+                                        {{ $citizen->middlename }}
+                                    @else
+                                        <i class="text-muted">N/A</i>
+                                    @endif
+                                </p>
+                            </div>
+
+                            {{-- gender --}}
+                            <div class="col-3">
+                                <label for="gender" class="form-label text-info">Gender</label>
+                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->gender) }}</p>
+                            </div>
+
+                            {{-- age --}}
+                            <div class="col-3">
+                                <label for="age" class="form-label text-info">Age</label>
+                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->age }} yrs. old</p>
+                            </div>
+
+                            {{-- birth date --}}
+                            <div class="col-6">
+                                <label for="birthdate" class="form-label text-info">Birthdate</label>
+                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ date('F j, Y', strtotime($citizen->birthdate)) }}</p>
+                            </div>
+
+                            {{-- birth place --}}
+                            <div class="col-9">
+                                <label for="birthplace" class="form-label text-info">Birthplace</label>
+                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->birthplace }}</p>
+                            </div>
+
+                        </div>
+
+                        {{-- picture --}}
+                        <div class="d-flex">
+                            <img id="picture-placeholder" class="rounded d-block img-thumbnail mb-auto" src="{{ asset("storage/pictures/{$citizen->picture}") }}">
+                        </div>
+
+                    </div>
+
+
                 </div>
 
-                <div class="d-flex ps-5 pt-3">
-                    {{-- personal information --}}
-                    <div class="flex-fill d-grid gap-3">
+                {{-- contact information --}}
+                <div>
+                    <div class="d-flex gap-3">
+                        <h3>Contact information</h3>
+                        <hr class="flex-fill">
+                    </div>
 
-                        {{-- lastname --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="lastname" class="h3 form-label text-info">Last name</label>
-                            </div>
-                            <div class="col-8">
-                                <h3 id="lastname" class="border-bottom">{{ $citizen['lastname'] }}</h3>
-                            </div>
+                    <div class="row ps-3 g-3 flex-fill">
+
+                        {{-- phone number --}}
+                        <div class="col-6">
+                            <label for="phone_number" class="form-label text-info">Phone number</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->phone_number }}</p>
                         </div>
 
-                        {{-- firstname --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="firstname" class="h3 form-label text-info">First name</label>
-                            </div>
-                            <div class="col-8">
-                                <h3 id="firstname" class="border-bottom">{{ $citizen['firstname'] }}</h3>
-                            </div>
+                        {{-- email --}}
+                        <div class="col-6">
+                            <label for="email" class="form-label text-info">Email</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->email }}</p>
                         </div>
 
-                        {{-- middlename --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="middlename" class="h3 form-label text-info">Middle name</label>
-                            </div>
-                            <div class="col-8">
-                                @if ($citizen['middlename'])
-                                    <h3 id="middlename" class="border-bottom">{{ $citizen['middlename'] }}</h3>
-                                @else
-                                    <h3 id="middlename" class="text-muted border-bottom">N/A</h3>
-                                @endif
-                            </div>
-                        </div>
+                    </div>
 
-                        {{-- birthdate --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="birthdate" class="h3 form-label text-info">Date of birth</label>
-                            </div>
-                            <div class="col-8">
-                                <h3 id="birthdate" class="border-bottom">
-                                    {{ date('F j, Y', strtotime($citizen['birthdate'])) }}
-                                </h3>
-                            </div>
-                        </div>
+                </div>
 
-                        {{-- gender --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="gender" class="h3 form-label text-info">Gender</label>
-                            </div>
-                            <div class="col-8">
-                                <h3 id="gender" class="border-bottom">
-                                    {{ ucfirst($citizen['gender']) }}
-                                </h3>
-                            </div>
-                        </div>
+                {{-- location details --}}
+                <div>
+                    <div class="d-flex gap-3">
+                        <h3>Location details</h3>
+                        <hr class="flex-fill">
+                    </div>
 
-                        {{-- age --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="age" class="h3 form-label text-info">Age</label>
-                            </div>
-                            <div class="col-8">
-                                <h3 id="age" class="border-bottom">
-                                    {{ $citizen['age'] }}
-                                </h3>
-                            </div>
-                        </div>
-
-                        {{-- marital status --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="marital_status" class="h3 form-label text-info">Marital status</label>
-                            </div>
-                            <div class="col-8">
-                                <h3 id="marital_status" class="border-bottom">
-                                    {{ ucfirst($citizen['marital_status']) }}
-                                </h3>
-                            </div>
-                        </div>
+                    <div class="row ps-3 g-3 flex-fill">
 
                         {{-- barangay --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="barangay" class="h3 form-label text-info">Barangay</label>
-                            </div>
-                            <div class="col-8">
-                                @if ($barangay)
-                                    <h3 id="barangay" class="border-bottom">
-                                        Brgy. {{ $barangay['barangay_name'] }}
-                                    </h3>
-                                @else
-                                    <h3 id="barangay" class="border-bottom text-muted">N/A</h3>
-                                @endif
-                            </div>
+                        <div class="col-6">
+                            <label for="barangay" class="form-label text-info">Barangay</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $barangay->barangay_name }}</p>
                         </div>
 
                         {{-- province --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="province" class="h3 text-info">Province</label>
-                            </div>
-                            <div class="col-8">
-                                <h3 id="province" class="border-bottom">
-                                    {{ $citizen['province'] }}
-                                </h3>
-                            </div>
+                        <div class="col-6">
+                            <label for="province" class="form-label text-info">Province</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->province }}</p>
+                        </div>
+
+                        {{-- years of stay --}}
+                        <div class="col-3">
+                            <label for="years_of_stay" class="form-label text-info">Years of stay</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->years_of_stay }} years</p>
                         </div>
 
                     </div>
 
-                    {{-- picture wrapper --}}
-                    <div class="d-flex flex-column gap-2 mx-5">
+                </div>
 
-                        {{-- picture --}}
-                        <div class="border p-1 bg-white rounded">
-                            <img src="{{ asset("storage/pictures/{$citizen['picture']}") }}" alt="" height="200" width="200">
+                {{-- other details --}}
+                <div>
+                    <div class="d-flex gap-3">
+                        <h3>Other details</h3>
+                        <hr class="flex-fill">
+                    </div>
+
+                    <div class="row ps-3 g-3 flex-fill">
+
+                        {{-- religion --}}
+                        <div class="col-6">
+                            <label for="religion" class="form-label text-info">Religion</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->religion }}</p>
                         </div>
 
-                        {{-- senior citizen ID --}}
-                        <h3 class="mx-auto">
-                            <strong class="text-primary">#{{ $citizen['citizenId'] }}</strong>
-                        </h3>
+                        {{-- marital_status --}}
+                        <div class="col-6">
+                            <label for="marital_status" class="form-label text-info">Marital status</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->marital_status) }}</p>
+                        </div>
+
+                        {{-- educational attainment --}}
+                        <div class="col-6">
+                            <label for="educational_attainment" class="form-label text-info">Educational attainment</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->educational_attainment }}</p>
+                        </div>
+
+                        {{-- status --}}
+                        <div class="col-6">
+                            <label for="status" class="form-label text-info">Status</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->status) }}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- emergency information --}}
+                <div>
+                    <div class="d-flex gap-3">
+                        <h3>Emergancy information</h3>
+                        <hr class="flex-fill">
+                    </div>
+
+                    <div class="row ps-3 g-3 flex-fill">
+
+                        {{-- emergency contact person --}}
+                        <div class="col-6">
+                            <label for="emergency_contact_person" class="form-label text-info">Emergency contact person</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->emergency_contact_person }}</p>
+                        </div>
+
+                        {{-- emergency contact number --}}
+                        <div class="col-6">
+                            <label for="emergency_contact_number" class="form-label text-info">Emergency contact number</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->emergency_contact_number }}</p>
+                        </div>
+
+                        {{-- emergency contact address --}}
+                        <div class="col-6">
+                            <label for="emergency_contact_address" class="form-label text-info">Emergency contact address</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->emergency_contact_address }}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- vaccination details --}}
+                <div>
+                    <div class="d-flex gap-3">
+                        <h3>Vaccination details</h3>
+                        <hr class="flex-fill">
+                    </div>
+
+                    <div class="row ps-3 g-3 flex-fill">
+
+                        {{-- emergency contact person --}}
+                        <div class="col-6">
+                            <label for="first_dose_date" class="form-label text-info">First dose date</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->first_dose_date)
+                                    {{ date('F j, Y', strtotime($citizen->first_dose_date)) }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
+                        </div>
+
+                        {{-- emergency contact number --}}
+                        <div class="col-6">
+                            <label for="second_dose_date" class="form-label text-info">Second dose date</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->second_dose_date)
+                                    {{ date('F j, Y', strtotime($citizen->second_dose_date)) }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
+                        </div>
+
+                        {{-- emergency contact address --}}
+                        <div class="col-6">
+                            <label for="booster_dose_date" class="form-label text-info">Booster dose date</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->booster_dose_date)
+                                    {{ date('F j, Y', strtotime($citizen->booster_dose_date)) }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
+                        </div>
+
                     </div>
 
                 </div>
@@ -209,28 +372,62 @@
 
     </div>
 
-    {{-- delete confirmation modal --}}
-    <div class="modal fade text-dark" id="delete-modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Remove citizen</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="delete-form" method="POST" action="/citizens/{{ $citizen['id'] }}/delete">
-                        @csrf
-                        @method('DELETE')
-                        <h4>Remove Senior Citizen #{{ date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT) }}?</h4>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger" form="delete-form">Remove</button>
+
+
+    @if ($citizen->is_delisted)
+        {{-- recover confirmation modal --}}
+        <div class="modal fade text-dark" id="recover-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Recover citizen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="recover-form" method="POST" class="d-grid gap-3 needs-validation" action="/citizens/{{ $citizen['id'] }}/recover" novalidate>
+                            @csrf
+                            <p class="mb-1">Recover Senior Citizen #{{ date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT) }}?</p>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" form="recover-form">Recover</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @else
+        {{-- delist confirmation modal --}}
+        <div class="modal fade text-dark" id="delist-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delist citizen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="delist-form" method="POST" class="d-grid gap-3 needs-validation" action="/citizens/{{ $citizen['id'] }}/delist" novalidate>
+                            @csrf
+                            <div>
+                                <p class="mb-1">Provide a reason to delist Senior Citizen #{{ date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT) }}.</p>
+                                <textarea class="form-control" name="delist_reason" rows="4" required></textarea>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" name="deceased" id="deceased-checkbox">
+                                <label class="form-check-label" for="deceased-checkbox">
+                                    Deceased
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger" form="delist-form">Delist</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
 
 @section('script')
@@ -240,8 +437,6 @@
             var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             })
-
-
         })()
     </script>
 @endsection

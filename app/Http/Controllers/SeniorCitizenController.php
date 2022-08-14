@@ -2,38 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Barangay;
 use Illuminate\Http\Request;
 use App\Models\SeniorCitizen;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use League\Flysystem\ConnectionRuntimeException;
 
 class SeniorCitizenController extends Controller
 {
     // store
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            // picture
-            'picture' => ['required', 'image'],
+        // dd($request->all());
+        $carbon = new Carbon();
+        $birthdate_before = $carbon->subYears($request->age)->format('Y-m-d');
 
-            // identification
+        $validator = Validator::make($request->all(), [
+
+            // personal information
             'lastname' => ['required'],
             'firstname' => ['required'],
-            'middlename',
-
-            // address
-            'barangay' => ['required', 'integer', 'exists:barangays,id'],
-            'province' => ['required'],
-
-            // other details
+            'middlename' => ['nullable'],
+            'gender' => ['required'],
+            'age' => ['required', 'integer', 'min:60'],
             'birthdate' => ['required', 'date'],
-            'age' => ['required', 'gte:60'],
-            'gender' => ['required', 'in:male,female'],
-            'marital_status' => ['required', 'in:unmarried,married,divorced,widowed']
+            'birthplace' => ['required'],
+            'picture' => ['required', 'image'],
+
+            // contact information
+            'phone_number' => ['nullable', 'regex:/(09)[0-9]{9}/'],
+            'email' => ['nullable', 'email'],
+
+            // location details
+            'barangay' => ['required', 'exists:barangays,id'],
+            'province' => ['required'],
+            'years_of_stay' => ['required', 'min:0'],
+
+            // other information
+            'religion' => ['required'],
+            'marital_status' => ['required', 'in:unmarried,married,divorced,widowed'],
+            'educational_attainment' => ['required'],
+            'status' => ['required', 'in:active,deceased'],
+
+            // emergency details
+            'emergency_contact_person' => ['required'],
+            'emergency_contact_number' => ['required', 'regex:/(09)[0-9]{9}/'],
+            'emergency_contact_address' => ['required'],
+
+            // vaccination details
+            'first_dose_date' => ['nullable', 'date'],
+            'second_dose_date' => ['nullable', 'date'],
+            'booster_dose_date' => ['nullable', 'date'],
+
         ], [
-            'age' => 'The age must be 60 or older.'
+            'age.min' => 'The age must be 60 or older.',
+            'birthdate.after_or_equal' => 'Birthdate must match the age.'
         ]);
 
         if ($validator->fails()) {
@@ -137,34 +161,85 @@ class SeniorCitizenController extends Controller
         }
     }
 
-    // destroy
-    public function destroy(SeniorCitizen $citizen)
+    // delist
+    public function delist(Request $request, SeniorCitizen $citizen)
     {
-        if ($citizen->delete()) {
-            return redirect()
-                ->action([DashboardController::class, 'citizens'])
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'delist_reason' => ['required']
+            ]
+        );
+
+        if ($validator->fails()) {
+            return
+                back()
                 ->with([
                     'toast' => [
-                        'type' => 'success',
-                        'message' => 'Senior citizen removed successfully.'
+                        'type' => 'warning',
+                        'message' => 'Please, check your inputs.'
+                    ]
+                ]);
+        } else {
+            if ($request->deceased) $citizen->status = 'deceased';
+            $citizen->is_delisted = true;
+            $citizen->delist_reason = $request->delist_reason;
+            if ($citizen->save()) {
+                return
+                    redirect('/citizens/delisted')
+                    ->with([
+                        'toast' =>  [
+                            'type' => 'success',
+                            'message' => 'Senior Citizen delisted successfully.'
+                        ]
+                    ]);
+            } else {
+                return
+                    back()
+                    ->with([
+                        'toast' =>  [
+                            'type' => 'warning',
+                            'message' => 'Failed to delist Senior Citizen.'
+                        ]
+                    ]);
+            }
+        }
+    }
+
+    public function recover(SeniorCitizen $citizen)
+    {
+        if (auth()->user()->type == 'admin') {
+            $citizen->is_delisted = false;
+            $citizen->delist_reason = null;
+            $citizen->status = 'active';
+            if ($citizen->save()) {
+                return
+                    redirect('/citizens')
+                    ->with([
+                        'toast' => [
+                            'type' => 'success',
+                            'message' => 'Senior Citizen recovered successfully.'
+                        ]
+                    ]);
+            } else {
+                return
+                    back()
+                    ->with([
+                        'toast' => [
+                            'type' => 'warning',
+                            'message' => 'Failed to recover citizen.'
+                        ]
+                    ]);
+            }
+        } else {
+            return
+                back()
+                ->with([
+                    'toast' => [
+                        'type' => 'warning',
+                        'message' => 'Unauthorized action.'
                     ]
                 ]);
         }
-        return back()->with([
-            'toast' =>  [
-                'type' => 'danger',
-                'message' => 'Failed to remove senior citizen.'
-            ]
-        ]);
-    }
-
-    public function print(SeniorCitizen $citizen)
-    {
-        $citizen['citizenId'] = date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT);
-        $citizen['fullname'] = "{$citizen['lastname']}, {$citizen['firstname']} {$citizen['middlename']}";
-        return view('layouts.print_citizen', [
-            'citizen' => $citizen,
-            'barangay' => Barangay::where('id', '=', $citizen['barangay'])->first()
-        ]);
     }
 }

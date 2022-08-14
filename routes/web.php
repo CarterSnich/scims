@@ -5,7 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SeniorCitizenController;
-use App\Models\SeniorCitizen;
+use App\Http\Controllers\IdApplicationController;
+use App\Http\Controllers\PrintController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,10 @@ use App\Models\SeniorCitizen;
 Route::get('/', [UserController::class, 'login'])->name('login')->middleware('guest');
 
 // Dashboard pages //
-Route::get('/barangays', [DashboardController::class, 'barangays'])->middleware('auth');
 Route::get('/citizens', [DashboardController::class, 'citizens'])->middleware('auth');
+Route::get('/citizens/delisted', [DashboardController::class, 'delisted'])->middleware('auth');
+Route::get('/barangays', [DashboardController::class, 'barangays'])->middleware('auth');
+Route::get('/id_applications', [DashboardController::class, 'id_applications'])->middleware('auth');
 Route::get('/pensions', [DashboardController::class, 'pensions'])->middleware('auth');
 Route::get('/reports', [DashboardController::class, 'reports'])->middleware('auth');
 Route::get('/users', [DashboardController::class, 'users'])->middleware('auth');
@@ -54,9 +57,22 @@ Route::delete('/barangays/{barangay}/destroy', [BarangayController::class, 'dest
 
 // Senior citizen routes
 Route::post('/citizens/add', [SeniorCitizenController::class, 'store'])->middleware('auth');
-Route::delete('/citizens/{citizen}/delete', [SeniorCitizenController::class, 'destroy'])->middleware('auth');
+Route::post('/citizens/{citizen}/delist', [SeniorCitizenController::class, 'delist'])->middleware('auth');
+Route::post('/citizens/{citizen}/recover', [SeniorCitizenController::class, 'recover'])->middleware('auth');
 Route::put('/citizens/{citizen}/update', [SeniorCitizenController::class, 'update'])->middleware('auth');
-Route::get('/citizens/{citizen}/print', [SeniorCitizenController::class, 'print'])->middleware('auth');
+
+// ID application routes
+Route::get('/id_applications/apply', [DashboardController::class, 'id_apply'])->middleware('auth');
+Route::get('/id_applications/{application}', [DashboardController::class, 'view_id_application'])->middleware('auth');
+Route::get('/id_applications/apply/{citizen}', [DashboardController::class, 'id_apply'])->middleware('auth');
+Route::post('/id_applications/apply', [IdApplicationController::class, 'store'])->middleware('auth');
+Route::post('/id_applications/apply/{citizen}', [IdApplicationController::class, 'store'])->middleware('auth');
 
 // settings
 Route::post('/settings/{user}/password_update', [UserController::class, 'password_update'])->middleware('auth');
+
+// print
+Route::get('/print/citizens', [PrintController::class, 'citizens'])->middleware('auth');
+Route::get('/print/citizen/{citizen}', [PrintController::class, 'citizen'])->middleware('auth');
+Route::get('/print/barangays', [PrintController::class, 'barangays'])->middleware('auth');
+Route::get('/print/barangay/{barangay}', [PrintController::class, 'barangay'])->middleware('auth');

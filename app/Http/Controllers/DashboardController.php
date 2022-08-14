@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Barangay;
+use App\Models\IdApplication;
 use Illuminate\Http\Request;
 use App\Models\SeniorCitizen;
 use Illuminate\Support\Facades\DB;
@@ -46,20 +47,30 @@ class DashboardController extends Controller
     // senior citizens list page
     public function citizens(Request $request)
     {
+        $where = [
+            ['is_delisted', '=', 0],
+            ['status', '=', 'active']
+        ];
         if ($search_key = $request['search']) {
-            $barangays = SeniorCitizen::where('lastname', 'LIKE', "%{$search_key}%")
-                ->orWhere('firstname', 'LIKE', "%{$search_key}%")
-                ->orWhere('middlename', 'LIKE', "%{$search_key}%")
+            $citizen =
+                SeniorCitizen::where($where)
+                ->orWhere([
+                    ['lastname', 'LIKE', "%{$search_key}%"],
+                    ['firstname', 'LIKE', "%{$search_key}%"],
+                    ['middlename', 'LIKE', "%{$search_key}%"]
+                ])
                 ->orderBy('lastname')->paginate(50);
-            return
-                view('dashboard.citizens', [
-                    'citizens' => $barangays
-                ]);
         } else {
-            return view('dashboard.citizens', [
-                'citizens' => SeniorCitizen::orderBy('lastname')->paginate(50)
-            ]);
+            $citizen =
+                SeniorCitizen::where($where)
+                ->orderBy('lastname')
+                ->paginate(50);
         }
+
+        return
+            view('dashboard.citizens', [
+                'citizens' => $citizen
+            ]);
     }
 
     // senior citizen registration page
@@ -84,7 +95,7 @@ class DashboardController extends Controller
     public function view_citizen(Request $request)
     {
         $citizen = SeniorCitizen::where('senior_citizens.id', '=', $request['id'])->first();
-        $citizen['citizenId'] = date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT);
+        $citizen['citizen_id'] = date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT);
         if ($citizen) {
             return view('dashboard.view_citizen', [
                 'citizen' => $citizen,
@@ -105,7 +116,7 @@ class DashboardController extends Controller
     public function reports()
     {
         $citizens = SeniorCitizen::all();
-        $barangays = Barangay::all();
+        $barangays = Barangay::orderBy('barangay_name')->get();
 
         // hideous
         $maleAgeCounts = DB::table('senior_citizens')
@@ -155,7 +166,7 @@ class DashboardController extends Controller
                     `senior_citizens`
                 INNER JOIN barangays ON senior_citizens.barangay = barangays.id
                 WHERE
-                    gender = "male"
+                    gender = "female"
                 GROUP BY
                     barangay
             ');
@@ -204,8 +215,83 @@ class DashboardController extends Controller
         }
     }
 
+    // settings page
     public function settings()
     {
-        return view('dashboard.settings');
+        if (auth()->user()->type == 'admin') {
+            return view('dashboard.settings');
+        } else {
+            return
+                back()
+                ->with([
+                    'toast' => [
+                        'type' => 'warning',
+                        'message' => 'Please, check your inputs.'
+                    ]
+                ]);
+        }
+    }
+
+    // delist
+    public function delisted()
+    {
+        if (auth()->user()->type == 'admin') {
+            return
+                view('dashboard.citizens', [
+                    'citizens' => SeniorCitizen::where('is_delisted', '=', 1)->paginate(50)
+                ]);
+        } else {
+            return
+                back()
+                ->with([
+                    'toast' => [
+                        'type' => 'warning',
+                        'message' => 'Unauthorized page access.'
+                    ]
+                ]);
+        }
+    }
+
+    // id applicatons
+    public function id_applications()
+    {
+        return
+            view('dashboard.id_applications', [
+                'applications' => IdApplication::select(
+                    'id_applications.*',
+                    'citizen.lastname',
+                    'citizen.firstname',
+                    'citizen.middlename'
+                )->leftJoin(
+                    'senior_citizens AS citizen',
+                    'citizen.id',
+                    '=',
+                    'id_applications.citizen'
+                )->paginate(50)
+            ]);
+    }
+
+    // id application
+    public function id_apply(SeniorCitizen $citizen)
+    {
+        return
+            view('dashboard.id_application', [
+                'applicant' => $citizen,
+                'citizens' => SeniorCitizen::all()
+            ]);
+    }
+
+    // view id application
+    public function view_id_application(IdApplication $application)
+    {
+        $citizen = SeniorCitizen::where('id', '=', $application->citizen)->first();
+        $barangay = Barangay::where('id', '=', $citizen->barangay)->first();
+
+        return
+            view('dashboard.view_id_application', [
+                'application' => $application,
+                'citizen' => $citizen,
+                'barangay' => $barangay
+            ]);
     }
 }
