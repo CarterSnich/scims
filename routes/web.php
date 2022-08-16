@@ -33,7 +33,7 @@ Route::get('/users', [DashboardController::class, 'users'])->middleware('auth');
 Route::get('/settings', [DashboardController::class, 'settings'])->middleware('auth');
 
 
-// Barangay pages
+// Barangay pages //
 Route::get('/barangays/{id}', [DashboardController::class, 'view_barangay'])->middleware('auth');
 
 // citizen pages

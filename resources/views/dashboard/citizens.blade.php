@@ -43,7 +43,7 @@
         <div class="d-flex justify-content-between">
             {{-- page title --}}
             <h2 class="m-0">
-                @if (request()->is('citizen'))
+                @if (request()->is('citizens'))
                     Senior Citizens
                 @else
                     Delisted Senior Citizens

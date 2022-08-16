@@ -50,7 +50,7 @@
             </li>
 
             {{-- delisted senior citizens --}}
-            @if (auth()->user()->type == 'admin')
+            {{-- @if (auth()->user()->type == 'admin')
                 <li>
                     <a href="/citizens/delisted" class="d-flex flex-column nav-link @if (Request::is('citizens/delisted')) active @endif">
                         <div class="d-flex">
@@ -65,7 +65,7 @@
                         </div>
                     </a>
                 </li>
-            @endif
+            @endif --}}
 
             {{-- barangays registered --}}
             <li>
@@ -84,7 +84,7 @@
             </li>
 
             {{-- id applications --}}
-            <li>
+            {{-- <li>
                 <a href="/id_applications" class="d-flex flex-column nav-link @if (Request::is('id_applications')) active @endif">
                     <div class="d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-credit-card-2-front me-3 link-dark" viewBox="0 0 16 16">
@@ -98,7 +98,7 @@
                         </span>
                     </div>
                 </a>
-            </li>
+            </li> --}}
 
             {{-- pensions --}}
             <li>
