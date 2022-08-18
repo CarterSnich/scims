@@ -50,14 +50,12 @@ class DashboardController extends Controller
         $where = [
             ['is_delisted', '=', 0]
         ];
-        if ($search_key = $request['search']) {
+        if ($search_key = $request->search) {
             $citizen =
                 SeniorCitizen::where($where)
-                ->orWhere([
-                    ['lastname', 'LIKE', "%{$search_key}%"],
-                    ['firstname', 'LIKE', "%{$search_key}%"],
-                    ['middlename', 'LIKE', "%{$search_key}%"]
-                ])
+                ->where('lastname', 'LIKE', "%{$search_key}%")
+                ->orWhere('firstname', 'LIKE', "%{$search_key}%")
+                ->orWhere('middlename', 'LIKE', "%{$search_key}%")
                 ->orderBy('lastname')->paginate(50);
         } else {
             $citizen =
