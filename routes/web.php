@@ -76,3 +76,4 @@ Route::get('/print/citizens', [PrintController::class, 'citizens'])->middleware(
 Route::get('/print/citizen/{citizen}', [PrintController::class, 'citizen'])->middleware('auth');
 Route::get('/print/barangays', [PrintController::class, 'barangays'])->middleware('auth');
 Route::get('/print/barangay/{barangay}', [PrintController::class, 'barangay'])->middleware('auth');
+Route::get('/print/id_application/{application}', [PrintController::class, 'id_application'])->middleware('auth');

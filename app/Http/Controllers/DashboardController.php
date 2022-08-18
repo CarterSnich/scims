@@ -16,17 +16,20 @@ class DashboardController extends Controller
     // barangays list page
     public function barangays(Request $request)
     {
-        if ($search_key = $request['search']) {
-            $barangays = Barangay::where('barangay_name', 'LIKE', "%{$search_key}%")
-                ->orderBy('barangay_name')->paginate(50);
-            return
-                view('dashboard.barangays', [
-                    'barangays' => $barangays
+        if (auth()->user()->type == 'staff') {
+            if ($search_key = $request['search']) {
+                $barangays = Barangay::where('barangay_name', 'LIKE', "%{$search_key}%")
+                    ->orderBy('barangay_name')->paginate(50);
+                return
+                    view('dashboard.barangays', [
+                        'barangays' => $barangays
+                    ]);
+            } else {
+                return view('dashboard.barangays', [
+                    'barangays' => Barangay::orderBy('barangay_name')->paginate(50)
                 ]);
+            }
         } else {
-            return view('dashboard.barangays', [
-                'barangays' => Barangay::orderBy('barangay_name')->paginate(50)
-            ]);
         }
     }
 
@@ -48,8 +51,7 @@ class DashboardController extends Controller
     public function citizens(Request $request)
     {
         $where = [
-            ['is_delisted', '=', 0],
-            ['status', '=', 'active']
+            ['is_delisted', '=', 0]
         ];
         if ($search_key = $request['search']) {
             $citizen =

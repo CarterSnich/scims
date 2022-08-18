@@ -16,40 +16,42 @@ class SeniorCitizenFactory extends Factory
     public function definition()
     {
 
-        $age = $this->faker->numberBetween(60, 120);
-        $bday =  Carbon::now()->subYears($age);
+        $is_delisted = $this->faker->boolean();
+
+        $date_of_birth = new Carbon($this->faker->dateTimeBetween('-120 years', '-60 years'));
+        $age = $date_of_birth->age;
 
         return [
 
             // personal information
             'lastname' => $this->faker->lastName(),
             'firstname' => $this->faker->firstName(),
-            'middlename' => $this->faker->lastname(),
-            'gender'  => $this->faker->randomElement(['male', 'female']),
-            'age' => $this->faker->numberBetween(60, 100),
-            'birthdate' => $this->faker->date(),
-            'birthplace' => $this->faker->city(),
-            'picture' => '9ZT72TmsPQz49BG7URBnNOooKxMEshsckJMVG8qV.jpg',
-
-            // contact information
-            'phone_number' => $this->faker->numerify('09#########'),
-            'email' => $this->faker->email(),
+            'middlename' => $this->faker->randomElement([$this->faker->lastName(), null]),
 
             // location details
             'barangay' => Barangay::all()->random()->id,
             'province' => $this->faker->city(),
-            'years_of_stay' => $this->faker->numberBetween(1, 60),
 
-            // other information
-            'religion' => $this->faker->word(),
+            // other details
+            'birthdate' => $this->faker->date('Y-m-d', $date_of_birth),
+            'age' => $age,
             'marital_status' => $this->faker->randomElement(['unmarried', 'married', 'divorced', 'widowed']),
-            'educational_attainment' => $this->faker->word(),
-            'status' => $this->faker->randomElement(['acitve', 'deceased']),
 
-            // emergency details
-            'emergency_contact_person' => $this->faker->name(),
-            'emergency_contact_number' => $this->faker->numerify('09#########'),
-            'emergency_contact_address' => $this->faker->address(),
+            // picture
+            'picture' => $this->faker->randomElement([
+                '9ZT72TmsPQz49BG7URBnNOooKxMEshsckJMVG8qV.jpg',
+                'ak3IIHyeCttxZcqsm1RG2MDvWfAjryMWlsxeMqfa.jpg',
+                'IG7iutu63VuWX5DOp6IIbSnjGOJbYqXyqIvgJeB0.jpg',
+                'JPQk5sTzoBWyy6XjJXyN3Mc2pK1frH60IWXE6Eh0.jpg',
+                'LRCvCuK9g5anafymge20m15QcKL5swfUwty8t4St.jpg',
+                'XYLDFrOsrFzloCpsbYd9x84AtKVWEeo4MWuinlqk.jpg',
+                'mGIs4wF7jaiEeoEl8HY3yob4KFLpnfz90Xtmahii.png',
+                'rZDnAnTC75vMseeStntbRbD82dCGKaN7nOWae1NX.png'
+            ]),
+
+            // delist details
+            'is_delisted' => $is_delisted,
+            'delist_reason' => $is_delisted ? $this->faker->paragraph(3, true) : null
         ];
     }
 }

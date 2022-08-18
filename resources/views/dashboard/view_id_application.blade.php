@@ -38,17 +38,29 @@
                     ID Application: <span class="text-primary">{{ \App\Models\IdApplication::PURPOSE[$application->purpose] }}</span>
                 </h2>
             </div>
+
             {{-- button toolbar --}}
-            <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group me-2" role="group">
+            <div class="btn-toolbar d-flex gap-2" role="toolbar">
+
+                <div class="btn-group" role="group">
+
+                    {{-- print button --}}
+                    <a href="/print/id_application/{{ $application->id }}" id="print-button" class="btn btn-secondary" data-has-tooltip="true" data-bs-placement="bottom" title="Print" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+                            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+                            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+                        </svg>
+                        <span class="visually-hidden">Print</span>
+                    </a>
 
                 </div>
-                <div class="btn-group" role="group" aria-label="Third group">
 
-                </div>
             </div>
+
         </div>
+
         <hr style="min-height: 1px">
+
         {{-- data wrapper --}}
         <div id="data-wrapper" class="bg-dark px-3 pb-3">
 

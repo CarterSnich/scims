@@ -20,44 +20,24 @@ class SeniorCitizenController extends Controller
 
         $validator = Validator::make($request->all(), [
 
+            // picture
+            'picture' => ['required', 'image'],
+
             // personal information
             'lastname' => ['required'],
             'firstname' => ['required'],
             'middlename' => ['nullable'],
-            'gender' => ['required'],
-            'age' => ['required', 'integer', 'min:60'],
-            'birthdate' => ['required', 'date'],
-            'birthplace' => ['required'],
-            'picture' => ['required', 'image'],
-
-            // contact information
-            'phone_number' => ['nullable', 'regex:/(09)[0-9]{9}/'],
-            'email' => ['nullable', 'email'],
 
             // location details
             'barangay' => ['required', 'exists:barangays,id'],
             'province' => ['required'],
-            'years_of_stay' => ['required', 'min:0'],
 
             // other information
-            'religion' => ['required'],
+            'birthdate' => ['required', 'date'],
+            'age' => ['required', 'numeric', 'gte:60'],
             'marital_status' => ['required', 'in:unmarried,married,divorced,widowed'],
-            'educational_attainment' => ['required'],
-            'status' => ['required', 'in:active,deceased'],
-
-            // emergency details
-            'emergency_contact_person' => ['required'],
-            'emergency_contact_number' => ['required', 'regex:/(09)[0-9]{9}/'],
-            'emergency_contact_address' => ['required'],
-
-            // vaccination details
-            'first_dose_date' => ['nullable', 'date'],
-            'second_dose_date' => ['nullable', 'date'],
-            'booster_dose_date' => ['nullable', 'date'],
-
         ], [
             'age.min' => 'The age must be 60 or older.',
-            'birthdate.after_or_equal' => 'Birthdate must match the age.'
         ]);
 
         if ($validator->fails()) {
@@ -81,7 +61,7 @@ class SeniorCitizenController extends Controller
                         ]
                     ]);
             }
-            $formValues = $validator->validated();
+            $formValues = $request->all();
             $formValues['picture'] = $request->file('picture')->hashName();
             $id = SeniorCitizen::create($formValues);
             return redirect()
@@ -101,7 +81,6 @@ class SeniorCitizenController extends Controller
     // update sernior citizen data
     public function update(Request $request, SeniorCitizen $citizen)
     {
-
         $validator = Validator::make($request->all(), [
             // identification
             'lastname' => ['required'],
@@ -113,8 +92,7 @@ class SeniorCitizenController extends Controller
 
             // other details
             'birthdate' => ['required', 'date'],
-            'age' => ['required', 'gte:60'],
-            'gender' => ['required', 'in:male,female'],
+            'age' => ['required', 'numeric', 'gte:60'],
             'marital_status' => ['required', 'in:unmarried,married,divorced,widowed']
         ], [], [
             'emergency_contact_number' => 'emergency contact no.',
@@ -129,6 +107,8 @@ class SeniorCitizenController extends Controller
                 ->withInput()
                 ->withErrors($validator->errors()->toArray());
         } else {
+            $formValues = $request->all();
+
             if ($request['picture']) {
                 if (!Storage::disk('public')->put('pictures', $request->file('picture'))) {
                     return
@@ -141,10 +121,9 @@ class SeniorCitizenController extends Controller
                             ]
                         ]);
                 }
+                $formValues['picture'] = $request->file('picture')->hashName();
             }
 
-            $formValues = $validator->validated();
-            $formValues['picture'] = $request->file('picture')->hashName();
             $citizen->update($formValues);
             return
                 redirect()
@@ -181,8 +160,6 @@ class SeniorCitizenController extends Controller
                     ]
                 ]);
         } else {
-            if ($request->deceased) $citizen->status = 'deceased';
-            $citizen->is_delisted = true;
             $citizen->delist_reason = $request->delist_reason;
             if ($citizen->save()) {
                 return
@@ -206,12 +183,13 @@ class SeniorCitizenController extends Controller
         }
     }
 
+    // recover citizen
     public function recover(SeniorCitizen $citizen)
     {
         if (auth()->user()->type == 'admin') {
             $citizen->is_delisted = false;
             $citizen->delist_reason = null;
-            $citizen->status = 'active';
+
             if ($citizen->save()) {
                 return
                     redirect('/citizens')

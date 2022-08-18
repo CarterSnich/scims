@@ -10,42 +10,27 @@ class SeniorCitizen extends Model
     use HasFactory;
 
     protected $fillable = [
+        // citizen id
+        'citizen_id',
+
         // personal information
         'lastname',
         'firstname',
         'middlename',
-        'gender',
-        'age',
-        'birthdate',
-        'birthplace',
-        'picture',
-
-        // contact information
-        'phone_number',
-        'email',
 
         // location details
         'barangay',
         'province',
-        'years_of_stay',
 
-        // other information
-        'religion',
+        // other details
+        'birthdate',
+        'age',
         'marital_status',
-        'educational_attainment',
-        'status',
 
-        // emergency details
-        'emergency_contact_person',
-        'emergency_contact_number',
-        'emergency_contact_address',
+        // picture
+        'picture',
 
-        // vaccination details
-        'first_dose_date',
-        'second_dose_date',
-        'booster_dose_date',
-
-        // delist
+        // delist details
         'is_delisted',
         'delist_reason'
     ];

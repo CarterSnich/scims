@@ -6,6 +6,7 @@
 
     button[form=logout-form]:hover {
         background-color: #dc3545;
+        color: white
     }
 
     nav {

@@ -35,15 +35,6 @@
                     </div>
                 </div>
             </div>
-            {{-- lorem ipsum --}}
-            <div class="col">
-                <div class="card text-white bg-info mx-auto mb-3" style="max-width: 18rem;">
-                    <div class="card-header">Lorem Ipsum</div>
-                    <div class="card-body p-5">
-                        <h1 class="card-text text-center" style="font-size: 42pt">42</h2>
-                    </div>
-                </div>
-            </div>
         </div>
 
         {{-- charts --}}
