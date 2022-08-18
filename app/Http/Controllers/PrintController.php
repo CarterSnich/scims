@@ -68,7 +68,7 @@ class PrintController extends Controller
     }
 
     // print application
-    public function id_application(IdApplication $idApplication)
+    public function id_application(IdApplication $application)
     {
         $application = IdApplication::select(
             'id_applications.*',
@@ -90,7 +90,7 @@ class PrintController extends Controller
         )->where(
             'id_applications.id',
             '=',
-            '1'
+            $application->id
         )->first();
 
         return
