@@ -36,6 +36,7 @@ class SeniorCitizenController extends Controller
             'birthdate' => ['required', 'date'],
             'age' => ['required', 'numeric', 'gte:60'],
             'marital_status' => ['required', 'in:unmarried,married,divorced,widowed'],
+            'gender' => ['required', 'in:male,female']
         ], [
             'age.min' => 'The age must be 60 or older.',
         ]);
@@ -93,11 +94,8 @@ class SeniorCitizenController extends Controller
             // other details
             'birthdate' => ['required', 'date'],
             'age' => ['required', 'numeric', 'gte:60'],
-            'marital_status' => ['required', 'in:unmarried,married,divorced,widowed']
-        ], [], [
-            'emergency_contact_number' => 'emergency contact no.',
-            'philhealthID' => 'PhilHealth ID',
-            'tin' => 'TIN'
+            'marital_status' => ['required', 'in:unmarried,married,divorced,widowed'],
+            'gender' => ['required', 'in:male,female']
         ]);
 
 

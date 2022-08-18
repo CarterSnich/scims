@@ -179,6 +179,23 @@
                             </div>
                         </div>
 
+                        {{-- gender --}}
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="gender" class="h3 form-label text-info">Gender</label>
+                            </div>
+                            <div class="col-6">
+                                <select class="form-select @error('gender') is-invalid @enderror" name="gender" value="{{ old('gender') }}" required>
+                                    <option selected disabled value="">Select gender</option>
+                                    <option value="male" {{ (old('gender') ?? $citizen->gender) == 'male' ? 'selected' : '' }}>Male</option>
+                                    <option value="female" {{ (old('gender') ?? $citizen->gender) == 'female' ? 'selected' : '' }}>Female</option>
+                                </select>
+                                @error('gender')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
                         {{-- submit button --}}
                         <div class="row">
                             <div class="col-4"></div>

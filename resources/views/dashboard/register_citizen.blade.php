@@ -149,7 +149,7 @@
                         <div class="row ps-3 g-3 flex-fill">
 
                             {{-- birth date --}}
-                            <div class="col-3">
+                            <div class="col-6">
                                 <label for="birthdate" class="form-label text-info">Birthdate</label>
                                 <input type="date" class="form-control @error('birthdate') is-invalid @enderror" id="birthdate" name="birthdate" value="{{ old('birthdate') }}" required>
                                 @error('birthdate')
@@ -158,7 +158,7 @@
                             </div>
 
                             {{-- age --}}
-                            <div class="col-3">
+                            <div class="col-6">
                                 <label for="age" class="form-label text-info">Age</label>
                                 <input type="number" class="form-control @error('age') is-invalid @enderror" id="age" name="age" value="{{ old('age') }}" required>
                                 @error('age')
@@ -177,6 +177,19 @@
                                     <option value="widowed" {{ old('marital_status') == 'widowed' ? 'selected' : '' }}>Widowed</option>
                                 </select>
                                 @error('marital_status')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            {{-- gender --}}
+                            <div class="col-6">
+                                <label for="gender" class="form-label text-info">Gender</label>
+                                <select name="gender" id="gender" class="form-select">
+                                    <option value="" selected disabled>Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                                @error('gender')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

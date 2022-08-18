@@ -36,6 +36,7 @@ class SeniorCitizenFactory extends Factory
             'birthdate' => $this->faker->date('Y-m-d', $date_of_birth),
             'age' => $age,
             'marital_status' => $this->faker->randomElement(['unmarried', 'married', 'divorced', 'widowed']),
+            'gender' => $this->faker->randomElement(['male', 'female']),
 
             // picture
             'picture' => $this->faker->randomElement([

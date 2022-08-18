@@ -193,7 +193,7 @@
                         </div>
 
                         {{-- age --}}
-                        <div class="col-3">
+                        <div class="col-6">
                             <label for="age" class="form-label text-info">Age</label>
                             <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->age }} yrs. old</p>
                         </div>
@@ -202,6 +202,12 @@
                         <div class="col-6">
                             <label for="marital_status" class="form-label text-info">Marital status</label>
                             <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->marital_status) }}</p>
+                        </div>
+
+                        {{-- gender --}}
+                        <div class="col-6">
+                            <label for="gender" class="form-label text-info">Gender</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->gender) }}</p>
                         </div>
 
                     </div>

@@ -26,6 +26,7 @@ class SeniorCitizen extends Model
         'birthdate',
         'age',
         'marital_status',
+        'gender',
 
         // picture
         'picture',

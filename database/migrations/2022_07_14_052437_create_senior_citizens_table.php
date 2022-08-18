@@ -27,6 +27,7 @@ class CreateSeniorCitizensTable extends Migration
             $table->string('province');
 
             // other details
+            $table->enum('gender', ['male', 'female']);
             $table->date('birthdate');
             $table->unsignedInteger('age');
             $table->enum('marital_status', ['unmarried', 'married', 'divorced', 'widowed']);
