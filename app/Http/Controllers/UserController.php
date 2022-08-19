@@ -26,12 +26,7 @@ class UserController extends Controller
 
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
-
-            if (auth()->user()->type == 'staff') {
-                return redirect('citizens');
-            } else {
-                return redirect('citizens/delisted');
-            }
+            return redirect('citizens');
         }
 
         return

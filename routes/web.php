@@ -60,6 +60,7 @@ Route::post('/citizens/add', [SeniorCitizenController::class, 'store'])->middlew
 Route::post('/citizens/{citizen}/delist', [SeniorCitizenController::class, 'delist'])->middleware('auth');
 Route::post('/citizens/{citizen}/recover', [SeniorCitizenController::class, 'recover'])->middleware('auth');
 Route::put('/citizens/{citizen}/update', [SeniorCitizenController::class, 'update'])->middleware('auth');
+Route::delete('/citizens/{citizen}/destroy', [SeniorCitizenController::class, 'destory'])->middleware('auth');
 
 // ID application routes
 Route::get('/id_applications/apply', [DashboardController::class, 'id_apply'])->middleware('auth');

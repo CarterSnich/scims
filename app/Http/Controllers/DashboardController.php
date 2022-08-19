@@ -47,26 +47,26 @@ class DashboardController extends Controller
     // senior citizens list page
     public function citizens(Request $request)
     {
-        $where = [
-            ['is_delisted', '=', 0]
-        ];
         if ($search_key = $request->search) {
-            $citizen =
-                SeniorCitizen::where($where)
-                ->where('lastname', 'LIKE', "%{$search_key}%")
-                ->orWhere('firstname', 'LIKE', "%{$search_key}%")
-                ->orWhere('middlename', 'LIKE', "%{$search_key}%")
-                ->orderBy('lastname')->paginate(50);
-        } else {
-            $citizen =
-                SeniorCitizen::where($where)
+            $citizens =
+                SeniorCitizen::where('is_delisted', '=', 0)
+                ->where(function ($query) use ($search_key) {
+                    $query->where('lastname', 'LIKE', "%{$search_key}%")
+                        ->orWhere('firstname', 'LIKE', "%{$search_key}%")
+                        ->orWhere('middlename', 'LIKE', "%{$search_key}%");
+                })
                 ->orderBy('lastname')
                 ->paginate(50);
-        }
+        } else {
+            $citizens =
+                SeniorCitizen::where('is_delisted', '=', 0)
+                ->orderBy('lastname')
+                ->paginate(50);
+        };
 
         return
             view('dashboard.citizens', [
-                'citizens' => $citizen
+                'citizens' => $citizens
             ]);
     }
 
@@ -229,13 +229,30 @@ class DashboardController extends Controller
         }
     }
 
-    // delist
-    public function delisted()
+    // delisted
+    public function delisted(Request $request)
     {
         if (auth()->user()->type == 'admin') {
+            if ($search_key = $request->search) {
+                $citizens =
+                    SeniorCitizen::where('is_delisted', '=', 1)
+                    ->where(function ($query) use ($search_key) {
+                        $query->where('lastname', 'LIKE', "%{$search_key}%")
+                            ->orWhere('firstname', 'LIKE', "%{$search_key}%")
+                            ->orWhere('middlename', 'LIKE', "%{$search_key}%");
+                    })
+                    ->orderBy('lastname')
+                    ->paginate(50);
+            } else {
+                $citizens =
+                    SeniorCitizen::where('is_delisted', '=', 1)
+                    ->orderBy('lastname')
+                    ->paginate(50);
+            };
+
             return
                 view('dashboard.citizens', [
-                    'citizens' => SeniorCitizen::where('is_delisted', '=', 1)->paginate(50)
+                    'citizens' => $citizens
                 ]);
         } else {
             return

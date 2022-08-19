@@ -218,4 +218,49 @@ class SeniorCitizenController extends Controller
                 ]);
         }
     }
+
+    public function destory(SeniorCitizen $citizen)
+    {
+        if (auth()->user()->type == 'admin') {
+            if ($citizen->is_delisted !== 1) {
+                return
+                    back()
+                    ->with([
+                        'toast' => [
+                            'type' => 'danger',
+                            'message' => 'Invalid action.'
+                        ]
+                    ]);
+            }
+
+            if ($citizen->delete()) {
+                return
+                    redirect('/citizens/delisted')
+                    ->with([
+                        'toast' => [
+                            'type' => 'success',
+                            'message' => 'Senior Citizen deleted successfully.'
+                        ]
+                    ]);
+            } else {
+                return
+                    back()
+                    ->with([
+                        'toast' => [
+                            'type' => 'warning',
+                            'message' => 'Failed to delete Senior Citizen.'
+                        ]
+                    ]);
+            }
+        } else {
+            return
+                back()
+                ->with([
+                    'toast' => [
+                        'type' => 'warning',
+                        'message' => 'Unauthorized action.'
+                    ]
+                ]);
+        }
+    }
 }

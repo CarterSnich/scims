@@ -51,7 +51,7 @@
             </h2>
 
             {{-- search bar --}}
-            <form action="/citizens" method="GET" id="search-barangay-form" class="input-group ms-auto w-auto">
+            <form action="{{ request()->pathInfo }}" method="GET" id="search-barangay-form" class="input-group ms-auto w-auto">
                 <div class="d-flex bg-light rounded-start">
                     <input type="search" class="form-control bg-transparent border-0" name="search" placeholder="Search citizen" value="{{ Request::get('search') }}">
                     <button type="button" class="btn bg-transparent border-0 opacity-0">
