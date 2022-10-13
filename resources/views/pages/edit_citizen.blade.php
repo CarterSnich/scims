@@ -1,5 +1,7 @@
 @extends('layouts.dashboard_layout')
 
+@section('title', 'Update Senior Citizens')
+
 @section('style')
     <style>
         #main {

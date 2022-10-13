@@ -1,5 +1,7 @@
 @extends('layouts.dashboard_layout')
 
+@section('title', 'Pensions')
+
 @section('content')
-    vaccination statuses
+    pensions
 @endsection

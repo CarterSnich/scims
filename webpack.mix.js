@@ -10,12 +10,11 @@ const mix = require("laravel-mix");
  | file for the application as well as bundling up all the JS files.
  |
  */
-mix.browserSync("127.0.0.1:8000");
+
 mix.js("resources/js/app.js", "public/js")
     .sass("resources/sass/app.scss", "public/css")
-    .sourceMaps();
+    .postCss("resources/css/style.css", "public/css")
+    .css("resources/css/administrator-sidebar.css", "public/css")
+    .sourceMaps()
+    .disableSuccessNotifications()
 
-// js
-
-// css
-mix.css("resources/css/style.css", "public/css");

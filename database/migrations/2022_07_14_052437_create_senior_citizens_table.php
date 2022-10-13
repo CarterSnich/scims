@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\SeniorCitizen;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,32 +16,36 @@ class CreateSeniorCitizensTable extends Migration
     {
         Schema::create('senior_citizens', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
 
-            // personal information
+            // name
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename')->nullable();
 
-            // location details
-            $table->unsignedBigInteger('barangay')->nullable();
-            $table->foreign('barangay')->references('id')->on('barangays')->onDelete('SET NULL');
-            $table->string('province');
+            // peronsal information
+            $table->date('date_of_birth');
+            $table->enum('sex', ['male', 'female']);
+            $table->string('place_of_birth');
+            $table->enum('civil_status', ['unmarried', 'married', 'divorced', 'widowed']);
+            $table->string('address');
+            $table->enum('educational_attainment', SeniorCitizen::$educational_attainments);
+            $table->string('occupation');
+            $table->decimal('annual_income', 10, 2, true);
+            $table->text('other_skills')->nullable();
 
-            // other details
-            $table->enum('gender', ['male', 'female']);
-            $table->date('birthdate');
-            $table->unsignedInteger('age');
-            $table->enum('marital_status', ['unmarried', 'married', 'divorced', 'widowed']);
+            // family composition
+            $table->json('family_composition')->nullable();
+
+            // membership to senior citizen association
+            $table->string('name_of_association')->nullable();
+            $table->string('address_of_association')->nullable();
+            $table->date('date_of_membership')->nullable();
+            $table->date('date_elected')->nullable();
+            $table->string('term')->nullable();
 
             // picture
             $table->string('picture');
-
-            // delist details
-            $table->boolean('is_delisted')->default(false);
-            $table->text('delist_reason')->nullable();
-
-            // ---------------------
-            $table->timestamps();
         });
     }
 

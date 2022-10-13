@@ -1,0 +1,59 @@
+#sidebar {
+    min-width: 280px;
+    height: auto;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(0, 56, 255, 0.1) 100%
+    );
+    box-shadow: outset 2px 0 4px 4px #000;
+}
+
+#sidebar hr {
+    margin: 1rem 0;
+    color: inherit;
+    background-color: #7952b3;
+    border: 0;
+    opacity: 0.25;
+}
+
+#sidebar li a {
+    padding: 0.75rem;
+    padding-left: 1.25rem;
+    text-decoration: none;
+    color: #f5f5f5dd;
+    transition: ease 0.1s;
+    position: relative;
+}
+
+#sidebar li a.active div.after {
+    position: absolute;
+    top: 0;
+    left: -4px;
+    height: 100%;
+    width: 8px;
+    border-radius: 32px;
+    background-color: #00aaee;
+}
+
+#sidebar li a:active > div > * {
+    color: #aaaaaadd;
+}
+
+#sidebar li a.active {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        rgba(0, 0, 0, 0) 100%
+    );
+}
+
+#sidebar li a:not(.active):hover {
+    background-color: #ffffff10;
+    color: #f5f5f5;
+}
+
+#sidebar ul li a span {
+    position: relative;
+}
+

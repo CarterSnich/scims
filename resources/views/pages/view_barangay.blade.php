@@ -1,5 +1,7 @@
 @extends('layouts.dashboard_layout')
 
+@section('title', 'View Barangay')
+
 @section('style')
     <style>
         #main {
@@ -78,7 +80,7 @@
         <hr style="min-height: 1px">
 
         {{-- barangay data wrapper --}}
-        <div id="barangay-data-wrapper" class="bg-dark gap-3">
+        <div id="barangay-data-wrapper" class="gap-3">
             <div class="d-flex flex-column px-3 gap-5">
                 <div class="row g-3 mb-3">
                     <div class="col-12 d-flex">

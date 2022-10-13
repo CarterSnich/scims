@@ -1,5 +1,7 @@
 @extends('layouts.dashboard_layout')
 
+@section('title', 'Barangays')
+
 @section('style')
     <style>
         #main {
@@ -30,12 +32,12 @@
     <div id="main">
 
         {{-- page header --}}
-        <div class="d-flex">
+        <div class="d-flex gap-2">
             {{-- page name --}}
             <h2 class="m-0">Manage barangays</h2>
 
             {{-- search bar --}}
-            <form action="/barangays" method="GET" id="search-barangay-form" class="input-group ms-auto me-3 w-auto">
+            <form action="/barangays" method="GET" id="search-barangay-form" class="input-group ms-auto w-auto">
                 <div class="d-flex bg-light rounded-start">
                     <input type="search" class="form-control bg-transparent border-0" name="search" placeholder="Search barangay" value="{{ Request::get('search') }}">
                     <button type="button" class="btn bg-transparent border-0 opacity-0">
@@ -52,7 +54,8 @@
             </form>
 
             {{-- button toolbar --}}
-            <div class="btn-group" role="group" aria-label="Third group">
+            <div class="btn-group gap-2" role="group" aria-label="Third group">
+
                 {{-- add barangay button --}}
                 @if (auth()->user()->type == 'admin')
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#add-barangay-modal" data-has-tooltip="true" data-bs-placement="bottom" title="Add barangay">
@@ -62,6 +65,7 @@
                         <span class="visually-hidden">Add</span>
                     </button>
                 @endif
+
                 {{-- print barangays button --}}
                 <a href="/print/barangays" class="btn btn-secondary" data-has-tooltip="true" data-bs-placement="bottom" title="Print barangays" target="_blank">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">

@@ -20,11 +20,11 @@ class DashboardController extends Controller
             $barangays = Barangay::where('barangay_name', 'LIKE', "%{$search_key}%")
                 ->orderBy('barangay_name')->paginate(50);
             return
-                view('dashboard.barangays', [
+                view('pagesbarangays', [
                     'barangays' => $barangays
                 ]);
         } else {
-            return view('dashboard.barangays', [
+            return view('pagesbarangays', [
                 'barangays' => Barangay::orderBy('barangay_name')->paginate(50)
             ]);
         }
@@ -35,7 +35,7 @@ class DashboardController extends Controller
     {
         if ($barangay = Barangay::where('id', '=', $request['id'])->first()) {
             return
-                view('dashboard.view_barangay', [
+                view('pagesview_barangay', [
                     'barangay' => $barangay,
                     'citizens' => SeniorCitizen::where('barangay', '=', $request['id'])->paginate(50)
                 ]);
@@ -48,24 +48,13 @@ class DashboardController extends Controller
     public function citizens(Request $request)
     {
         if ($search_key = $request->search) {
-            $citizens =
-                SeniorCitizen::where('is_delisted', '=', 0)
-                ->where(function ($query) use ($search_key) {
-                    $query->where('lastname', 'LIKE', "%{$search_key}%")
-                        ->orWhere('firstname', 'LIKE', "%{$search_key}%")
-                        ->orWhere('middlename', 'LIKE', "%{$search_key}%");
-                })
-                ->orderBy('lastname')
-                ->paginate(50);
+            $citizens = SeniorCitizen::orderBy('lastname')->paginate(50);
         } else {
-            $citizens =
-                SeniorCitizen::where('is_delisted', '=', 0)
-                ->orderBy('lastname')
-                ->paginate(50);
+            $citizens = SeniorCitizen::orderBy('lastname')->paginate(50);
         };
 
         return
-            view('dashboard.citizens', [
+            view('pages.citizens', [
                 'citizens' => $citizens
             ]);
     }
@@ -73,7 +62,7 @@ class DashboardController extends Controller
     // senior citizen registration page
     public function register_citizen()
     {
-        return view('dashboard.register_citizen', [
+        return view('pages.register_citizen', [
             'barangays' => Barangay::all()->sortBy('barangay_name')
         ]);
     }
@@ -82,7 +71,7 @@ class DashboardController extends Controller
     public function edit_citizen(SeniorCitizen $citizen)
     {
         $citizen['citizenId'] = date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT);
-        return view('dashboard.edit_citizen', [
+        return view('pagesedit_citizen', [
             'citizen' => $citizen,
             'barangays' => Barangay::orderBy('barangay_name')->get()
         ]);
@@ -94,7 +83,7 @@ class DashboardController extends Controller
         $citizen = SeniorCitizen::where('senior_citizens.id', '=', $request['id'])->first();
         $citizen['citizen_id'] = date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT);
         if ($citizen) {
-            return view('dashboard.view_citizen', [
+            return view('pagesview_citizen', [
                 'citizen' => $citizen,
                 'barangay' => Barangay::where('id', '=', $citizen['barangay'])->first()
             ]);
@@ -106,7 +95,7 @@ class DashboardController extends Controller
     // pensions page
     public function pensions()
     {
-        return view('dashboard.pensions');
+        return view('pagespensions');
     }
 
     // reports page
@@ -184,11 +173,13 @@ class DashboardController extends Controller
         }
 
         return
-            view('dashboard.reports', [
+            view('pagesreports', [
                 'citizens' => $citizens,
                 'barangays' => $barangays,
                 'age_reports' => $ageReports,
-                'gender_reports' => $genderReports
+                'gender_reports' => $genderReports,
+                'male_counts' => SeniorCitizen::where('gender', '=', 'male')->get()->count(),
+                'female_counts' => SeniorCitizen::where('gender', '=', 'female')->get()->count(),
             ]);
     }
 
@@ -196,7 +187,7 @@ class DashboardController extends Controller
     public function users()
     {
         if (Auth::user()->type == 'admin') {
-            return view('dashboard.users', [
+            return view('pagesusers', [
                 'users' => User::all()
             ]);
         } else {
@@ -215,18 +206,7 @@ class DashboardController extends Controller
     // settings page
     public function settings()
     {
-        if (auth()->user()->type == 'admin') {
-            return view('dashboard.settings');
-        } else {
-            return
-                back()
-                ->with([
-                    'toast' => [
-                        'type' => 'warning',
-                        'message' => 'Please, check your inputs.'
-                    ]
-                ]);
-        }
+        return view('pagessettings');
     }
 
     // delisted
@@ -251,7 +231,7 @@ class DashboardController extends Controller
             };
 
             return
-                view('dashboard.citizens', [
+                view('pagescitizens', [
                     'citizens' => $citizens
                 ]);
         } else {
@@ -270,7 +250,7 @@ class DashboardController extends Controller
     public function id_applications()
     {
         return
-            view('dashboard.id_applications', [
+            view('pagesid_applications', [
                 'applications' => IdApplication::select(
                     'id_applications.*',
                     'citizen.lastname',
@@ -289,7 +269,7 @@ class DashboardController extends Controller
     public function id_apply(SeniorCitizen $citizen)
     {
         return
-            view('dashboard.id_application', [
+            view('pagesid_application', [
                 'applicant' => $citizen,
                 'citizens' => SeniorCitizen::all()
             ]);
@@ -302,7 +282,7 @@ class DashboardController extends Controller
         $barangay = Barangay::where('id', '=', $citizen->barangay)->first();
 
         return
-            view('dashboard.view_id_application', [
+            view('pagesview_id_application', [
                 'application' => $application,
                 'citizen' => $citizen,
                 'barangay' => $barangay

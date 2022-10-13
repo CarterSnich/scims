@@ -7,6 +7,9 @@
 
     <title>Senior Citizen Information Management System</title>
 
+    {{-- font --}}
+    <link rel="preload" href="{{ asset('fonts/nunito-v25-latin-regular.woff2') }}" as="font" type="font/woff2" crossorigin>
+
     {{-- compiled frontend --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -14,8 +17,29 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <style>
+        body {
+            background-image: url(/images/bg.webp);
+            background-blend-mode: overlay;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
         form#login-form {
-            width: 512px;
+            width: 456px;
+        }
+
+        .logo-wrapper {
+            margin-block: 1.25rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-wrapper img {
+            background-color: white;
+            border-radius: 50%;
+            padding: .25rem;
+            height: 128px;
+            aspect-ratio: 1/1;
         }
     </style>
 
@@ -31,6 +55,11 @@
 
     <form id="login-form" class="border border-light p-3 rounded mx-auto mt-5" method="POST" action="/user/authenticate" novalidate>
         @csrf
+
+        <div class="logo-wrapper">
+            <img src="{{ asset('images/logo.png') }}" alt="">
+        </div>
+
         <h2 class="mb-3 text-center h2">Administrator Login</h2>
         <div class="mb-3">
             <label for="login-email" class="form-label">Email</label>
@@ -40,7 +69,9 @@
             <label for="login-password" class="form-label">Password</label>
             <input type="password" class="form-control" name="password" id="login-password" required>
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
+
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+
     </form>
 
     {{-- jquery 3.6.0 minified --}}

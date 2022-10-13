@@ -1,43 +1,12 @@
 <style>
-    #sidebar {
-        min-width: 280px;
-        height: auto;
-    }
-
-    #sidebar hr {
-        margin: 1rem 0;
-        color: inherit;
-        background-color: #7952b3;
-        border: 0;
-        opacity: .25;
-    }
-
-
-    #sidebar ul li a span {
-        position: relative;
-    }
-
-    #sidebar ul li a span div {
-        position: absolute;
-        bottom: -2px;
-        width: 0px;
-        height: 4px;
-        transition: all ease-in-out 0.3s;
-        background-image: linear-gradient(90deg, rgba(24, 97, 241, 0.5354341565727854) 50%, rgba(255, 255, 255, 0) 100%);
-        border-radius: 0.25rem
-    }
-
-    #sidebar ul li a:hover:not(.active) span div {
-        width: 110%
-    }
 </style>
 <aside id="sidebar">
-    <div class="d-flex h-100 flex-column flex-shrink-0 p-3 bg-light">
+    <div class="d-flex h-100 flex-column flex-shrink-0 py-3">
         <ul class="nav nav-pills flex-column mb-auto">
 
             {{-- senior citizens --}}
             <li>
-                <a href="/citizens" class="d-flex flex-column nav-link @if (Request::is('citizens')) active @endif">
+                <a href="/citizens" class="d-flex flex-column @if (Request::is('citizens')) active @endif">
                     <div class="d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person me-3" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
@@ -48,15 +17,15 @@
                             @else
                                 Manage Senior Citizens
                             @endif
-                            <div></div>
                         </span>
                     </div>
+                    <div class="after"></div>
                 </a>
             </li>
 
             {{-- barangays registered --}}
             <li>
-                <a href="/barangays" class="d-flex flex-column nav-link @if (Request::is('barangays')) active @endif">
+                <a href="/barangays" class="d-flex flex-column @if (Request::is('barangays')) active @endif">
                     <div class="d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-people me-3" viewBox="0 0 16 16">
                             <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
@@ -64,9 +33,9 @@
 
                         <span class="mt-auto">
                             Barangay's Registered
-                            <div></div>
                         </span>
                     </div>
+                    <div class="after"></div>
                 </a>
             </li>
 
@@ -74,7 +43,7 @@
             {{-- id applications --}}
             @if (auth()->user()->type == 'staff')
                 <li>
-                    <a href="/id_applications" class="d-flex flex-column nav-link @if (Request::is('id_applications')) active @endif">
+                    <a href="/id_applications" class="d-flex flex-column @if (Request::is('id_applications')) active @endif">
                         <div class="d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-credit-card-2-front me-3" viewBox="0 0 16 16">
                                 <path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z" />
@@ -83,9 +52,10 @@
 
                             <span class="mt-auto">
                                 ID Applications
-                                <div></div>
+
                             </span>
                         </div>
+                        <div class="after"></div>
                     </a>
                 </li>
             @endif
@@ -93,7 +63,7 @@
             {{-- pensions --}}
             @if (auth()->user()->type == 'staff')
                 <li>
-                    <a href="/pensions" class="d-flex flex-column nav-link @if (Request::is('pensions')) active @endif">
+                    <a href="/pensions" class="d-flex flex-column @if (Request::is('pensions')) active @endif">
                         <div class="d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cash-coin me-3" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />
@@ -107,16 +77,17 @@
                                 @else
                                     Pension
                                 @endif
-                                <div></div>
+
                             </span>
                         </div>
+                        <div class="after"></div>
                     </a>
                 </li>
             @endif
 
             {{-- reports --}}
             <li>
-                <a href="/reports" class="d-flex flex-column nav-link @if (Request::is('reports')) active @endif">
+                <a href="/reports" class="d-flex flex-column @if (Request::is('reports')) active @endif">
                     <div class="d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-clipboard2-data me-3" viewBox="0 0 16 16">
                             <path d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5h3Z" />
@@ -129,9 +100,9 @@
                             @else
                                 View Reports
                             @endif
-                            <div></div>
                         </span>
                     </div>
+                    <div class="after"></div>
                 </a>
             </li>
 
@@ -139,7 +110,7 @@
             {{-- delisted senior citizens --}}
             @if (auth()->user()->type == 'admin')
                 <li>
-                    <a href="/citizens/delisted" class="d-flex flex-column nav-link @if (Request::is('citizens/delisted')) active @endif">
+                    <a href="/citizens/delisted" class="d-flex flex-column @if (Request::is('citizens/delisted')) active @endif">
                         <div class="d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-dash me-3" viewBox="0 0 16 16">
                                 <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
@@ -147,9 +118,9 @@
                             </svg>
                             <span class="mt-auto">
                                 Delisted Senior Citizens
-                                <div></div>
                             </span>
                         </div>
+                        <div class="after"></div>
                     </a>
                 </li>
             @endif
@@ -157,7 +128,7 @@
             {{-- user accounts --}}
             @if (auth()->user()->type == 'admin')
                 <li>
-                    <a href="/users" class="d-flex flex-column nav-link @if (Request::is('users')) active @endif">
+                    <a href="/users" class="d-flex flex-column @if (Request::is('users')) active @endif">
                         <div class="d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-circle me-3" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
@@ -165,9 +136,9 @@
                             </svg>
                             <span class="mt-auto">
                                 User accounts
-                                <div></div>
                             </span>
                         </div>
+                        <div class="after"></div>
                     </a>
                 </li>
             @endif

@@ -28,7 +28,7 @@
                         <strong>{{ Auth::user()->name }}</strong>
                     </span>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="dropdownUser2">
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
                     <li><a class="dropdown-item" href="/settings">Settings</a></li>
                     <li>
                         <hr class="dropdown-divider">

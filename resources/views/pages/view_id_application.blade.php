@@ -1,5 +1,7 @@
 @extends('layouts.dashboard_layout')
 
+@section('title', 'View ID Application')
+
 @section('content')
     <style>
         #main {

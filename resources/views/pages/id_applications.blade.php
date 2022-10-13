@@ -1,5 +1,7 @@
 @extends('layouts.dashboard_layout')
 
+@section('title', 'ID Applications')
+
 @section('content')
     <style>
         #main {
@@ -40,18 +42,14 @@
     {{-- main content --}}
     <div id="main">
         {{-- page header --}}
-        <div class="d-flex justify-content-between">
+        <div class="d-flex gap-2">
             {{-- page title --}}
             <h2 class="m-0">
-                @if (request()->is('citizens'))
-                    Senior Citizens
-                @else
-                    Delisted Senior Citizens
-                @endif
+                ID Applications
             </h2>
 
             {{-- search bar --}}
-            <form action="{{ request()->pathInfo }}" method="GET" id="search-barangay-form" class="input-group ms-auto w-auto">
+            <form action="/citizens" method="GET" id="search-barangay-form" class="input-group ms-auto w-auto">
                 <div class="d-flex bg-light rounded-start">
                     <input type="search" class="form-control bg-transparent border-0" name="search" placeholder="Search citizen" value="{{ Request::get('search') }}">
                     <button type="button" class="btn bg-transparent border-0 opacity-0">
@@ -67,26 +65,20 @@
                 </button>
             </form>
 
-            @if (auth()->user()->type == 'admin')
-                {{-- button toolbar --}}
-                <div class="btn-toolbar ms-3" role="toolbar">
-                    <div class="btn-group" role="group">
-                        <a href="/citizens/add" class="btn btn-secondary" data-has-tooltip="true" data-bs-placement="left" title="Register citizen">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                            </svg>
-                            <span class="visually-hidden">Register citizen</span>
-                        </a>
-                        <a href="/print/citizens" class="btn btn-secondary" data-has-tooltip="true" data-bs-placement="left" title="Print Senior Citizens">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-                                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
-                                <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
-                            </svg>
-                            <span class="visually-hidden">Print Senior Citizens</span>
-                        </a>
-                    </div>
+            {{-- button toolbar --}}
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group" role="group">
+
+                    {{-- apply id application button --}}
+                    <a href="/id_applications/apply" class="btn btn-secondary" data-has-tooltip="true" data-bs-placement="left" title="New application">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                        </svg>
+                        <span class="visually-hidden">New application</span>
+                    </a>
                 </div>
-            @endif
+            </div>
+
         </div>
         <hr style="min-height: 1px">
         {{-- table wrapper --}}
@@ -95,23 +87,25 @@
                 <thead>
                     <tr class="shadow-sm bg-light">
                         <th scope="col">#</th>
-                        <th scope="col">Senior Citizen ID</th>
-                        <th scope="col">Last name</th>
-                        <th scope="col">First name</th>
-                        <th scope="col">Middle name</th>
+                        <th scope="col">Purpose</th>
+                        <th scope="col">Date applied</th>
+                        <th scope="col">Date issued</th>
+                        <th scope="col">OSCA ID</th>
+                        <th scope="col">Full name</th>
                         <th scope="col" class="fit text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody class="table-bordered">
-                    @foreach ($citizens as $citizen)
+                    @foreach ($applications as $application)
                         <tr>
-                            <th scope="row">{{ ($citizens->currentPage() - 1) * 50 + $loop->index + 1 }}</th>
-                            <td>{{ date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT) }}</td>
-                            <td>{{ $citizen['lastname'] }}</td>
-                            <td>{{ $citizen['firstname'] }}</td>
-                            <td>{{ $citizen['middlename'] }}</td>
+                            <th scope="row">{{ ($applications->currentPage() - 1) * 50 + $loop->index + 1 }}</th>
+                            <td>{{ \App\Models\IdApplication::PURPOSE[$application->purpose] }}</td>
+                            <td>{{ date('F j, Y', strtotime($application->date_applied)) }}</td>
+                            <td>{{ date('F j, Y', strtotime($application->date_issued)) }}</td>
+                            <td>{{ $application->osca_id }}</td>
+                            <td>{{ "{$application->lastname}, {$application->firstname} {$application->middlename}" }}</td>
                             <td class="fit">
-                                <a href="/citizens/{{ $citizen['id'] }}" class="btn btn-success">View</a>
+                                <a href="/id_applications/{{ $application->id }}" class="btn btn-success">View</a>
                             </td>
                         </tr>
                     @endforeach
@@ -122,11 +116,11 @@
         {{-- pagination --}}
         <div class="d-flex mt-3 justify-content-between">
             @php
-                $rowFrom = $citizens->perPage() * ($citizens->currentPage() - 1);
-                $rowTo = $rowFrom + $citizens->count();
+                $rowFrom = $applications->perPage() * ($applications->currentPage() - 1);
+                $rowTo = $rowFrom + $applications->count();
             @endphp
             <p class="my-auto">
-                Showing rows {{ $rowFrom }} - {{ $rowTo }} of {{ $citizens->total() }}
+                Showing rows {{ $rowFrom }} - {{ $rowTo }} of {{ $applications->total() }}
             </p>
             <nav>
                 <ul class="pagination mb-0">
@@ -134,8 +128,8 @@
                         <a class="page-link" href="#" tabindex="-1">Page</a>
                     </li>
 
-                    @for ($i = 1; $i <= $citizens->lastPage(); $i++)
-                        <li class="page-item @if ($i == $citizens->currentPage()) active @endif">
+                    @for ($i = 1; $i <= $applications->lastPage(); $i++)
+                        <li class="page-item @if ($i == $applications->currentPage()) active @endif">
                             @if (Request::get('search'))
                                 <a class="page-link" href="{{ url()->full() }}?page={{ $i }}" tabindex="-1">{{ $i }}</a>
                             @else

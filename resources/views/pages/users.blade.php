@@ -1,5 +1,6 @@
 @extends('layouts.dashboard_layout')
 
+@section('title', 'User Accounts')
 
 @section('style')
     <style>

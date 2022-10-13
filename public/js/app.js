@@ -960,7 +960,7 @@ eval("\n\nvar bind = __webpack_require__(/*! ./helpers/bind */ \"./node_modules/
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("__webpack_require__(/*! ./bootstrap */ \"./resources/js/bootstrap.js\");\n\n(function () {\n  \"use strict\"; // Fetch all the forms we want to apply custom Bootstrap validation styles to\n\n  var forms = document.querySelectorAll(\".needs-validation\"); // Loop over them and prevent submission\n\n  Array.prototype.slice.call(forms).forEach(function (form) {\n    form.addEventListener(\"submit\", function (event) {\n      if (!form.checkValidity()) {\n        event.preventDefault();\n        event.stopPropagation();\n      }\n\n      form.classList.add(\"was-validated\");\n    }, false);\n  });\n})();//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvYXBwLmpzLmpzIiwibWFwcGluZ3MiOiJBQUFBQSxtQkFBTyxDQUFDLGdEQUFELENBQVA7O0FBRUEsQ0FBQyxZQUFZO0VBQ1QsYUFEUyxDQUdUOztFQUNBLElBQUlDLEtBQUssR0FBR0MsUUFBUSxDQUFDQyxnQkFBVCxDQUEwQixtQkFBMUIsQ0FBWixDQUpTLENBTVQ7O0VBQ0FDLEtBQUssQ0FBQ0MsU0FBTixDQUFnQkMsS0FBaEIsQ0FBc0JDLElBQXRCLENBQTJCTixLQUEzQixFQUFrQ08sT0FBbEMsQ0FBMEMsVUFBVUMsSUFBVixFQUFnQjtJQUN0REEsSUFBSSxDQUFDQyxnQkFBTCxDQUNJLFFBREosRUFFSSxVQUFVQyxLQUFWLEVBQWlCO01BQ2IsSUFBSSxDQUFDRixJQUFJLENBQUNHLGFBQUwsRUFBTCxFQUEyQjtRQUN2QkQsS0FBSyxDQUFDRSxjQUFOO1FBQ0FGLEtBQUssQ0FBQ0csZUFBTjtNQUNIOztNQUVETCxJQUFJLENBQUNNLFNBQUwsQ0FBZUMsR0FBZixDQUFtQixlQUFuQjtJQUNILENBVEwsRUFVSSxLQVZKO0VBWUgsQ0FiRDtBQWVILENBdEJEIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vcmVzb3VyY2VzL2pzL2FwcC5qcz9jZWQ2Il0sInNvdXJjZXNDb250ZW50IjpbInJlcXVpcmUoXCIuL2Jvb3RzdHJhcFwiKTtcblxuKGZ1bmN0aW9uICgpIHtcbiAgICBcInVzZSBzdHJpY3RcIjtcblxuICAgIC8vIEZldGNoIGFsbCB0aGUgZm9ybXMgd2Ugd2FudCB0byBhcHBseSBjdXN0b20gQm9vdHN0cmFwIHZhbGlkYXRpb24gc3R5bGVzIHRvXG4gICAgdmFyIGZvcm1zID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5uZWVkcy12YWxpZGF0aW9uXCIpO1xuXG4gICAgLy8gTG9vcCBvdmVyIHRoZW0gYW5kIHByZXZlbnQgc3VibWlzc2lvblxuICAgIEFycmF5LnByb3RvdHlwZS5zbGljZS5jYWxsKGZvcm1zKS5mb3JFYWNoKGZ1bmN0aW9uIChmb3JtKSB7XG4gICAgICAgIGZvcm0uYWRkRXZlbnRMaXN0ZW5lcihcbiAgICAgICAgICAgIFwic3VibWl0XCIsXG4gICAgICAgICAgICBmdW5jdGlvbiAoZXZlbnQpIHtcbiAgICAgICAgICAgICAgICBpZiAoIWZvcm0uY2hlY2tWYWxpZGl0eSgpKSB7XG4gICAgICAgICAgICAgICAgICAgIGV2ZW50LnByZXZlbnREZWZhdWx0KCk7XG4gICAgICAgICAgICAgICAgICAgIGV2ZW50LnN0b3BQcm9wYWdhdGlvbigpO1xuICAgICAgICAgICAgICAgIH1cblxuICAgICAgICAgICAgICAgIGZvcm0uY2xhc3NMaXN0LmFkZChcIndhcy12YWxpZGF0ZWRcIik7XG4gICAgICAgICAgICB9LFxuICAgICAgICAgICAgZmFsc2VcbiAgICAgICAgKTtcbiAgICB9KTtcblxufSkoKTtcbiJdLCJuYW1lcyI6WyJyZXF1aXJlIiwiZm9ybXMiLCJkb2N1bWVudCIsInF1ZXJ5U2VsZWN0b3JBbGwiLCJBcnJheSIsInByb3RvdHlwZSIsInNsaWNlIiwiY2FsbCIsImZvckVhY2giLCJmb3JtIiwiYWRkRXZlbnRMaXN0ZW5lciIsImV2ZW50IiwiY2hlY2tWYWxpZGl0eSIsInByZXZlbnREZWZhdWx0Iiwic3RvcFByb3BhZ2F0aW9uIiwiY2xhc3NMaXN0IiwiYWRkIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./resources/js/app.js\n");
+eval("__webpack_require__(/*! ./bootstrap */ \"./resources/js/bootstrap.js\");\n\n(function () {\n  \"use strict\"; // Fetch all the forms we want to apply custom Bootstrap validation styles to\n\n  var forms = document.querySelectorAll(\".needs-validation\"); // Loop over them and prevent submission\n\n  Array.prototype.slice.call(forms).forEach(function (form) {\n    form.addEventListener(\"submit\", function (event) {\n      if (!form.checkValidity()) {\n        event.preventDefault();\n        event.stopPropagation();\n      }\n\n      form.classList.add(\"was-validated\");\n    }, false);\n  });\n})();//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvYXBwLmpzLmpzIiwibWFwcGluZ3MiOiJBQUFBQSxtQkFBTyxDQUFDLGdEQUFELENBQVA7O0FBRUEsQ0FBQyxZQUFZO0VBQ1QsYUFEUyxDQUdUOztFQUNBLElBQUlDLEtBQUssR0FBR0MsUUFBUSxDQUFDQyxnQkFBVCxDQUEwQixtQkFBMUIsQ0FBWixDQUpTLENBTVQ7O0VBQ0FDLEtBQUssQ0FBQ0MsU0FBTixDQUFnQkMsS0FBaEIsQ0FBc0JDLElBQXRCLENBQTJCTixLQUEzQixFQUFrQ08sT0FBbEMsQ0FBMEMsVUFBVUMsSUFBVixFQUFnQjtJQUN0REEsSUFBSSxDQUFDQyxnQkFBTCxDQUNJLFFBREosRUFFSSxVQUFVQyxLQUFWLEVBQWlCO01BQ2IsSUFBSSxDQUFDRixJQUFJLENBQUNHLGFBQUwsRUFBTCxFQUEyQjtRQUN2QkQsS0FBSyxDQUFDRSxjQUFOO1FBQ0FGLEtBQUssQ0FBQ0csZUFBTjtNQUNIOztNQUVETCxJQUFJLENBQUNNLFNBQUwsQ0FBZUMsR0FBZixDQUFtQixlQUFuQjtJQUNILENBVEwsRUFVSSxLQVZKO0VBWUgsQ0FiRDtBQWNILENBckJEIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vcmVzb3VyY2VzL2pzL2FwcC5qcz9jZWQ2Il0sInNvdXJjZXNDb250ZW50IjpbInJlcXVpcmUoXCIuL2Jvb3RzdHJhcFwiKTtcblxuKGZ1bmN0aW9uICgpIHtcbiAgICBcInVzZSBzdHJpY3RcIjtcblxuICAgIC8vIEZldGNoIGFsbCB0aGUgZm9ybXMgd2Ugd2FudCB0byBhcHBseSBjdXN0b20gQm9vdHN0cmFwIHZhbGlkYXRpb24gc3R5bGVzIHRvXG4gICAgdmFyIGZvcm1zID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5uZWVkcy12YWxpZGF0aW9uXCIpO1xuXG4gICAgLy8gTG9vcCBvdmVyIHRoZW0gYW5kIHByZXZlbnQgc3VibWlzc2lvblxuICAgIEFycmF5LnByb3RvdHlwZS5zbGljZS5jYWxsKGZvcm1zKS5mb3JFYWNoKGZ1bmN0aW9uIChmb3JtKSB7XG4gICAgICAgIGZvcm0uYWRkRXZlbnRMaXN0ZW5lcihcbiAgICAgICAgICAgIFwic3VibWl0XCIsXG4gICAgICAgICAgICBmdW5jdGlvbiAoZXZlbnQpIHtcbiAgICAgICAgICAgICAgICBpZiAoIWZvcm0uY2hlY2tWYWxpZGl0eSgpKSB7XG4gICAgICAgICAgICAgICAgICAgIGV2ZW50LnByZXZlbnREZWZhdWx0KCk7XG4gICAgICAgICAgICAgICAgICAgIGV2ZW50LnN0b3BQcm9wYWdhdGlvbigpO1xuICAgICAgICAgICAgICAgIH1cblxuICAgICAgICAgICAgICAgIGZvcm0uY2xhc3NMaXN0LmFkZChcIndhcy12YWxpZGF0ZWRcIik7XG4gICAgICAgICAgICB9LFxuICAgICAgICAgICAgZmFsc2VcbiAgICAgICAgKTtcbiAgICB9KTtcbn0pKCk7XG4iXSwibmFtZXMiOlsicmVxdWlyZSIsImZvcm1zIiwiZG9jdW1lbnQiLCJxdWVyeVNlbGVjdG9yQWxsIiwiQXJyYXkiLCJwcm90b3R5cGUiLCJzbGljZSIsImNhbGwiLCJmb3JFYWNoIiwiZm9ybSIsImFkZEV2ZW50TGlzdGVuZXIiLCJldmVudCIsImNoZWNrVmFsaWRpdHkiLCJwcmV2ZW50RGVmYXVsdCIsInN0b3BQcm9wYWdhdGlvbiIsImNsYXNzTGlzdCIsImFkZCJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./resources/js/app.js\n");
 
 /***/ }),
 
@@ -1024,6 +1024,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extr
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvY3NzL3N0eWxlLmNzcy5qcyIsIm1hcHBpbmdzIjoiO0FBQUEiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvY3NzL3N0eWxlLmNzcz9iMWE1Il0sInNvdXJjZXNDb250ZW50IjpbIi8vIGV4dHJhY3RlZCBieSBtaW5pLWNzcy1leHRyYWN0LXBsdWdpblxuZXhwb3J0IHt9OyJdLCJuYW1lcyI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./resources/css/style.css\n");
+
+/***/ }),
+
+/***/ "./resources/css/administrator-sidebar.css":
+/*!*************************************************!*\
+  !*** ./resources/css/administrator-sidebar.css ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvY3NzL2FkbWluaXN0cmF0b3Itc2lkZWJhci5jc3MuanMiLCJtYXBwaW5ncyI6IjtBQUFBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vcmVzb3VyY2VzL2Nzcy9hZG1pbmlzdHJhdG9yLXNpZGViYXIuY3NzPzExM2QiXSwic291cmNlc0NvbnRlbnQiOlsiLy8gZXh0cmFjdGVkIGJ5IG1pbmktY3NzLWV4dHJhY3QtcGx1Z2luXG5leHBvcnQge307Il0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./resources/css/administrator-sidebar.css\n");
 
 /***/ }),
 
@@ -1171,6 +1182,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
+/******/ 			"css/administrator-sidebar": 0,
 /******/ 			"css/style": 0,
 /******/ 			"css/app": 0
 /******/ 		};
@@ -1222,9 +1234,10 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/style","css/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/style","css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/style","css/app"], () => (__webpack_require__("./resources/css/style.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/administrator-sidebar","css/style","css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/administrator-sidebar","css/style","css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/administrator-sidebar","css/style","css/app"], () => (__webpack_require__("./resources/css/style.css")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/administrator-sidebar","css/style","css/app"], () => (__webpack_require__("./resources/css/administrator-sidebar.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
