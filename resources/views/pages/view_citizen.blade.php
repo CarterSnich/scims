@@ -37,7 +37,7 @@
                     <span class="visually-hidden">Go back</span>
                 </a>
                 <h2 class="my-auto ">
-                    Senior Citizen <span class="text-primary">#{{ $citizen->citizen_id }}</span>
+                    Senior Citizen <span class="text-primary">#{{ $citizen_id }}</span>
                     @if ($citizen->is_delisted)
                         <code class="fs-5 text-danger">DELISTED</code>
                     @endif
@@ -165,69 +165,173 @@
                 </div>
 
 
-                {{-- address --}}
+                {{-- personal information --}}
                 <div>
                     <div class="d-flex gap-3">
-                        <h3>Address</h3>
+                        <h3>Personal information</h3>
                         <hr class="flex-fill">
                     </div>
 
                     <div class="row ps-3 g-3 flex-fill">
 
-                        {{-- barangay --}}
+                        {{-- date of birth --}}
                         <div class="col-6">
-                            <label for="barangay" class="form-label text-info">Barangay</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $barangay->barangay_name }}</p>
+                            <label for="date_of_birth" class="form-label text-info">Date of birth</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->date_of_birth }}</p>
                         </div>
 
-                        {{-- province --}}
+                        {{-- sex --}}
                         <div class="col-6">
-                            <label for="province" class="form-label text-info">Province</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->province }}</p>
+                            <label for="sex" class="form-label text-info">Sex</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->sex }}</p>
                         </div>
+
+                        {{-- place of birth --}}
+                        <div class="col-6">
+                            <label for="place_of_birth" class="form-label text-info">Place of birth</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->place_of_birth }}</p>
+                        </div>
+
+                        {{-- civil status --}}
+                        <div class="col-6">
+                            <label for="civil_status" class="form-label text-info">Civil status</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->civil_status) }}</p>
+                        </div>
+
+                        {{-- address --}}
+                        <div class="col-6">
+                            <label for="address" class="form-label text-info">Address</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->address }}</p>
+                        </div>
+
+                        {{-- educational attainment --}}
+                        <div class="col-6">
+                            <label for="educational_attainment" class="form-label text-info">Educational attainment</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $educational_attainment }}</p>
+                        </div>
+
+                        {{-- occupation --}}
+                        <div class="col-6">
+                            <label for="occupation" class="form-label text-info">Occupation</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->occupation }}</p>
+                        </div>
+
+                        {{-- annual income --}}
+                        <div class="col-6">
+                            <label for="annual_income" class="form-label text-info">Annual income</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">₱ {{ $citizen->annual_income }}</p>
+                        </div>
+
+                        {{-- other skills --}}
+                        <div class="col-12">
+                            <label for="other_skills" class="form-label text-info">Other skills</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->other_skills }}</p>
+                        </div>
+
 
                     </div>
 
                 </div>
 
 
-                {{-- other information --}}
+                {{-- family composition --}}
                 <div>
                     <div class="d-flex gap-3">
-                        <h3>Other information</h3>
+                        <h3>Family composition</h3>
+                        <hr class="flex-fill">
+                    </div>
+
+                    {{-- table wrapper --}}
+                    <div class="ps-3">
+                        <table class="table table-borderless m-0 table-hover bg-light">
+                            <thead>
+                                <tr class="shadow-sm bg-light">
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Relationship</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Civil status</th>
+                                    <th scope="col">Occupation</th>
+                                    <th scope="col">Income</th>
+                                    {{-- <th scope="col" class="fit text-center">Action</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody class="table-bordered">
+                                @foreach ($family_composition as $member)
+                                    <tr>
+                                        <td>{{ $member['name'] }}</td>
+                                        <td>{{ $member['relationship'] }}</td>
+                                        <td>{{ $member['age'] }}</td>
+                                        <td>{{ ucfirst($member['civil_status']) }}</td>
+                                        <td>{{ $member['occupation'] }}</td>
+                                        <td>{{ $member['income'] }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                {{-- Membership to Senior Citizen Association --}}
+                <div>
+                    <div class="d-flex gap-3">
+                        <h3>Membership to Senior Citizen Association</h3>
                         <hr class="flex-fill">
                     </div>
 
                     <div class="row ps-3 g-3 flex-fill">
 
-                        {{-- birth date --}}
-                        <div class="col-6">
-                            <label for="birthdate" class="form-label text-info">Birthdate</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ date('F j, Y', strtotime($citizen->birthdate)) }}</p>
+                        {{-- name_of_association --}}
+                        <div class="col-12">
+                            <label for="name_of_association" class="form-label text-info">Name of Association</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->name_of_association)
+                                    {{ $citizen->name_of_association }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
                         </div>
 
-                        {{-- age --}}
-                        <div class="col-6">
-                            <label for="age" class="form-label text-info">Age</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->age }} yrs. old</p>
+                        {{-- address of association --}}
+                        <div class="col-12">
+                            <label for="address_of_association" class="form-label text-info">Address</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->address_of_association)
+                                    {{ $citizen->address_of_association }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
                         </div>
 
-                        {{-- marital_status --}}
-                        <div class="col-6">
-                            <label for="marital_status" class="form-label text-info">Marital status</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->marital_status) }}</p>
+                        {{-- date_of_membership --}}
+                        <div class="col-4">
+                            <label for="date_of_membership" class="form-label text-info">Date of Membership</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->date_of_membership)
+                                    {{ $citizen->date_of_membership }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
                         </div>
 
-                        {{-- gender --}}
-                        <div class="col-6">
-                            <label for="gender" class="form-label text-info">Gender</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->gender) }}</p>
+                        {{-- date elected and term --}}
+                        <div class="col-8">
+                            <label for="date_of_membership" class="form-label text-info">If an officer, Date Elected & Term</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->date_of_membership)
+                                    {{ $citizen->date_of_membership }} {{ $citizen->term }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
                         </div>
+
 
                     </div>
-
                 </div>
-
 
                 @if ($citizen->is_delisted)
                     {{-- delist details --}}

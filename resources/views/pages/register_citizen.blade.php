@@ -50,7 +50,7 @@
         </div>
         <hr>
         <div id="form-wrapper">
-            <form id="registration-form" class="d-flex flex-column px-3 pb-3 needs-validation" method="POST" enctype="multipart/form-data" novalidate>
+            <form id="registration-form" class="d-flex flex-column px-3 pb-3 needs-validation" action="/citizens/add/submit" method="POST" enctype="multipart/form-data" novalidate>
                 @csrf
                 @method('POST')
 
@@ -96,13 +96,13 @@
                             </div>
 
                             {{-- picture --}}
-                            <div class="d-flex flex-column">
+                            <div class="d-flex flex-column gap-2">
                                 <div class="mb-auto">
                                     <img id="picture-placeholder" class="mt-auto mx-auto rounded d-block" height="200" width="200">
                                 </div>
-                                <div>
+                                <div class="d-flex flex-column gap-2">
                                     <input type="file" accept="image/*" class="d-none form-control @error('picture') is-invalid @enderror" name="picture" id="picture-upload" required>
-                                    <label class="btn btn-secondary d-block" for="picture-upload">Upload</label>
+                                    <label class="btn btn-secondary d-block" for="picture-upload" tabindex="0">Upload</label>
                                     @error('picture')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -137,8 +137,8 @@
                                 <label for="sex" class="form-label text-info">Sex</label>
                                 <select name="sex" id="sex" class="form-select">
                                     <option value="" selected disabled>Select sex</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="male" {{ old('sex') == 'male' ? 'selected' : '' }}>Male</option>
+                                    <option value="female" {{ old('sex') == 'female' ? 'selected' : '' }}>Female</option>
                                 </select>
                                 @error('sex')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -157,14 +157,13 @@
                             {{-- civil status --}}
                             <div class="col-6">
                                 <label for="civil_status" class="form-label text-info">Civil status</label>
-                                <select class="form-select @error('civil_status') is-invalid @enderror" id="marital_status" name="marital_status" required>
+                                <select class="form-select @error('civil_status') is-invalid @enderror" id="civil_status" name="civil_status" required>
                                     <option value="" selected disabled>Select status</option>
-                                    <option value="unmarried" {{ old('marital_status') == 'unmarried' ? 'selected' : '' }}>Unmarried</option>
-                                    <option value="married" {{ old('marital_status') == 'married' ? 'selected' : '' }}>Married</option>
-                                    <option value="divorced" {{ old('marital_status') == 'divorced' ? 'selected' : '' }}>Divorced</option>
-                                    <option value="widowed" {{ old('marital_status') == 'widowed' ? 'selected' : '' }}>Widowed</option>
+                                    @foreach ($civil_status_select as $status)
+                                        <option value="{{ $status }}" {{ old('civil_status') == $status ? 'selected' : '' }}>{{ ucfirst($status) }}</option>
+                                    @endforeach
                                 </select>
-                                @error('marital_status')
+                                @error('civil_status')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -185,10 +184,9 @@
                                 <label for="educational_attainment" class="form-label text-info">Educational attainment</label>
                                 <select class="form-select @error('educational_attainment') is-invalid @enderror" id="educational_attainment" name="educational_attainment" required>
                                     <option value="" selected disabled>Select educational attainemnt</option>
-                                    <option value="1" {{ old('educational_attainment') == '1' ? 'selected' : '' }}>Unmarried</option>
-                                    <option value="2" {{ old('educational_attainment') == '2' ? 'selected' : '' }}>Married</option>
-                                    <option value="3" {{ old('educational_attainment') == '3' ? 'selected' : '' }}>Divorced</option>
-                                    <option value="4" {{ old('educational_attainment') == '4' ? 'selected' : '' }}>Widowed</option>
+                                    @foreach ($educational_attainment_select as $key => $attainment)
+                                        <option value="{{ $key }}" {{ old('educational_attainment') == $key ? 'selected' : '' }}>{{ $attainment }}</option>
+                                    @endforeach
                                 </select>
                                 @error('educational_attainment')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -209,7 +207,7 @@
                             {{-- annual_income --}}
                             <div class="col-6">
                                 <label for="annual_income" class="form-label text-info">Annual income</label>
-                                <input type="text" class="form-control" id="annual_income" name="annual_income" value="{{ old('annual_income') }}" pattern="[1-9][0-9]{3,}" required>
+                                <input type="text" class="form-control" id="annual_income" name="annual_income" value="{{ old('annual_income') }}" pattern="([1-9][0-9]*|0)" required>
                                 @error('annual_income')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -238,7 +236,7 @@
                             <hr class="flex-fill">
                         </div>
                         <div class="ps-3 g-3">
-                            <table class="table table-light" id="family-composition-table">
+                            <table class="table table-light mb-0" id="family-composition-table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Name</th>
@@ -251,13 +249,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td colspan="7">
-                                            <button type="button" class="btn btn-outline-primary w-100 insert-family-entry">+</button>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
+                            <div class="p-2 bg-light">
+                                <button type="button" class="btn btn-outline-primary w-100 insert-family-entry">+</button>
+                            </div>
                         </div>
                     </div>
 
@@ -274,7 +270,7 @@
                             {{-- name of association --}}
                             <div class="col-6">
                                 <label for="name_of_association" class="form-label text-info">Name of Association</label>
-                                <input type="text" name="name_of_association" class="form-control" id="name_of_association">
+                                <input type="text" name="name_of_association" class="form-control" value="{{ old('name_of_association') }}" id="name_of_association">
                                 @error('name_of_association')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -300,7 +296,7 @@
 
                             {{-- Date elected --}}
                             <div class="col-3">
-                                <label for="date_elected" class="form-label text-info">Date Elected</label>
+                                <label for="date_elected" class="form-label text-info">If an Officer, Date Elected</label>
                                 <input type="date" class="form-control @error('date_elected') is-invalid @enderror" id="date_elected" name="date_elected" value="{{ old('date_elected') }}">
                                 @error('date_elected')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -309,7 +305,7 @@
 
                             {{-- term --}}
                             <div class="col-3">
-                                <label for="term" class="form-label text-info">Term</label>
+                                <label for="term" class="form-label text-info">& Term</label>
                                 <input type="text" class="form-control @error('term') is-invalid @enderror" id="term" name="term" value="{{ old('term') }}">
                                 @error('term')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -349,26 +345,25 @@
         (function() {
             $('#picture-upload').on('change', function() {
                 const [file] = this.files
-                if (file) {
-                    $('#picture-placeholder').attr('src', URL.createObjectURL(file))
-                }
+                if (file) $('#picture-placeholder').attr('src', URL.createObjectURL(file))
+
             })
 
-            $('#family-composition-table button.insert-family-entry').on('click', function() {
-                $('#family-composition-table tbody').prepend(`       
+            $('button.insert-family-entry').on('click', function() {
+                $('#family-composition-table tbody').append(`       
                     <tr>
-                        <input type="hidden" name="_family_member">
+                        <input type="hidden" name="_family_member[]" value="${$('#family-composition-table tbody').children().length}">
                         <td>
-                            <input type="text" class="form-control form-control-sm" name="family_member_name" required>
+                            <input type="text" class="form-control form-control-sm" name="family_member_name[]" required>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm" name="family_member_relationship" required>
+                            <input type="text" class="form-control form-control-sm" name="family_member_relationship[]" required>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm" name="family_member_age" required>
+                            <input type="text" class="form-control form-control-sm" name="family_member_age[]" required>
                         </td>
                         <td>
-                            <select class="form-select form-select-sm" name="family_member_civil_status" required>
+                            <select class="form-select form-select-sm" name="family_member_civil_status[]" required>
                                 <option value="" selected disabled>Select status</option>
                                 <option value="unmarried">Unmarried</option>
                                 <option value="married">Married</option>
@@ -377,10 +372,10 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm" name="family_member_occupation" required>
+                            <input type="text" class="form-control form-control-sm" name="family_member_occupation[]" required>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm" name="family_member_income" pattern="[1-9][0-9]{3,}" required>
+                            <input type="text" class="form-control form-control-sm" name="family_member_income[]" pattern="([1-9][0-9]*|0)" required>
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm remove-entry">Remove</button>

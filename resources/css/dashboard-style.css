@@ -1,0 +1,16 @@
+body {
+    background-image: url(/images/bg.webp);
+    background-blend-mode: overlay;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+main {
+    overflow: hidden;
+}
+
+#main-wrapper {
+    min-height: auto;
+    overflow: auto;
+    width: 100%;
+}

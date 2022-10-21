@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Barangay;
 use Illuminate\Http\Request;
 use App\Models\SeniorCitizen;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,32 +14,43 @@ class SeniorCitizenController extends Controller
     // store
     public function store(Request $request)
     {
-        // dd($request->all());
-        $carbon = new Carbon();
-        $birthdate_before = $carbon->subYears($request->age)->format('Y-m-d');
+        $dt = new Carbon();
+        $before = $dt->subYears(60)->format('Y-m-d');
 
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make(
+            $request->all(),
+            [
+                // personal information
+                'lastname' => ['required'],
+                'firstname' => ['required'],
+                'middlename' => ['nullable'],
 
-            // picture
-            'picture' => ['required', 'image'],
+                // picture
+                'picture' => ['required', 'image'],
 
-            // personal information
-            'lastname' => ['required'],
-            'firstname' => ['required'],
-            'middlename' => ['nullable'],
+                // personal information
+                'date_of_birth' => ['required', 'date', "before_or_equal:{$before}"],
+                'sex' => ['required', 'in:male,female'],
+                'place_of_birth' => ['required'],
+                'civil_status' => ['required', Rule::in(SeniorCitizen::$civil_statuses)],
+                'address' => ['required'],
+                'educational_attainment' => ['required', Rule::in(array_keys(SeniorCitizen::$educational_attainments))],
+                'occupation' => ['required'],
+                'annual_income' => ['required', 'numeric', 'gte:0'],
+                'other_skills' => ['nullable'],
 
-            // location details
-            'barangay' => ['required', 'exists:barangays,id'],
-            'province' => ['required'],
+                // member   
+                'name_of_association' => ['nullable'],
+                'address_of_association' => ['required_with:name_of_association'],
+                'date_of_membership' => ['required_with:name_of_association'],
+                'date_elected' => ['nullable', 'prohibited_if:name_of_association,null'],
+                'term' => ['required_with:date_elected']
 
-            // other information
-            'birthdate' => ['required', 'date'],
-            'age' => ['required', 'numeric', 'gte:60'],
-            'marital_status' => ['required', 'in:unmarried,married,divorced,widowed'],
-            'gender' => ['required', 'in:male,female']
-        ], [
-            'age.min' => 'The age must be 60 or older.',
-        ]);
+            ],
+            [
+                'date_of_birth.before' => 'The date of birth must more than 60+ years ago today.',
+            ]
+        );
 
         if ($validator->fails()) {
             return back()
@@ -51,32 +62,48 @@ class SeniorCitizenController extends Controller
                         'message' => 'Please check your inputs.'
                     ]
                 ]);
-        } else {
-            if (!Storage::disk('public')->put('pictures', $request->file('picture'))) {
-                return back()
-                    ->withInput()
-                    ->with([
-                        'toast' => [
-                            'type' => 'warning',
-                            'message' => 'Failed to upload picture file.'
-                        ]
-                    ]);
-            }
-            $formValues = $request->all();
-            $formValues['picture'] = $request->file('picture')->hashName();
-            $id = SeniorCitizen::create($formValues);
-            return redirect()
-                ->action(
-                    [DashboardController::class, 'view_citizen'],
-                    ['id' => $id]
-                )
+        }
+
+        $family_composition = [];
+        for ($i = 0; $i < count($request->_family_member ?? []); $i++) {
+            array_push($family_composition, [
+                'name' => $request->family_member_name[$i],
+                'relationship' => $request->family_member_relationship[$i],
+                'age' => $request->family_member_age[$i],
+                'civil_status' => $request->family_member_civil_status[$i],
+                'occupation' => $request->family_member_occupation[$i],
+                'income' => $request->family_member_income[$i],
+                'occupation' => $request->family_member_occupation[$i]
+            ]);
+        }
+
+        if (!Storage::disk('public')->put('pictures', $request->file('picture'))) {
+            return back()
+                ->withInput()
                 ->with([
                     'toast' => [
-                        'type' => 'success',
-                        'message' => 'Senior citizen registered successfully.'
+                        'type' => 'warning',
+                        'message' => 'Failed to upload picture file.'
                     ]
                 ]);
         }
+
+        $formValues = $request->all();
+        $formValues['picture'] = $request->file('picture')->hashName();
+        $formValues['family_composition'] = $family_composition;
+        $citizen = SeniorCitizen::create($formValues);
+
+        return
+            redirect()
+            ->action([DashboardController::class, 'view_citizen'], [
+                'citizen' => $citizen
+            ])
+            ->with([
+                'toast' => [
+                    'type' => 'success',
+                    'message' => 'Senior citizen registered successfully.'
+                ]
+            ]);
     }
 
     // update sernior citizen data

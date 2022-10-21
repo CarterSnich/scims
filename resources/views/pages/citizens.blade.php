@@ -46,7 +46,7 @@
     {{-- main content --}}
     <div id="main">
         {{-- page header --}}
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between gap-2">
             {{-- page title --}}
             <h2 class="m-0">
                 @if (request()->is('citizens'))

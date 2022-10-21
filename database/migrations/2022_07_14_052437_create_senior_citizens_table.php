@@ -23,13 +23,16 @@ class CreateSeniorCitizensTable extends Migration
             $table->string('firstname');
             $table->string('middlename')->nullable();
 
+            // picture
+            $table->string('picture');
+
             // peronsal information
             $table->date('date_of_birth');
             $table->enum('sex', ['male', 'female']);
             $table->string('place_of_birth');
-            $table->enum('civil_status', ['unmarried', 'married', 'divorced', 'widowed']);
+            $table->enum('civil_status', SeniorCitizen::$civil_statuses);
             $table->string('address');
-            $table->enum('educational_attainment', SeniorCitizen::$educational_attainments);
+            $table->enum('educational_attainment', array_keys(SeniorCitizen::$educational_attainments));
             $table->string('occupation');
             $table->decimal('annual_income', 10, 2, true);
             $table->text('other_skills')->nullable();
@@ -44,8 +47,9 @@ class CreateSeniorCitizensTable extends Migration
             $table->date('date_elected')->nullable();
             $table->string('term')->nullable();
 
-            // picture
-            $table->string('picture');
+            // delist details
+            $table->boolean('is_delisted')->default(false);
+            $table->text('delist_reason')->nullable();
         });
     }
 

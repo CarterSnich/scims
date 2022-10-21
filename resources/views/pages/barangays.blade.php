@@ -32,8 +32,8 @@
     <div id="main">
 
         {{-- page header --}}
-        <div class="d-flex gap-2">
-            {{-- page name --}}
+        <div class="d-flex justify-content-between gap-2">
+            {{-- page title --}}
             <h2 class="m-0">Manage barangays</h2>
 
             {{-- search bar --}}
@@ -54,7 +54,7 @@
             </form>
 
             {{-- button toolbar --}}
-            <div class="btn-group gap-2" role="group" aria-label="Third group">
+            <div class="btn-group" role="group" aria-label="Third group">
 
                 {{-- add barangay button --}}
                 @if (auth()->user()->type == 'admin')
@@ -77,6 +77,7 @@
             </div>
 
         </div>
+
 
         <hr style="min-height: 1px">
 

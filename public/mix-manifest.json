@@ -1,6 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/administrator-sidebar.css": "/css/administrator-sidebar.css",
+    "/css/dashboard-style.css": "/css/dashboard-style.css",
     "/css/style.css": "/css/style.css",
     "/css/app.css": "/css/app.css"
 }

@@ -18,29 +18,15 @@
     {{-- style.css --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    {{-- dashboard style --}}
+    <link rel="stylesheet" href="{{ asset('css/dashboard-style.css') }}">
+
     {{-- administrator sidebar --}}
     <link rel="stylesheet" href="{{ asset('css/administrator-sidebar.css') }}">
 
-    <style>
-        body {
-            background-image: url(/images/bg.webp);
-            background-blend-mode: overlay;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-
-        main {
-            overflow: hidden;
-        }
-
-        #main-wrapper {
-            min-height: auto;
-            overflow: auto;
-            width: 100%;
-        }
-    </style>
 
     @yield('style')
+
 
 </head>
 
@@ -57,7 +43,6 @@
 
     {{-- toast --}}
     <div id="toasters" class="position-fixed bottom-0 start-0 ps-3 pb-4">
-
         @if (session()->has('toast'))
             <div class="toast align-items-center text-white bg-{{ session('toast')['type'] }} border-0" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
@@ -68,21 +53,12 @@
                 </div>
             </div>
         @endif
-
     </div>
 
-    {{-- compiled js --}}
+    {{-- app js --}}
     <script src="{{ asset('js/app.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('.toast').toast('show')
-
-        })
-    </script>
-
     @yield('script')
-
 
 </body>
 

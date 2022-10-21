@@ -35,7 +35,7 @@ Route::middleware('auth')->controller(DashboardController::class)->group(functio
     Route::get('/citizens', 'citizens');
     Route::get('/citizens/delisted', 'delisted');
     Route::get('/citizens/add', 'register_citizen');
-    Route::get('/citizens/{id}',  'view_citizen');
+    Route::get('/citizens/{citizen}',  'view_citizen');
     Route::get('/citizens/{citizen}/edit', 'edit_citizen');
 
     // barangay
@@ -44,6 +44,15 @@ Route::middleware('auth')->controller(DashboardController::class)->group(functio
 });
 
 
+// senior citizen routes
+Route::middleware('auth')->controller(SeniorCitizenController::class)->prefix('citizens')->group(function () {
+    Route::post('/add/submit',  'store');
+    Route::post('/{citizen}/delist',  'delist');
+    Route::post('/{citizen}/recover', 'recover');
+    Route::put('/{citizen}/update',  'update');
+    Route::delete('/{citizen}/destroy', 'destory');
+});
+
 // barangay routes
 Route::middleware('auth')->controller(BarangayController::class)->prefix('barangays')->group(function () {
     Route::post('/add', 'store');
@@ -51,15 +60,6 @@ Route::middleware('auth')->controller(BarangayController::class)->prefix('barang
     Route::delete('/{barangay}/destroy', 'destroy');
 });
 
-
-// senior citizen routes
-Route::middleware('auth')->controller(SeniorCitizen::class)->prefix('/citizes')->group(function () {
-    Route::post('/add',  'store');
-    Route::post('/{citizen}/delist',  'delist');
-    Route::post('/{citizen}/recover', 'recover');
-    Route::put('/{citizen}/update',  'update');
-    Route::delete('/{citizen}/destroy', 'destory');
-});
 
 // User login/logout routes
 Route::post('/user/authenticate', [UserController::class, 'authenticate']);

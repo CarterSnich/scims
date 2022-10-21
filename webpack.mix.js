@@ -14,6 +14,7 @@ const mix = require("laravel-mix");
 mix.js("resources/js/app.js", "public/js")
     .sass("resources/sass/app.scss", "public/css")
     .postCss("resources/css/style.css", "public/css")
+    .css("resources/css/dashboard-style.css", "public/css")
     .css("resources/css/administrator-sidebar.css", "public/css")
     .sourceMaps()
     .disableSuccessNotifications()
