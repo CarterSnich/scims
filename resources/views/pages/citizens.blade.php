@@ -2,7 +2,7 @@
 
 @section('title', 'Senior Citizens')
 
-@section('content')
+@section('style')
     <style>
         #main {
             display: flex;
@@ -42,6 +42,9 @@
             display: none;
         }
     </style>
+@endsection
+
+@section('content')
 
     {{-- main content --}}
     <div id="main">
@@ -103,7 +106,7 @@
         <hr style="min-height: 1px">
 
         {{-- table wrapper --}}
-        <div class="table-wrapper">
+        <div class="bg-light table-wrapper">
             <table class="table table-borderless table-light m-0 table-hover">
                 <thead>
                     <tr class="shadow-sm bg-light">

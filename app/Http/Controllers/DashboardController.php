@@ -7,6 +7,8 @@ use App\Models\Barangay;
 use App\Models\IdApplication;
 use Illuminate\Http\Request;
 use App\Models\SeniorCitizen;
+use App\Models\SocialPension;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -98,7 +100,42 @@ class DashboardController extends Controller
     // pensions page
     public function pensions()
     {
-        return view('pages.pensions');
+        return view('pages.pensions', [
+            'pensions' => SocialPension::paginate(50),
+        ]);
+    }
+
+    // view pension
+    public function view_pension(SocialPension $pension)
+    {
+        $age = Carbon::parse($pension->date_of_birth)->age;
+        $living_arrangement = SocialPension::LIVING_ARRANGEMENTS[$pension->living_arrangement];
+        $pensioner_source = $pension->pensioner_source ? SocialPension::PENSIONER_SOURCES[$pension->pensioner_source] : null;
+        $barangay = Barangay::where('id', '=', $pension->barangay)->first();
+
+        return view('pages.view_pension', [
+            'pension' => $pension,
+            'age' => $age,
+            'living_arrangement' => $living_arrangement,
+            'pensioner_source' => $pensioner_source,
+            'barangay' => $barangay
+        ]);
+    }
+
+    public function apply_pension()
+    {
+        return view('pages.apply-social-pension', [
+            'civil_status_select' => SeniorCitizen::$civil_statuses,
+            'barangays' => Barangay::select(['barangay_name', 'id'])->get(),
+            'living_arrangements' => SocialPension::LIVING_ARRANGEMENTS,
+            'pensioner_sources' => SocialPension::PENSIONER_SOURCES
+        ]);
+    }
+
+    // pension intakes
+    public function intakes()
+    {
+        return view();
     }
 
     // reports page

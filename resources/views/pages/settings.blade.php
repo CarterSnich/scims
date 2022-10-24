@@ -31,8 +31,9 @@
             </div>
         </div>
         <hr style="min-height: 1px">
+
         {{-- data wrapper --}}
-        <div id="data-wrapper" class="bg-dark">
+        <div id="data-wrapper">
             <div class="px-3 pb-3 gap-5">
 
                 {{-- password --}}
@@ -60,11 +61,11 @@
 
                         {{-- new password --}}
                         <div class="row">
-                            <div class="col-4">
-                                <label class="fs-4 form-label" for="new-password">New password</label>
-                            </div>
-                            <div class="col-6">
-                                <input type="password" class="form-control @error('new_password') is-invalid @endif" id="new-password" name="new_password" required>
+                                <div class="col-4">
+                                    <label class="fs-4 form-label" for="new-password">New password</label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="password" class="form-control @error('new_password') is-invalid @endif" id="new-password" name="new_password" required>
                                 @error('new_password')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -73,11 +74,11 @@
 
                         {{-- password confirmation --}}
                         <div class="row">
-                            <div class="col-4">
-                                <label class="fs-4 form-label" for="password-confirmation">Confirm new password</label>
-                            </div>
-                            <div class="col-6">
-                                <input type="password" class="form-control @error('password_confirmation') is-invalid @endif" id="password-confirmation" name="password_confirmation" required>
+                                    <div class="col-4">
+                                        <label class="fs-4 form-label" for="password-confirmation">Confirm new password</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="password" class="form-control @error('password_confirmation') is-invalid @endif" id="password-confirmation" name="password_confirmation" required>
                                 @error('password_confirmation')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -86,12 +87,12 @@
 
                         {{-- submit button --}}
                         <div class="row">
-                            <div class="col-4"></div>
-                            <div class="col-6">
-                                <button type="submit" class="btn btn-primary float-right ">Save</button>
-                            </div>
-                        </div>
-                    </div>
+                                        <div class="col-4"></div>
+                                        <div class="col-6">
+                                            <button type="submit" class="btn btn-primary float-right ">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
 
                 </form>
 

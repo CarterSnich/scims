@@ -46,9 +46,6 @@ class SeniorCitizenController extends Controller
                 'date_elected' => ['nullable', 'prohibited_if:name_of_association,null'],
                 'term' => ['required_with:date_elected']
 
-            ],
-            [
-                'date_of_birth.before' => 'The date of birth must more than 60+ years ago today.',
             ]
         );
 

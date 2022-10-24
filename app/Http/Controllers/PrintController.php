@@ -6,6 +6,7 @@ use App\Models\Barangay;
 use Illuminate\Http\Request;
 use App\Models\IdApplication;
 use App\Models\SeniorCitizen;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PrintController extends Controller
@@ -34,11 +35,17 @@ class PrintController extends Controller
     // print citizen
     public function citizen(SeniorCitizen $citizen)
     {
-        $citizen['citizenId'] = date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT);
-        $citizen['fullname'] = "{$citizen['lastname']}, {$citizen['firstname']} {$citizen['middlename']}";
+        $citizen_id = date('Y', strtotime($citizen->created_at)) . '-' . str_pad($citizen->id, 5, '0', STR_PAD_LEFT);
+        $fullname = "{$citizen['lastname']}, {$citizen['firstname']} {$citizen['middlename']}";
+        $age = Carbon::parse($citizen->date_of_birth)->age;
+        $educational_attainment = SeniorCitizen::$educational_attainments[$citizen->educational_attainment];
+
         return view('print.print_citizen', [
             'citizen' => $citizen,
-            'barangay' => Barangay::where('id', '=', $citizen['barangay'])->first()
+            'citizen_id' => $citizen_id,
+            'fullname' => $fullname,
+            'age' => $age,
+            'educational_attainment' => $educational_attainment
         ]);
     }
 

@@ -23,5 +23,6 @@ require("./bootstrap");
     });
 })();
 
-
-$('.toast').toast('show')
+$(document).ready(function () {
+    $('.toast').toast('show')
+})

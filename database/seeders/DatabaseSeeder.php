@@ -23,9 +23,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create();
 
 
+        \App\Models\Barangay::factory()->create();
         // barangays
         // for ($i = 0; $i < 225; $i++) {
-        //     \App\Models\Barangay::factory()->create();
+        //      \App\Models\Barangay::factory()->create();
         // }
 
         // senior citizens

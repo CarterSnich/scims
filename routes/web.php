@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SeniorCitizenController;
 use App\Http\Controllers\IdApplicationController;
 use App\Http\Controllers\PrintController;
+use App\Http\Controllers\SocialPensionController;
 use App\Models\SeniorCitizen;
 
 /*
@@ -38,6 +39,13 @@ Route::middleware('auth')->controller(DashboardController::class)->group(functio
     Route::get('/citizens/{citizen}',  'view_citizen');
     Route::get('/citizens/{citizen}/edit', 'edit_citizen');
 
+    // social pensions
+    Route::get('/pensions/apply', 'apply_pension');
+    Route::get('/pensions/{pension}', 'view_pension');
+
+    // Pension intakes
+    Route::get('/intakes', 'intakes');
+
     // barangay
     Route::get('/barangays', 'barangays');
     Route::get('/barangays/{id}', 'view_barangay');
@@ -58,6 +66,11 @@ Route::middleware('auth')->controller(BarangayController::class)->prefix('barang
     Route::post('/add', 'store');
     Route::put('/{barangay}/update', 'update');
     Route::delete('/{barangay}/destroy', 'destroy');
+});
+
+// social pensions
+Route::middleware('auth')->controller(SocialPensionController::class)->prefix('pensions')->group(function () {
+    Route::post('/apply/submit', 'store');
 });
 
 

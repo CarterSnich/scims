@@ -24,9 +24,7 @@
     {{-- administrator sidebar --}}
     <link rel="stylesheet" href="{{ asset('css/administrator-sidebar.css') }}">
 
-
     @yield('style')
-
 
 </head>
 
@@ -57,6 +55,7 @@
 
     {{-- app js --}}
     <script src="{{ asset('js/app.js') }}"></script>
+
 
     @yield('script')
 
