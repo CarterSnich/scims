@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\SeniorCitizen;
-use App\Models\SocialPension;
+use App\Models\Constants;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -30,18 +29,18 @@ class CreateSocialPensionsTable extends Migration
             $table->date('date_of_birth');
             $table->string('place_of_birth');
             $table->enum('sex', ['male', 'female']);
-            $table->enum('civil_status', SeniorCitizen::$civil_statuses);
+            $table->enum('civil_status', Constants::CIVIL_STATUSES);
             $table->string('house_no')->nullable();
             $table->string('street')->nullable();
             $table->unsignedBigInteger('barangay');
             $table->foreign('barangay')->references('id')->on('barangays');
             $table->unsignedInteger('no_of_years_stay');
-            $table->enum('living_arrangement', array_keys(SocialPension::LIVING_ARRANGEMENTS));
+            $table->enum('living_arrangement', array_keys(Constants::LIVING_ARRANGEMENTS));
 
             // economic status
             $table->boolean('pensioner')->default(false);
             $table->decimal('pensioner_amount')->nullable();
-            $table->enum('pensioner_source', array_keys(SocialPension::PENSIONER_SOURCES))->nullable()->default(null);
+            $table->enum('pensioner_source', array_keys(Constants::PENSIONER_SOURCES))->nullable()->default(null);
             $table->boolean('permanent_source_of_income')->default(false);
             $table->string('source_of_income')->nullable();
             $table->boolean('regular_support_from_family')->default(false);

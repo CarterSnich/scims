@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\SeniorCitizen;
+use App\Models\Constants;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -30,9 +30,9 @@ class CreateSeniorCitizensTable extends Migration
             $table->date('date_of_birth');
             $table->enum('sex', ['male', 'female']);
             $table->string('place_of_birth');
-            $table->enum('civil_status', SeniorCitizen::$civil_statuses);
+            $table->enum('civil_status', Constants::CIVIL_STATUSES);
             $table->string('address');
-            $table->enum('educational_attainment', array_keys(SeniorCitizen::$educational_attainments));
+            $table->enum('educational_attainment', array_keys(Constants::EDUCATIONAL_ATTAINMENTS));
             $table->string('occupation');
             $table->decimal('annual_income', 10, 2, true);
             $table->text('other_skills')->nullable();
