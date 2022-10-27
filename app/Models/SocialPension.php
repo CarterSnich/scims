@@ -9,21 +9,6 @@ class SocialPension extends Model
 {
     use HasFactory;
 
-
-    public const LIVING_ARRANGEMENTS = [
-        '1' => 'Living alone',
-        '2' => 'Owned house',
-        '3' => 'Living with relatives',
-        '4' => 'Rented'
-    ];
-
-    public const PENSIONER_SOURCES = [
-        'gsis' => 'GSIS',
-        'sss' => 'SSS',
-        'afpslai' => 'AFPSLAI',
-        'others' => 'Others'
-    ];
-
     protected $fillable = [
         'lastname',
         'firstname',

@@ -9,15 +9,6 @@ class SeniorCitizen extends Model
 {
     use HasFactory;
 
-    public static $civil_statuses = ['unmarried', 'married', 'divorced', 'widowed'];
-
-    public static $educational_attainments = [
-        '1' => 'Less than secondary (high) school graduation',
-        '2' => 'Secondary (high) school diploma or equivalent',
-        '3' => 'Some postsecondary education',
-        '4' => 'Postsecondary certificate, diploma or degree'
-    ];
-
 
     protected $fillable = [
         // name

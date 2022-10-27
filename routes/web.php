@@ -45,6 +45,7 @@ Route::middleware('auth')->controller(DashboardController::class)->group(functio
 
     // Pension intakes
     Route::get('/intakes', 'intakes');
+    Route::get('/intakes/register', 'register_intake');
 
     // barangay
     Route::get('/barangays', 'barangays');

@@ -96,7 +96,6 @@ class DashboardController extends Controller
         ]);
     }
 
-
     // pensions page
     public function pensions()
     {
@@ -135,7 +134,15 @@ class DashboardController extends Controller
     // pension intakes
     public function intakes()
     {
-        return view();
+        return view('pages.intakes');
+    }
+
+    // register intakes
+    public function register_intake()
+    {
+        return view('pages.register-pension-intake', [
+            'barangays' => Barangay::all()
+        ]);
     }
 
     // reports page
