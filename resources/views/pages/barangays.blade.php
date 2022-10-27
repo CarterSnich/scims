@@ -4,6 +4,11 @@
 
 @section('style')
     <style>
+        #main {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+        }
         .table-wrapper {
             flex-grow: 1;
             overflow: auto;

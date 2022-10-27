@@ -159,7 +159,7 @@
                                 <label for="civil_status" class="form-label text-info">Civil status</label>
                                 <select class="form-select @error('civil_status') is-invalid @enderror" id="civil_status" name="civil_status" required>
                                     <option value="" selected disabled>Select status</option>
-                                    @foreach ($civil_status_select as $status)
+                                    @foreach (App\Models\Constants::CIVIL_STATUSES as $status)
                                         <option value="{{ $status }}" {{ old('civil_status') == $status ? 'selected' : '' }}>{{ ucfirst($status) }}</option>
                                     @endforeach
                                 </select>
@@ -184,7 +184,7 @@
                                 <label for="educational_attainment" class="form-label text-info">Educational attainment</label>
                                 <select class="form-select @error('educational_attainment') is-invalid @enderror" id="educational_attainment" name="educational_attainment" required>
                                     <option value="" selected disabled>Select educational attainemnt</option>
-                                    @foreach ($educational_attainment_select as $key => $attainment)
+                                    @foreach (App\Models\Constants::EDUCATIONAL_ATTAINMENTS as $key => $attainment)
                                         <option value="{{ $key }}" {{ old('educational_attainment') == $key ? 'selected' : '' }}>{{ $attainment }}</option>
                                     @endforeach
                                 </select>

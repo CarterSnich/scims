@@ -159,7 +159,7 @@
                                 <label for="civil_status" class="form-label text-info">Civil status</label>
                                 <select class="form-select @error('civil_status') is-invalid @enderror" id="civil_status" name="civil_status" required>
                                     <option value="" selected disabled>Select status</option>
-                                    @foreach ($civil_status_select as $status)
+                                    @foreach (App\Models\Constants::CIVIL_STATUSES as $status)
                                         <option value="{{ $status }}" {{ old('civil_status') == $status ? 'selected' : '' }}>{{ ucfirst($status) }}</option>
                                     @endforeach
                                 </select>
@@ -224,7 +224,7 @@
                             <div class="col-6">
                                 <label class="form-label text-info">Living arrangement</label>
                                 <div class="block">
-                                    @foreach ($living_arrangements as $key => $arrangement)
+                                    @foreach (App\Models\Constants::LIVING_ARRANGEMENTS as $key => $arrangement)
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input  @error('living_arrangement') is-invalid @enderror" type="radio" name="living_arrangement" id="{{ "arrangement{$loop->iteration}" }}" value="{{ $key }}" {{ old('living_arrangement') == $key ? 'checked' : '' }} {{ $loop->first ? 'required' : '' }}>
                                             <label class="form-check-label" for="{{ "arrangement{$loop->iteration}" }}">{{ $arrangement }}</label>
@@ -274,7 +274,7 @@
                                     <div class="d-flex flex-row gap-2">
                                         <span>Source:</span>
                                         <div>
-                                            @foreach ($pensioner_sources as $key => $source)
+                                            @foreach (App\Models\Constants::PENSIONER_SOURCES as $key => $source)
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input @error('pension_source') is-invalid @enderror" type="radio" id="{{ $key }}" name="pensioner_source" value="{{ $key }}" disabled>
                                                     <label class="form-check-label" for="{{ $key }}">{{ $source }}</label>

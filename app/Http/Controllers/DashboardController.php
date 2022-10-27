@@ -8,6 +8,7 @@ use App\Models\IdApplication;
 use Illuminate\Http\Request;
 use App\Models\SeniorCitizen;
 use App\Models\SocialPension;
+use App\Models\Constants;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -65,9 +66,7 @@ class DashboardController extends Controller
     public function register_citizen()
     {
         return view('pages.register_citizen', [
-            'barangays' => Barangay::all()->sortBy('barangay_name'),
-            'civil_status_select' => SeniorCitizen::$civil_statuses,
-            'educational_attainment_select' => SeniorCitizen::$educational_attainments
+            'barangays' => Barangay::all()->sortBy('barangay_name')
         ]);
     }
 
@@ -75,13 +74,12 @@ class DashboardController extends Controller
     public function view_citizen(SeniorCitizen $citizen)
     {
         $citizen_id = date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT);
-        $educational_attainment = SeniorCitizen::$educational_attainments[$citizen->educational_attainment];
+        $educational_attainment = Constants::EDUCATIONAL_ATTAINMENTS[$citizen->educational_attainment];
         $family_composition = $citizen->family_composition;
 
         return view('pages.view_citizen', [
             'citizen' => $citizen,
             'citizen_id' => $citizen_id,
-            'educational_attainment' => $educational_attainment,
             'family_composition' => $family_composition
         ]);
     }
@@ -108,8 +106,8 @@ class DashboardController extends Controller
     public function view_pension(SocialPension $pension)
     {
         $age = Carbon::parse($pension->date_of_birth)->age;
-        $living_arrangement = SocialPension::LIVING_ARRANGEMENTS[$pension->living_arrangement];
-        $pensioner_source = $pension->pensioner_source ? SocialPension::PENSIONER_SOURCES[$pension->pensioner_source] : null;
+        $living_arrangement = Constants::LIVING_ARRANGEMENTS[$pension->living_arrangement];
+        $pensioner_source = $pension->pensioner_source ? Constants::PENSIONER_SOURCES[$pension->pensioner_source] : null;
         $barangay = Barangay::where('id', '=', $pension->barangay)->first();
 
         return view('pages.view_pension', [
@@ -124,10 +122,7 @@ class DashboardController extends Controller
     public function apply_pension()
     {
         return view('pages.apply-social-pension', [
-            'civil_status_select' => SeniorCitizen::$civil_statuses,
-            'barangays' => Barangay::select(['barangay_name', 'id'])->get(),
-            'living_arrangements' => SocialPension::LIVING_ARRANGEMENTS,
-            'pensioner_sources' => SocialPension::PENSIONER_SOURCES
+            'barangays' => Barangay::select(['barangay_name', 'id'])->get()
         ]);
     }
 
