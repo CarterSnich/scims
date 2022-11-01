@@ -54,13 +54,6 @@ class CreateSeniorCitizensTable extends Migration
             $table->date('date_elected')->nullable();
             $table->string('term')->nullable();
 
-            // vaccination status
-            $table->enum('vaccine', array_keys(Constants::VACCINES))->nullable();
-            $table->date('first_dose')->nullable();
-            $table->date('second_dose')->nullable();
-            $table->date('booster_dose')->nullable();
-
-
             // delist details
             $table->boolean('is_delisted')->default(false);
             $table->text('delist_reason')->nullable();

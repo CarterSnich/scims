@@ -43,16 +43,4 @@ class Constants extends Model
         'cose' => 'COSE',
         'others' => 'Others'
     ];
-
-    public const VACCINES = [
-        "1" => "Not vaccinated",
-        "2" => "Pfizer-BioNTech",
-        "3" => "Oxford-AstraZeneca",
-        "4" => "CoronaVac (Sinovac)",
-        "5" => "Gamaleya Sputnik V",
-        "6" => "Johnson and Johnson's Janssen",
-        "7" => 'Bharat BioTech',
-        "8" => "Moderna",
-        "9" => "Sinopharm",
-    ];
 }

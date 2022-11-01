@@ -27,7 +27,6 @@ Route::get("/", [UserController::class, "login"])->name("login")->middleware("gu
 
 // Dashboard pages
 Route::middleware("auth")->controller(DashboardController::class)->group(function () {
-    Route::get("/id_applications", "id_applications");
     Route::get("/pensions", "pensions");
     Route::get("/reports", "reports");
     Route::get("/users", "users");
@@ -88,13 +87,6 @@ Route::post("/users/add", [UserController::class, "store"])->middleware("auth");
 Route::post("/users/{user}/reset", [UserController::class, "reset"])->middleware("auth");
 Route::delete("/users/{user}/delete", [UserController::class, "destroy"])->middleware("auth");
 
-// ID application routes
-Route::get("/id_applications/apply", [DashboardController::class, "id_apply",])->middleware("auth");
-Route::get("/id_applications/{application}", [DashboardController::class, "view_id_application",])->middleware("auth");
-Route::get("/id_applications/apply/{citizen}", [DashboardController::class, "id_apply",])->middleware("auth");
-Route::post("/id_applications/apply", [IdApplicationController::class, "store",])->middleware("auth");
-Route::post("/id_applications/apply/{citizen}", [IdApplicationController::class, "store"])->middleware("auth");
-
 // settings
 Route::post("/settings/{user}/password_update", [UserController::class, "password_update",])->middleware("auth");
 
@@ -104,5 +96,4 @@ Route::middleware("auth")->controller(PrintController::class)->prefix("/print")-
     Route::get("/citizen/{citizen}", "citizen");
     Route::get("/barangays", "barangays");
     Route::get("/barangay/{barangay}", "barangay");
-    Route::get("/id_application/{application}", "id_application");
 });

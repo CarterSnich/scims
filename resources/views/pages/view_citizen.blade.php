@@ -378,67 +378,6 @@
                     </div>
                 </div>
 
-                {{-- vaccination status --}}
-                <div>
-                    <div class="d-flex gap-3">
-                        <h3>Vaccination status</h3>
-                        <hr class="flex-fill">
-                    </div>
-
-                    <div class="row ps-3 g-3 flex-fill">
-
-                        {{-- vaccine --}}
-                        <div class="col-6">
-                            <label for="vaccine" class="form-label text-info">Vaccine</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
-                                @if ($citizen->vaccine)
-                                    {{ App\Models\Constants::VACCINES[$citizen->vaccine] }}
-                                @else
-                                    <i class="text-muted">N/A</i>
-                                @endif
-                            </p>
-                        </div>
-
-                        {{-- first dose --}}
-                        <div class="col-6">
-                            <label for="first_dose" class="form-label text-info">First dose date</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
-                                @if ($citizen->first_dose)
-                                    {{ date('F j, Y', strtotime($citizen->first_dose)) }}
-                                @else
-                                    <i class="text-muted">N/A</i>
-                                @endif
-                            </p>
-                        </div>
-
-                        {{-- second dose --}}
-                        <div class="col-6">
-                            <label for="second_dose" class="form-label text-info">Second dose date</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
-                                @if ($citizen->second_dose)
-                                    {{ date('F j, Y', strtotime($citizen->second_dose)) }}
-                                @else
-                                    <i class="text-muted">N/A</i>
-                                @endif
-                            </p>
-                        </div>
-
-                        {{-- booster dose date --}}
-                        <div class="col-6">
-                            <label for="booster_dose" class="form-label text-info">Booster dose date</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
-                                @if ($citizen->booster_dose)
-                                    {{ date('F j, Y', strtotime($citizen->booster_dose)) }}
-                                @else
-                                    <i class="text-muted">N/A</i>
-                                @endif
-                            </p>
-                        </div>
-
-                    </div>
-                </div>
-
-
                 @if ($citizen->is_delisted)
                     {{-- delist details --}}
                     <div>

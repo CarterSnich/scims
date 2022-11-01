@@ -15,7 +15,6 @@ class SeniorCitizenController extends Controller
     // store
     public function store(Request $request)
     {
-        // dd($request->all());
         $dt = new Carbon();
         $before = $dt->subYears(60)->format('Y-m-d');
         $dateOfBirth = Carbon::parse($request->date_of_birth ?? date('Y-m-d'));
@@ -55,12 +54,6 @@ class SeniorCitizenController extends Controller
                 'date_of_membership' => ['required_with:name_of_association'],
                 'date_elected' => ['nullable', 'prohibited_if:name_of_association,null'],
                 'term' => ['required_with:date_elected'],
-
-                // vaccination status
-                'vaccine' =>  ['required', Rule::in(array_keys(Constants::VACCINES))],
-                'first_dose' => ['nullable', 'date', 'required_unless:vaccine,1'],
-                'second_dose' => ['nullable', 'date', 'prohibited_unless:first_dose,null'],
-                'booster_dose' => ['nullable', 'date', 'prohibited_unless:first_dose,null']
             ],
             [
                 'age.in' => 'Age must match the date of birth.'
@@ -162,12 +155,6 @@ class SeniorCitizenController extends Controller
                 'date_of_membership' => ['required_with:name_of_association'],
                 'date_elected' => ['nullable', 'prohibited_if:name_of_association,null'],
                 'term' => ['required_with:date_elected'],
-
-                // vaccination status
-                'vaccine' =>  ['required', Rule::in(array_keys(Constants::VACCINES))],
-                'first_dose' => ['nullable', 'date', 'required_unless:vaccine,1'],
-                'second_dose' => ['nullable', 'date', 'prohibited_unless:first_dose,null'],
-                'booster_dose' => ['nullable', 'date', 'prohibited_unless:first_dose,null']
             ]
         );
 

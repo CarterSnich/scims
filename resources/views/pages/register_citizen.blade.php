@@ -378,59 +378,6 @@
                         </div>
                     </div>
 
-                    {{-- vaccination status --}}
-                    <div>
-                        <div class="d-flex gap-3">
-                            <h3>Vaccination status</h3>
-                            <hr class="flex-fill">
-                        </div>
-
-                        <div class="row ps-3 g-3 flex-fill">
-
-                            {{-- vaccine --}}
-                            <div class="col-6">
-                                <label for="vaccine" class="form-label text-info">Vaccine</label>
-                                <select name="vaccine" id="vaccine" class="form-select">
-                                    @foreach (App\Models\Constants::VACCINES as $key => $vaccine)
-                                        <option value="{{ $key }}" {{ old('vaccine') == $key ? 'selected' : '' }}>{{ $vaccine }}</option>
-                                    @endforeach
-                                </select>
-                                @error('vaccine')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- first dose --}}
-                            <div class="col-6">
-                                <label for="first_dose" class="form-label text-info">First dose date</label>
-                                <input type="date" class="form-control" name="first_dose" id="first_dose">
-                                @error('first_dose')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- second dose --}}
-                            <div class="col-6">
-                                <label for="second_dose" class="form-label text-info">Second dose date</label>
-                                <input type="date" class="form-control" name="second_dose" id="second_dose">
-                                @error('second_dose')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- booster dose --}}
-                            <div class="col-6">
-                                <label for="booster_dose" class="form-label text-info">Booster dose date</label>
-                                <input type="date" class="form-control" name="booster_dose" id="booster_dose">
-                                @error('booster_dose')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-
-                        </div>
-                    </div>
-
                 </div>
             </form>
         </div>
