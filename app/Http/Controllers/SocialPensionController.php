@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Constants;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\SeniorCitizen;
@@ -18,6 +19,7 @@ class SocialPensionController extends Controller
     {
         $dt = new Carbon();
         $before = $dt->subYears(60)->format('Y-m-d');
+        $dateOfBirth = Carbon::parse($request->date_of_birth ?? date('Y-m-d'));
 
         $validator = Validator::make(
             $request->all(),
@@ -29,29 +31,22 @@ class SocialPensionController extends Controller
                 'picture' => ['required', 'image'],
 
                 'citizenship' => ['required'],
+                'age' => ['required', "in:{$dateOfBirth->age}"],
                 'date_of_birth' => ['required', 'date', "before_or_equal:{$before}"],
                 'place_of_birth' => ['required'],
                 'sex' =>  ['required', 'in:male,female'],
-                'civil_status' => [
-                    'required',
-                    Rule::in(SeniorCitizen::$civil_statuses)
-                ],
+                'civil_status' => ['required', Rule::in(Constants::CIVIL_STATUSES)],
+
                 'house_no' => ['nullable'],
                 'street' => ['nullable'],
                 'barangay' => ['required', 'exists:barangays,id'],
                 'no_of_years_stay' => ['required', 'gte:0'],
-                'living_arrangement' => [
-                    'required',
-                    Rule::in(array_keys(SocialPension::LIVING_ARRANGEMENTS))
-                ],
+                'living_arrangement' => ['required', Rule::in(array_keys(Constants::LIVING_ARRANGEMENTS))],
 
                 // economic status
                 'pensioner' => ['required', 'boolean'],
                 'pensioner_amount' => ['required_if:pensioner,1'],
-                'pensioner_source' => [
-                    'required_if:pensioner,1',
-                    Rule::in(array_keys(SocialPension::LIVING_ARRANGEMENTS))
-                ],
+                'pensioner_source' => ['required_if:pensioner,1', Rule::in(array_keys(Constants::LIVING_ARRANGEMENTS))],
 
                 'permanent_source_of_income' => ['required', 'boolean'],
                 'source_of_income' => ['required_if:permanent_source_of_income,1'],
@@ -65,6 +60,9 @@ class SocialPensionController extends Controller
                 'has_existing_illness' => ['required', 'boolean'],
                 'specify_illness' => ['required_if:has_existing_illness,1'],
                 'hospitalized_in_last_six_months' => ['required', 'boolean']
+            ],
+            [
+                'age.in' => 'Age must match the date of birth.'
             ]
         );
 

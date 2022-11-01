@@ -9,43 +9,13 @@ use Illuminate\Http\Request;
 use App\Models\SeniorCitizen;
 use App\Models\SocialPension;
 use App\Models\Constants;
+use App\Models\PensionIntake;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-
-    // barangays list page
-    public function barangays(Request $request)
-    {
-        if ($search_key = $request['search']) {
-            $barangays = Barangay::where('barangay_name', 'LIKE', "%{$search_key}%")
-                ->orderBy('barangay_name')->paginate(50);
-            return
-                view('pages.barangays', [
-                    'barangays' => $barangays
-                ]);
-        } else {
-            return view('pages.barangays', [
-                'barangays' => Barangay::orderBy('barangay_name')->paginate(50)
-            ]);
-        }
-    }
-
-    // view barangay
-    public function view_barangay(Request $request)
-    {
-        if ($barangay = Barangay::where('id', '=', $request['id'])->first()) {
-            return
-                view('pages.view_barangay', [
-                    'barangay' => $barangay,
-                    'citizens' => SeniorCitizen::where('barangay', '=', $request['id'])->paginate(50)
-                ]);
-        } else {
-            return redirect(404);
-        }
-    }
 
     // senior citizens list page
     public function citizens(Request $request)
@@ -74,13 +44,11 @@ class DashboardController extends Controller
     public function view_citizen(SeniorCitizen $citizen)
     {
         $citizen_id = date('Y', strtotime($citizen['created_at'])) . '-' . str_pad($citizen['id'], 5, '0', STR_PAD_LEFT);
-        $educational_attainment = Constants::EDUCATIONAL_ATTAINMENTS[$citizen->educational_attainment];
-        $family_composition = $citizen->family_composition;
 
         return view('pages.view_citizen', [
             'citizen' => $citizen,
             'citizen_id' => $citizen_id,
-            'family_composition' => $family_composition
+            'barangay' => Barangay::select('barangay_name')->where('id', '=', $citizen->barangay)->first()
         ]);
     }
 
@@ -94,6 +62,36 @@ class DashboardController extends Controller
         ]);
     }
 
+    // barangays list page
+    public function barangays(Request $request)
+    {
+        if ($search_key = $request['search']) {
+            $barangays = Barangay::where('barangay_name', 'LIKE', "%{$search_key}%")
+                ->orderBy('barangay_name')->paginate(50);
+            return
+                view('pages.barangays', [
+                    'barangays' => $barangays
+                ]);
+        } else {
+            return view('pages.barangays', [
+                'barangays' => Barangay::orderBy('barangay_name')->paginate(50)
+            ]);
+        }
+    }
+
+    // view barangay
+    public function view_barangay(Request $request, Barangay $barangay)
+    {
+        return
+            view('pages.view_barangay', [
+                'barangay' => $barangay,
+                'citizens' => SeniorCitizen::where('barangay', '=', $barangay->id)->paginate(50)
+            ]);
+        // if ($barangay = Barangay::where('id', '=', $request['id'])->first()) {
+        // } else {
+        //     return redirect(404);
+        // }
+    }
     // pensions page
     public function pensions()
     {
@@ -105,14 +103,12 @@ class DashboardController extends Controller
     // view pension
     public function view_pension(SocialPension $pension)
     {
-        $age = Carbon::parse($pension->date_of_birth)->age;
         $living_arrangement = Constants::LIVING_ARRANGEMENTS[$pension->living_arrangement];
         $pensioner_source = $pension->pensioner_source ? Constants::PENSIONER_SOURCES[$pension->pensioner_source] : null;
         $barangay = Barangay::where('id', '=', $pension->barangay)->first();
 
         return view('pages.view_pension', [
             'pension' => $pension,
-            'age' => $age,
             'living_arrangement' => $living_arrangement,
             'pensioner_source' => $pensioner_source,
             'barangay' => $barangay
@@ -129,7 +125,9 @@ class DashboardController extends Controller
     // pension intakes
     public function intakes()
     {
-        return view('pages.intakes');
+        return view('pages.intakes', [
+            'intakes' => PensionIntake::paginate(50)
+        ]);
     }
 
     // register intakes
@@ -149,12 +147,12 @@ class DashboardController extends Controller
         // hideous
         $maleAgeCounts = DB::table('senior_citizens')
             ->select(DB::raw('age, count(age) as count'))
-            ->where('gender', '=', 'male')
+            ->where('sex', '=', 'male')
             ->groupBy('age')
             ->get();
         $femaleAgeCounts = DB::table('senior_citizens')
             ->select(DB::raw('age, count(age) as count'))
-            ->where('gender', '=', 'female')
+            ->where('sex', '=', 'female')
             ->groupBy('age')
             ->get();
 
@@ -182,7 +180,7 @@ class DashboardController extends Controller
                 `senior_citizens`
             INNER JOIN barangays ON senior_citizens.barangay = barangays.id
             WHERE
-                gender = "male"
+                sex = "male"
             GROUP BY
                 barangay
         ');
@@ -194,7 +192,7 @@ class DashboardController extends Controller
                     `senior_citizens`
                 INNER JOIN barangays ON senior_citizens.barangay = barangays.id
                 WHERE
-                    gender = "female"
+                    sex = "female"
                 GROUP BY
                     barangay
             ');
@@ -220,8 +218,8 @@ class DashboardController extends Controller
                 'barangays' => $barangays,
                 'age_reports' => $ageReports,
                 'gender_reports' => $genderReports,
-                'male_counts' => SeniorCitizen::where('gender', '=', 'male')->get()->count(),
-                'female_counts' => SeniorCitizen::where('gender', '=', 'female')->get()->count(),
+                'male_counts' => SeniorCitizen::where('sex', '=', 'male')->get()->count(),
+                'female_counts' => SeniorCitizen::where('sex', '=', 'female')->get()->count(),
             ]);
     }
 

@@ -23,6 +23,12 @@ class Constants extends Model
         'others' => 'Others'
     ];
 
+    public const PENSIONER_SOURCES_2 = [
+        'gsis' => 'GSIS',
+        'sss' => 'SSS',
+        'private' => 'Private'
+    ];
+
     public const CIVIL_STATUSES = ['unmarried', 'married', 'divorced', 'widowed'];
 
     public const  EDUCATIONAL_ATTAINMENTS = [
@@ -32,4 +38,21 @@ class Constants extends Model
         '4' => 'Postsecondary certificate, diploma or degree'
     ];
 
+    public const AFFILIATIONS = [
+        'fscap' => 'FSCAP',
+        'cose' => 'COSE',
+        'others' => 'Others'
+    ];
+
+    public const VACCINES = [
+        "1" => "Not vaccinated",
+        "2" => "Pfizer-BioNTech",
+        "3" => "Oxford-AstraZeneca",
+        "4" => "CoronaVac (Sinovac)",
+        "5" => "Gamaleya Sputnik V",
+        "6" => "Johnson and Johnson's Janssen",
+        "7" => 'Bharat BioTech',
+        "8" => "Moderna",
+        "9" => "Sinopharm",
+    ];
 }

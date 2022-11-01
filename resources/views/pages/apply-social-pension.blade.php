@@ -1,6 +1,6 @@
 @extends('layouts.dashboard_layout')
 
-@section('title', 'Senior Citizen Registration')
+@section('title', 'Social Pension Application')
 
 @section('style')
     <style>
@@ -119,6 +119,15 @@
                                 <label for="citizenship" class="form-label text-info">Citizenship</label>
                                 <input type="text" class="form-control @error('citizenship') is-invalid @enderror" id="citizenship" name="citizenship" value="{{ old('citizenship') }}" required>
                                 @error('citizenship')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            {{-- age --}}
+                            <div class="col-6">
+                                <label for="age" class="form-label text-info">Age</label>
+                                <input type="text" class="form-control @error('age') is-invalid @enderror" id="age" name="age" value="{{ old('age') }}" pattern="^([6-9]|(10))[0-9]+" required>
+                                @error('age')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

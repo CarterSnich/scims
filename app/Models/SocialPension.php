@@ -16,6 +16,7 @@ class SocialPension extends Model
         'picture',
 
         'citizenship',
+        'age',
         'date_of_birth',
         'place_of_birth',
         'sex',

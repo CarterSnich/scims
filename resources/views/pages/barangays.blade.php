@@ -9,6 +9,7 @@
             flex-flow: column;
             height: 100%;
         }
+
         .table-wrapper {
             flex-grow: 1;
             overflow: auto;
@@ -96,7 +97,7 @@
                 <tbody class="table-bordered">
                     @foreach ($barangays as $barangay)
                         <tr>
-                            <th scope="row">{{ ($barangays->currentPage() - 1) * 50 + $loop->index + 1 }}</th>
+                            <th scope="row">{{ ($barangays->currentPage() - 1) * 50 + $loop->iteration }}</th>
                             <td>{{ $barangay['barangay_name'] }}</td>
                             <td>{{ $barangay['contact_person'] }}</td>
                             <td>{{ $barangay['contact_no'] }}</td>

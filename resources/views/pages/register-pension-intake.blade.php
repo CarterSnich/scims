@@ -50,7 +50,7 @@
         </div>
         <hr>
         <div id="form-wrapper">
-            <form id="registration-form" class="d-flex flex-column px-3 pb-3 needs-validation" action="/pensions/apply/submit" method="POST" enctype="multipart/form-data" novalidate>
+            <form id="registration-form" class="d-flex flex-column px-3 pb-3 needs-validation" action="/intakes/register/submit" method="POST" enctype="multipart/form-data" novalidate>
                 @csrf
                 @method('POST')
 
@@ -220,25 +220,28 @@
                                 <div class="mb-2">
                                     <label class="form-check-label me-3 text-info">(Affiliation) Pls. Check</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input is-required-by" type="radio" name="pensioner" id="pensioner-yes" value="1">
-                                        <label class="form-check-label" for="pensioner-yes">FSCAP</label>
+                                        <input class="form-check-input is-required-by" type="radio" name="affiliation" id="affiliation-fscap" value="fscap" required>
+                                        <label class="form-check-label" for="affiliation-fscap">FSCAP</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input is-required-by" type="radio" name="pensioner" id="pensioner-no" value="0" checked>
-                                        <label class="form-check-label" for="pensioner-no">COSE</label>
+                                        <input class="form-check-input is-required-by" type="radio" name="affiliation" id="affiliation-cose" value="cose">
+                                        <label class="form-check-label" for="affiliation-cose">COSE</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input is-required-by" type="radio" name="pensioner" id="pensioner-no" value="0" checked>
-                                        <label class="form-check-label" for="pensioner-no">Others</label>
+                                        <input class="form-check-input is-required-by" type="radio" name="affiliation" id="affiliation-others" value="others">
+                                        <label class="form-check-label" for="affiliation-others">Others</label>
                                     </div>
                                 </div>
-                                <div class="d-grid gap-1 opacity-25 dependent" data-requires="pensioner">
+                                <div class="d-grid gap-1 opacity-25 dependent" data-required-field="affiliation" data-required-value="others">
                                     <div class="d-flex flex-row gap-2">
-                                        <label class="text-nowrap" for="pensioner_amount">Specify</label>
-                                        <input class="form-control form-control-sm @error('pensioner_amount') is-invalid @enderror" name="pensioner_amount" id="pensioner_amount" type="text" pattern="([1-9][0-9]*|0)" disabled>
+                                        <label class="text-nowrap" for="affiliation_others">Specify</label>
+                                        <input class="form-control form-control-sm @error('affiliation_others') is-invalid @enderror" name="affiliation_others" id="affiliation_others" type="text" disabled>
                                     </div>
                                 </div>
-                                @error('pensioner_amount')
+                                @error('affiliation')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                                @error('affiliation_others')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -257,7 +260,7 @@
                             {{-- issued_on --}}
                             <div class="col-4">
                                 <label for="issued_on" class="form-label text-info">Issued on</label>
-                                <input type="text" class="form-control @error('issued_on') is-invalid @enderror" id="issued_on" name="issued_on" value="{{ old('issued_on') }}" required>
+                                <input type="date" class="form-control @error('issued_on') is-invalid @enderror" id="issued_on" name="issued_on" value="{{ old('issued_on') }}" required>
                                 @error('issued_on')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -294,12 +297,12 @@
                                 @enderror
                             </div>
 
-                            {{-- pensioner --}}
+                            {{-- pension --}}
                             <div class="col-12">
                                 <div class="mb-2">
                                     <label class="form-check-label me-3 text-info">If Pension: (Pls. Check)</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input is-required-by" type="radio" name="pensioner" id="pensioner-yes" value="1">
+                                        <input class="form-check-input is-required-by" type="radio" name="pensioner" id="pensioner-yes" value="1" required>
                                         <label class="form-check-label" for="pensioner-yes">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
@@ -307,21 +310,21 @@
                                         <label class="form-check-label" for="pensioner-no">No</label>
                                     </div>
                                 </div>
-                                <div class="d-grid gap-1 opacity-25 dependent" data-requires="pensioner">
+                                <div class="d-grid gap-1 opacity-25 dependent" data-required-field="pensioner" data-required-value="1">
                                     <div class="d-flex flex-row gap-2">
                                         <span>Source:</span>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input @error('pension_source') is-invalid @enderror" type="radio" id="{{ $key }}" name="pensioner_source" value="{{ $key }}" disabled>
-                                                <label class="form-check-label" for="{{ $key }}">GSIS</label>
+                                                <input class="form-check-input @error('pension_source') is-invalid @enderror" type="radio" id="pensioner-gsis" name="pensioner_source" value="gsis" disabled>
+                                                <label class="form-check-label" for="pensioner-gsis">GSIS</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input @error('pension_source') is-invalid @enderror" type="radio" id="{{ $key }}" name="pensioner_source" value="{{ $key }}" disabled>
-                                                <label class="form-check-label" for="{{ $key }}">SSS</label>
+                                                <input class="form-check-input @error('pension_source') is-invalid @enderror" type="radio" id="pensioner-sss" name="pensioner_source" value="sss" disabled>
+                                                <label class="form-check-label" for="pensioner-sss">SSS</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input @error('pension_source') is-invalid @enderror" type="radio" id="{{ $key }}" name="pensioner_source" value="{{ $key }}" disabled>
-                                                <label class="form-check-label" for="{{ $key }}">Private</label>
+                                                <input class="form-check-input @error('pension_source') is-invalid @enderror" type="radio" id="pensioner-private" name="pensioner_source" value="private" disabled>
+                                                <label class="form-check-label" for="pensioner-private">Private</label>
                                             </div>
                                         </div>
                                     </div>
@@ -330,10 +333,13 @@
                                         <input class="form-control form-control-sm @error('pensioner_amount') is-invalid @enderror" name="pensioner_amount" id="pensioner_amount" type="text" pattern="([1-9][0-9]*|0)" disabled>
                                     </div>
                                 </div>
-                                @error('pensioner_amount')
+                                @error('pensioner')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                                 @error('pensioner_source')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                                @error('pensioner_amount')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -351,7 +357,7 @@
                                         <label class="form-check-label" for="family-support-no">No</label>
                                     </div>
                                 </div>
-                                <div class="d-grid gap-1 opacity-25 dependent" data-requires="regular_support_from_family">
+                                <div class="d-grid gap-1 opacity-25 dependent" data-required-field="regular_support_from_family" data-required-value="1">
                                     <div class="d-flex flex-column gap-2">
                                         <label for="source_of_income">If yes, from what source?</label>
                                         <div class="d-block">
@@ -362,7 +368,7 @@
                                                 </label>
                                                 <div class="d-flex flex-row gap-2">
                                                     <label for="support_cash_amount" class="text-nowrap">How much?</label>
-                                                    <input class="form-control form-control-sm d-inline @error('support_cash_amount') is-invalid @enderror" name="support_cash_amount" id="support_cash_amount" type="text" disabled>
+                                                    <input class="form-control form-control-sm d-inline @error('support_cash_amount') is-invalid @enderror" name="support_cash_amount" id="support_cash_amount" type="text" pattern="([1-9][0-9]*|0)" disabled>
 
                                                 </div>
                                             </div>
@@ -417,44 +423,62 @@
                                 @enderror
                             </div>
 
-                            {{-- have disability --}}
+                            {{-- is disability --}}
                             <div class="col-12">
                                 <div class="mb-2">
                                     <label class="form-check-label me-3 text-info">Do you have disability?</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input is-required-by" type="radio" name="has_existing_illness" id="has_existing_illness-yes" value="1">
-                                        <label class="form-check-label" for="has_existing_illness-yes">Yes</label>
+                                        <input class="form-check-input is-required-by" type="radio" name="is_disabled" id="is_disabled-yes" value="1">
+                                        <label class="form-check-label" for="is_disabled-yes">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input is-required-by" type="radio" name="has_existing_illness" id="has_existing_illness-no" value="0" checked>
-                                        <label class="form-check-label" for="has_existing_illness-no">No</label>
+                                        <input class="form-check-input is-required-by" type="radio" name="is_disabled" id="is_disabled-no" value="0" checked>
+                                        <label class="form-check-label" for="is_disabled-no">No</label>
                                     </div>
                                 </div>
-                                <div class="d-grid gap-1 opacity-25 dependent" data-requires="has_existing_illness">
+                                <div class="d-grid gap-1 opacity-25 dependent" data-required-field="is_disabled" data-required-value="1">
                                     <div class="d-flex flex-row gap-2">
-                                        <label class="text-nowrap" for="specify_illness">If yes, what type (i.e blind, deaf)</label>
-                                        <input class="form-control form-control-sm @error('specify_illness') is-invalid @enderror" name="specify_illness" id="specify_illness" type="text" pattern="([1-9][0-9]*|0)" disabled>
-                                        @error('specify_illness')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <label class="text-nowrap" for="specify_disability">If yes, what type (i.e blind, deaf)</label>
+                                        <input class="form-control form-control-sm @error('specify_disability') is-invalid @enderror" name="specify_disability" id="specify_disability" type="text" disabled>
                                     </div>
                                 </div>
+                                @error('is_disabled')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                @error('specify_disability')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             {{-- is immobile --}}
                             <div class="col-12">
-                                <label class="form-label text-info">Are you immobile?</label>
-                                <div class="d-block">
+                                <div class="mb-2">
+                                    <label class="form-label text-info me-3">Are you immobile?</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input  @error('is_immobile') is-invalid @enderror" type="radio" name="is_immobile" id="bedridden" value="bedridden" {{ old('is_immobile') == 'bedridden' ? 'checked' : '' }} required>
-                                        <label class="form-check-label" for="three_meals">Bedridden</label>
+                                        <input class="form-check-input is-required-by" type="radio" name="is_immobile" id="immobile-yes" value="1" required>
+                                        <label class="form-check-label" for="immobile-yes">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input  @error('is_immobile') is-invalid @enderror" type="radio" name="is_immobile" id="dependent" value="dependent" {{ old('is_immobile') == 'dependent' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="two_meals">Depdendent on assistive device</label>
+                                        <input class="form-check-input is-required-by" type="radio" name="is_immobile" id="immobile-no" value="0" checked>
+                                        <label class="form-check-label" for="immobile-no">No</label>
                                     </div>
                                 </div>
-                                @error('meals_per_day')
+                                <div class="d-block dependent" data-required-field="is_immobile" data-required-value="1">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  @error('immobile_state') is-invalid @enderror" type="radio" name="immobile_state" id="immobile_state-bedridden" value="bedridden" disabled>
+                                        <label class="form-check-label" for="immobile_state-bedridden">Bedridden</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  @error('immobile_state') is-invalid @enderror" type="radio" name="immobile_state" id="immobile_state-dependent" value="dependent" disabled>
+                                        <label class="form-check-label" for="immobile_state-dependent">Depdendent on assistive device</label>
+                                    </div>
+                                </div>
+                                @error('is_immobile')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                @error('immobile_state')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -471,7 +495,7 @@
                                     </div>
                                 @enderror
                             </div>
-                        
+
                         </div>
 
                     </div>
@@ -490,9 +514,10 @@
         })
 
         $('.is-required-by').on('change', function() {
-            let dependentElement = $(`.dependent[data-requires="${this.name}"]`).get(0);
-            console.dir(dependentElement)
-            if (this.value === '1') {
+            let dependentElement = $(`.dependent[data-required-field="${this.name}"]`).get(0);
+            let requiredValue = $(dependentElement).attr('data-required-value')
+
+            if (this.value === requiredValue) {
                 $(dependentElement).removeClass('opacity-25')
                 $(dependentElement).find('input').prop("disabled", false)
             } else {

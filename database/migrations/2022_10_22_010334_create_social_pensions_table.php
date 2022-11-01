@@ -26,6 +26,7 @@ class CreateSocialPensionsTable extends Migration
             $table->string('firstname');
             $table->string('middlename')->nullable();
             $table->string('citizenship');
+            $table->unsignedInteger('age');
             $table->date('date_of_birth');
             $table->string('place_of_birth');
             $table->enum('sex', ['male', 'female']);

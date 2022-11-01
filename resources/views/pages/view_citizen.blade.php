@@ -177,13 +177,13 @@
                         {{-- date of birth --}}
                         <div class="col-6">
                             <label for="date_of_birth" class="form-label text-info">Date of birth</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->date_of_birth }}</p>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ date('F j, Y', strtotime($citizen->date_of_birth)) }}</p>
                         </div>
 
                         {{-- sex --}}
                         <div class="col-6">
                             <label for="sex" class="form-label text-info">Sex</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->sex }}</p>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->sex) }}</p>
                         </div>
 
                         {{-- place of birth --}}
@@ -198,16 +198,17 @@
                             <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ ucfirst($citizen->civil_status) }}</p>
                         </div>
 
+                        {{-- broken down to specific attributes --}}
                         {{-- address --}}
-                        <div class="col-6">
+                        {{-- <div class="col-6">
                             <label for="address" class="form-label text-info">Address</label>
                             <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->address }}</p>
-                        </div>
+                        </div> --}}
 
                         {{-- educational attainment --}}
                         <div class="col-6">
                             <label for="educational_attainment" class="form-label text-info">Educational attainment</label>
-                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $educational_attainment }}</p>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ App\Models\Constants::EDUCATIONAL_ATTAINMENTS[$citizen->educational_attainment] }}</p>
                         </div>
 
                         {{-- occupation --}}
@@ -223,11 +224,55 @@
                         </div>
 
                         {{-- other skills --}}
-                        <div class="col-12">
+                        <div class="col-6">
                             <label for="other_skills" class="form-label text-info">Other skills</label>
                             <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $citizen->other_skills }}</p>
                         </div>
 
+
+                    </div>
+
+                </div>
+
+
+                {{-- Address --}}
+                <div>
+                    <div class="d-flex gap-3">
+                        <h3>Address</h3>
+                        <hr class="flex-fill">
+                    </div>
+
+                    <div class="row ps-3 g-3 flex-fill">
+
+                        {{-- House no. --}}
+                        <div class="col-6">
+                            <label for="house_no" class="form-label text-info">House No.</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->house_no)
+                                    {{ $citizen->house_no }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
+                        </div>
+
+                        {{-- street --}}
+                        <div class="col-6">
+                            <label for="street" class="form-label text-info">Street</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->street)
+                                    {{ $citizen->street }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
+                        </div>
+
+                        {{-- barangay --}}
+                        <div class="col-6">
+                            <label for="barangay" class="form-label text-info">Barangay</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $barangay->barangay_name }}</p>
+                        </div>
 
                     </div>
 
@@ -256,7 +301,7 @@
                                 </tr>
                             </thead>
                             <tbody class="table-bordered">
-                                @foreach ($family_composition as $member)
+                                @foreach ($citizen->family_composition as $member)
                                     <tr>
                                         <td>{{ $member['name'] }}</td>
                                         <td>{{ $member['relationship'] }}</td>
@@ -332,6 +377,67 @@
 
                     </div>
                 </div>
+
+                {{-- vaccination status --}}
+                <div>
+                    <div class="d-flex gap-3">
+                        <h3>Vaccination status</h3>
+                        <hr class="flex-fill">
+                    </div>
+
+                    <div class="row ps-3 g-3 flex-fill">
+
+                        {{-- vaccine --}}
+                        <div class="col-6">
+                            <label for="vaccine" class="form-label text-info">Vaccine</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->vaccine)
+                                    {{ App\Models\Constants::VACCINES[$citizen->vaccine] }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
+                        </div>
+
+                        {{-- first dose --}}
+                        <div class="col-6">
+                            <label for="first_dose" class="form-label text-info">First dose date</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->first_dose)
+                                    {{ date('F j, Y', strtotime($citizen->first_dose)) }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
+                        </div>
+
+                        {{-- second dose --}}
+                        <div class="col-6">
+                            <label for="second_dose" class="form-label text-info">Second dose date</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->second_dose)
+                                    {{ date('F j, Y', strtotime($citizen->second_dose)) }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
+                        </div>
+
+                        {{-- booster dose date --}}
+                        <div class="col-6">
+                            <label for="booster_dose" class="form-label text-info">Booster dose date</label>
+                            <p class="fs-3 px-1 m-0 border-bottom border-secondary">
+                                @if ($citizen->booster_dose)
+                                    {{ date('F j, Y', strtotime($citizen->booster_dose)) }}
+                                @else
+                                    <i class="text-muted">N/A</i>
+                                @endif
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
 
                 @if ($citizen->is_delisted)
                     {{-- delist details --}}

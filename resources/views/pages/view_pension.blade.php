@@ -133,7 +133,7 @@
                             {{-- age --}}
                             <div class="col-6">
                                 <label for="age" class="form-label text-info">Age</label>
-                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $age }} years old</p>
+                                <p class="fs-3 px-1 m-0 border-bottom border-secondary">{{ $pension->age }} years old</p>
                             </div>
 
                             {{-- date of birth --}}

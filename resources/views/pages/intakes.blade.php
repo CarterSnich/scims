@@ -110,29 +110,29 @@
                     </tr>
                 </thead>
                 <tbody class="table-bordered">
-                    {{-- @foreach ($pensions as $pension)
+                    @foreach ($intakes as $intake)
                         <tr>
-                            <th scope="row">{{ ($pensions->currentPage() - 1) * 50 + $loop->index + 1 }}</th>
-                            <td>{{ $pension['lastname'] }}</td>
-                            <td>{{ $pension['firstname'] }}</td>
-                            <td>{{ $pension['middlename'] }}</td>
+                            <th scope="row">{{ ($intakes->currentPage() - 1) * 50 + $loop->iteration }}</th>
+                            <td>{{ $intake['lastname'] }}</td>
+                            <td>{{ $intake['firstname'] }}</td>
+                            <td>{{ $intake['middlename'] }}</td>
                             <td class="fit">
-                                <a href="/pensions/{{ $pension['id'] }}" class="btn btn-success">View</a>
+                                <a href="/intakes/{{ $intake['id'] }}" class="btn btn-success">View</a>
                             </td>
                         </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
         </div>
 
         {{-- pagination --}}
         <div class="d-flex mt-3 justify-content-between">
-            {{-- @php
-                $rowFrom = $pensions->perPage() * ($pensions->currentPage() - 1);
-                $rowTo = $rowFrom + $pensions->count();
+            @php
+                $rowFrom = $intakes->perPage() * ($intakes->currentPage() - 1);
+                $rowTo = $rowFrom + $intakes->count();
             @endphp
             <p class="my-auto">
-                Showing rows {{ $rowFrom }} - {{ $rowTo }} of {{ $pensions->total() }}
+                Showing rows {{ $rowFrom }} - {{ $rowTo }} of {{ $intakes->total() }}
             </p>
             <nav>
                 <ul class="pagination mb-0">
@@ -140,8 +140,8 @@
                         <a class="page-link" href="#" tabindex="-1">Page</a>
                     </li>
 
-                    @for ($i = 1; $i <= $pensions->lastPage(); $i++)
-                        <li class="page-item @if ($i == $pensions->currentPage()) active @endif">
+                    @for ($i = 1; $i <= $intakes->lastPage(); $i++)
+                        <li class="page-item @if ($i == $intakes->currentPage()) active @endif">
                             @if (Request::get('search'))
                                 <a class="page-link" href="{{ url()->full() }}?page={{ $i }}" tabindex="-1">{{ $i }}</a>
                             @else
@@ -150,7 +150,7 @@
                         </li>
                     @endfor
                 </ul>
-            </nav> --}}
+            </nav>
         </div>
     </div>
 @endsection

@@ -24,11 +24,16 @@ class SeniorCitizen extends Model
         'sex',
         'place_of_birth',
         'civil_status',
-        'address',
+        // 'address', // broken down to specific attributes
         'educational_attainment',
         'occupation',
         'annual_income',
         'other_skills',
+
+        // address
+        'house_no',
+        'street',
+        'barangay',
 
         // family composition
         'family_composition',

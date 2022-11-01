@@ -28,14 +28,21 @@ class CreateSeniorCitizensTable extends Migration
 
             // peronsal information
             $table->date('date_of_birth');
+            $table->unsignedInteger('age');
             $table->enum('sex', ['male', 'female']);
             $table->string('place_of_birth');
             $table->enum('civil_status', Constants::CIVIL_STATUSES);
-            $table->string('address');
+            // $table->string('address'); // broken down specific attributes
             $table->enum('educational_attainment', array_keys(Constants::EDUCATIONAL_ATTAINMENTS));
             $table->string('occupation');
             $table->decimal('annual_income', 10, 2, true);
             $table->text('other_skills')->nullable();
+
+            // address
+            $table->string('house_no')->nullable();
+            $table->string('street')->nullable();
+            $table->unsignedBigInteger('barangay');
+            $table->foreign('barangay')->references('id')->on('barangays');
 
             // family composition
             $table->json('family_composition')->nullable();
@@ -46,6 +53,13 @@ class CreateSeniorCitizensTable extends Migration
             $table->date('date_of_membership')->nullable();
             $table->date('date_elected')->nullable();
             $table->string('term')->nullable();
+
+            // vaccination status
+            $table->enum('vaccine', array_keys(Constants::VACCINES))->nullable();
+            $table->date('first_dose')->nullable();
+            $table->date('second_dose')->nullable();
+            $table->date('booster_dose')->nullable();
+
 
             // delist details
             $table->boolean('is_delisted')->default(false);

@@ -132,6 +132,15 @@
                                 @enderror
                             </div>
 
+                            {{-- age --}}
+                            <div class="col-6">
+                                <label for="age" class="form-label text-info">Age</label>
+                                <input type="text" class="form-control @error('age') is-invalid @enderror" id="age" name="age" value="{{ old('age') }}" pattern="^([6-9]|(10))[0-9]+" required>
+                                @error('age')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             {{-- sex --}}
                             <div class="col-6">
                                 <label for="sex" class="form-label text-info">Sex</label>
@@ -168,8 +177,9 @@
                                 @enderror
                             </div>
 
+                            {{-- commented out. im breaking down the address to more specific attributes --}}
                             {{-- address --}}
-                            <div class="col-6">
+                            {{-- <div class="col-6">
                                 <label for="address" class="form-label text-info">Address</label>
                                 <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}" required>
                                 @error('address')
@@ -177,7 +187,7 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
+                            </div> --}}
 
                             {{-- educational attainment --}}
                             <div class="col-6">
@@ -226,6 +236,59 @@
                                 @enderror
                             </div>
                         </div>
+                    </div>
+
+                    {{-- address --}}
+                    <div>
+                        <div class="d-flex gap-3">
+                            <h3>Address</h3>
+                            <hr class="flex-fill">
+                        </div>
+
+                        <div class="row ps-3 g-3 flex-fill">
+
+                            {{-- House number --}}
+                            <div class="col-6">
+                                <label for="house_no" class="form-label text-info">House no.</label>
+                                <input type="text" class="form-control @error('hosue_no') is-invalid @enderror" id="house_no" name="house_no" value="{{ old('house_no') }}" required>
+                                @error('house_no')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            {{-- street --}}
+                            <div class="col-6">
+                                <label for="street" class="form-label text-info">Street</label>
+                                <input type="text" class="form-control @error('street') is-invalid @enderror" id="street" name="street" value="{{ old('street') }}" required>
+                                @error('street')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+
+                            {{-- barangay --}}
+                            <div class="col-6">
+                                <label for="barangay" class="form-label text-info">Barangay</label>
+                                <select class="form-select @error('barangay') is-invalid @enderror" name="barangay" id="barangay" required>
+                                    <option value="" selected disabled>Select barangay</option>
+                                    @foreach ($barangays as $barangay)
+                                        <option value="{{ $barangay->id }}" {{ old('barangay') == $barangay->id ? 'selected' : '' }}>
+                                            {{ $barangay->barangay_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('barangay')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
                     </div>
 
 
@@ -311,6 +374,59 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                        </div>
+                    </div>
+
+                    {{-- vaccination status --}}
+                    <div>
+                        <div class="d-flex gap-3">
+                            <h3>Vaccination status</h3>
+                            <hr class="flex-fill">
+                        </div>
+
+                        <div class="row ps-3 g-3 flex-fill">
+
+                            {{-- vaccine --}}
+                            <div class="col-6">
+                                <label for="vaccine" class="form-label text-info">Vaccine</label>
+                                <select name="vaccine" id="vaccine" class="form-select">
+                                    @foreach (App\Models\Constants::VACCINES as $key => $vaccine)
+                                        <option value="{{ $key }}" {{ old('vaccine') == $key ? 'selected' : '' }}>{{ $vaccine }}</option>
+                                    @endforeach
+                                </select>
+                                @error('vaccine')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            {{-- first dose --}}
+                            <div class="col-6">
+                                <label for="first_dose" class="form-label text-info">First dose date</label>
+                                <input type="date" class="form-control" name="first_dose" id="first_dose">
+                                @error('first_dose')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            {{-- second dose --}}
+                            <div class="col-6">
+                                <label for="second_dose" class="form-label text-info">Second dose date</label>
+                                <input type="date" class="form-control" name="second_dose" id="second_dose">
+                                @error('second_dose')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            {{-- booster dose --}}
+                            <div class="col-6">
+                                <label for="booster_dose" class="form-label text-info">Booster dose date</label>
+                                <input type="date" class="form-control" name="booster_dose" id="booster_dose">
+                                @error('booster_dose')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
 
                         </div>
                     </div>
