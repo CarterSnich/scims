@@ -5,7 +5,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SeniorCitizenController;
-use App\Http\Controllers\IdApplicationController;
 use App\Http\Controllers\SocialPensionController;
 use App\Http\Controllers\PensionIntakeController;
 use App\Http\Controllers\PrintController;
@@ -50,6 +49,11 @@ Route::middleware("auth")->controller(DashboardController::class)->group(functio
     // Pension intakes
     Route::get("/intakes", "intakes");
     Route::get("/intakes/register", "register_intake");
+
+    // philthealth
+    Route::get("/philhealth", "philhealth");
+    Route::get("/philhealth/register", "register_philhealth");
+    Route::get('/philhealth/view', 'view_philhealth');
 });
 
 // senior citizen routes
@@ -76,6 +80,10 @@ Route::middleware("auth")->controller(SocialPensionController::class)->prefix("p
 // pension intakes
 Route::middleware("auth")->controller(PensionIntakeController::class)->prefix("intakes")->group(function () {
     Route::post("/register/submit", "store");
+});
+
+// philhealth 
+Route::middleware('auth')->controller(PhilHealthController::class)->prefix('philhealth')->group(function () {
 });
 
 // User login/logout routes

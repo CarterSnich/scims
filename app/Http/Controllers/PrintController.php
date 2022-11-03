@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barangay;
+use App\Models\Constants;
 use Illuminate\Http\Request;
 use App\Models\IdApplication;
 use App\Models\SeniorCitizen;
@@ -24,7 +25,6 @@ class PrintController extends Controller
             'barangays.id'
         )->get();
 
-        // @ddd($citizens);
 
         return
             view('print.print_citizens', [
@@ -38,7 +38,7 @@ class PrintController extends Controller
         $citizen_id = date('Y', strtotime($citizen->created_at)) . '-' . str_pad($citizen->id, 5, '0', STR_PAD_LEFT);
         $fullname = "{$citizen['lastname']}, {$citizen['firstname']} {$citizen['middlename']}";
         $age = Carbon::parse($citizen->date_of_birth)->age;
-        $educational_attainment = SeniorCitizen::$educational_attainments[$citizen->educational_attainment];
+        $educational_attainment = Constants::EDUCATIONAL_ATTAINMENTS[$citizen->educational_attainment];
 
         return view('print.print_citizen', [
             'citizen' => $citizen,
@@ -71,38 +71,6 @@ class PrintController extends Controller
             view('print.print_barangay', [
                 'barangay' => $barangay,
                 'residents' => SeniorCitizen::where('barangay', '=', $barangay->id)->get()
-            ]);
-    }
-
-    // print application
-    public function id_application(IdApplication $application)
-    {
-        $application = IdApplication::select(
-            'id_applications.*',
-            'senior_citizens.*',
-            DB::raw(
-                "CONCAT(YEAR(senior_citizens.created_at), '-', LPAD(senior_citizens.id, 5, '0')) AS cid"
-            ),
-            'barangays.barangay_name'
-        )->leftJoin(
-            'senior_citizens',
-            'id_applications.citizen',
-            '=',
-            'senior_citizens.id'
-        )->leftJoin(
-            'barangays',
-            'senior_citizens.barangay',
-            '=',
-            'barangays.id'
-        )->where(
-            'id_applications.id',
-            '=',
-            $application->id
-        )->first();
-
-        return
-            view('print.print_application', [
-                'application' => $application
             ]);
     }
 }

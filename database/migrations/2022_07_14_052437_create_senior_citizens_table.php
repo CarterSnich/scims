@@ -18,6 +18,10 @@ class CreateSeniorCitizensTable extends Migration
             $table->id();
             $table->timestamps();
 
+            // validation status
+            $table->boolean('is_validated')->default(false);
+            $table->date('date_validated')->nullable();
+
             // name
             $table->string('lastname');
             $table->string('firstname');

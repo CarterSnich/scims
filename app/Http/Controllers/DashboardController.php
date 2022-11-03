@@ -10,6 +10,7 @@ use App\Models\SeniorCitizen;
 use App\Models\SocialPension;
 use App\Models\Constants;
 use App\Models\PensionIntake;
+use App\Models\Philhealth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -286,46 +287,25 @@ class DashboardController extends Controller
         }
     }
 
-    // id applicatons
-    public function id_applications()
+    // philhealth
+    public function philhealth()
     {
-        return
-            view('pages.id_applications', [
-                'applications' => IdApplication::select(
-                    'id_applications.*',
-                    'citizen.lastname',
-                    'citizen.firstname',
-                    'citizen.middlename'
-                )->leftJoin(
-                    'senior_citizens AS citizen',
-                    'citizen.id',
-                    '=',
-                    'id_applications.citizen'
-                )->paginate(50)
-            ]);
+        return view('pages.philhealth', [
+            'philhealths' => Philhealth::paginate(50)
+        ]);
     }
 
-    // id application
-    public function id_apply(SeniorCitizen $citizen)
+    // register_philhealth
+    public function register_philhealth()
     {
-        return
-            view('pages.id_application', [
-                'applicant' => $citizen,
-                'citizens' => SeniorCitizen::all()
-            ]);
+        return view('pages.register-philhealth');
     }
 
-    // view id application
-    public function view_id_application(IdApplication $application)
+    // view philhealth registration
+    public function view_philhealth()
     {
-        $citizen = SeniorCitizen::where('id', '=', $application->citizen)->first();
-        $barangay = Barangay::where('id', '=', $citizen->barangay)->first();
-
-        return
-            view('pages.view_id_application', [
-                'application' => $application,
-                'citizen' => $citizen,
-                'barangay' => $barangay
-            ]);
+        return view('pages.view-philhealth', [
+            'philhealth' => Philhealth::first()
+        ]);
     }
 }

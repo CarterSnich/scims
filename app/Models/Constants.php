@@ -2,13 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Constants extends Model
+class Constants
 {
-    use HasFactory;
-
     public const LIVING_ARRANGEMENTS = [
         '1' => 'Living alone',
         '2' => 'Owned house',
@@ -42,5 +37,24 @@ class Constants extends Model
         'fscap' => 'FSCAP',
         'cose' => 'COSE',
         'others' => 'Others'
+    ];
+
+    public const PH_PURPOSE = [
+        'registration'  => 'Registration',
+        'update' => 'Update/Amendment'
+    ];
+
+    public const PH_CIVIL_STATUS = [
+        'single' => 'Single',
+        'married' => 'Married',
+        'legally_separated' => 'Legally Separated',
+        'annulled' => 'Annulled',
+        'widower' => 'Widow/er',
+    ];
+
+    public const PH_CITIZENSHIP = [
+        'filipino' => 'Filipino',
+        'foreign' => 'Foreign National',
+        'dual' => 'Dual Citizen',
     ];
 }
