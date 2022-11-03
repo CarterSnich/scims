@@ -50,6 +50,7 @@ Route::middleware("auth")->controller(DashboardController::class)->group(functio
     Route::get("/intakes", "intakes");
     Route::get("/intakes/register", "register_intake");
 
+
     // philthealth
     Route::get("/philhealth", "philhealth");
     Route::get("/philhealth/register", "register_philhealth");
