@@ -51,7 +51,7 @@
         {{-- page header --}}
         <div class="d-flex justify-content-between gap-2">
             {{-- page title --}}
-            <h2 class="m-0">
+            <h2 class="m-0 me-auto">
                 @if (request()->is('citizens'))
                     Senior Citizens
                 @else
@@ -59,8 +59,17 @@
                 @endif
             </h2>
 
+            {{-- filter --}}
+            <div class="btn-group my-auto" role="group" aria-label="Basic outlined example">
+                @foreach (['all', 'validated', 'unvalidated'] as $filter)
+                    <a href="{{ request()->fullUrlWithQuery(['filter' => $filter]) }}" type="button" class="text-light btn @if (request()->get('filter', 'all') == $filter) btn-primary @else btn-outline-primary @endif">
+                        {{ Str::ucfirst($filter) }}
+                    </a>
+                @endforeach
+            </div>
+
             {{-- search bar --}}
-            <form action="{{ request()->pathInfo }}" method="GET" id="search-barangay-form" class="input-group ms-auto w-auto">
+            <form action="{{ request()->pathInfo }}" method="GET" id="search-barangay-form" class="input-group w-auto">
                 <div class="d-flex rounded-start bg-light">
                     <input type="search" class="form-control bg-transparent border-0" name="search" placeholder="Search citizen" value="{{ Request::get('search') }}">
                     <a href="{{ request()->pathInfo }}" class="btn bg-transparent border-0 opacity-0">
@@ -128,7 +137,11 @@
                             <td>{{ $citizen['middlename'] }}</td>
                             <td class="fit">
                                 <a href="/citizens/{{ $citizen['id'] }}" class="btn btn-primary">View</a>
-                                <a href="/citizens/{{ $citizen['id'] }}/validate" class="btn btn-success">Validate</a>
+                                @if ($citizen->is_validated)
+                                    <a href="#" class="btn btn-secondary" disabled>Validated</a>
+                                @else
+                                    <a href="/citizens/{{ $citizen['id'] }}/validate" class="btn btn-success">Validate</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

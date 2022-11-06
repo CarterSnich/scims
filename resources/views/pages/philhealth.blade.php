@@ -115,13 +115,13 @@
                 <tbody class="table-bordered">
                     @foreach ($philhealths as $philhealth)
                         <tr>
-                            <th scope="row">{{ ($philhealth->currentPage() - 1) * 50 + $loop->index + 1 }}</th>
+                            <th scope="row">{{ ($philhealths->currentPage() - 1) * 50 + $loop->index + 1 }}</th>
                             <td>{{ $philhealth->pin ?? '' }}</td>
-                            <td>{{ $philhealth['lastname'] }}</td>
-                            <td>{{ $philhealth['firstname'] }}</td>
-                            <td>{{ $philhealth['middlename'] }}</td>
+                            <td>{{ $philhealth['member_lastname'] }}</td>
+                            <td>{{ $philhealth['member_firstname'] }}</td>
+                            <td>{{ $philhealth['member_middlename'] }}</td>
                             <td class="fit">
-                                <a href="/philhealths/{{ $philhealth['id'] }}" class="btn btn-success">View</a>
+                                <a href="/philhealth/{{ $philhealth['id'] }}" class="btn btn-success">View</a>
                             </td>
                         </tr>
                     @endforeach

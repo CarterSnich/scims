@@ -13,6 +13,8 @@ const mix = require("laravel-mix");
 
 mix.js("resources/js/app.js", "public/js")
     .js('resources/js/register-citizen.js', 'public/js')
+    .js('resources/js/philhealth-application.js', 'public/js')
+    .js('resources/js/pdf-philhealth.js', 'public/js')
     .sass("resources/sass/app.scss", "public/css")
     .postCss("resources/css/style.css", "public/css")
     .css("resources/css/dashboard-style.css", "public/css")

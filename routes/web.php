@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PrintController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PhilHealthController;
+use App\Http\Controllers\PensionIntakeController;
 use App\Http\Controllers\SeniorCitizenController;
 use App\Http\Controllers\SocialPensionController;
-use App\Http\Controllers\PensionIntakeController;
-use App\Http\Controllers\PrintController;
 
 
 /*
@@ -26,7 +27,7 @@ Route::get("/", [UserController::class, "login"])->name("login")->middleware("gu
 
 // Dashboard pages
 Route::middleware("auth")->controller(DashboardController::class)->group(function () {
-    Route::get("/pensions", "pensions");
+    Route::get("/dashboard", "dashboard")->name('home');
     Route::get("/reports", "reports");
     Route::get("/users", "users");
     Route::get("/settings", "settings");
@@ -43,6 +44,7 @@ Route::middleware("auth")->controller(DashboardController::class)->group(functio
     Route::get("/barangays/{barangay}", "view_barangay");
 
     // social pensions
+    Route::get("/pensions", "pensions");
     Route::get("/pensions/apply", "apply_pension");
     Route::get("/pensions/{pension}", "view_pension");
 
@@ -50,11 +52,10 @@ Route::middleware("auth")->controller(DashboardController::class)->group(functio
     Route::get("/intakes", "intakes");
     Route::get("/intakes/register", "register_intake");
 
-
     // philthealth
     Route::get("/philhealth", "philhealth");
     Route::get("/philhealth/register", "register_philhealth");
-    Route::get('/philhealth/view', 'view_philhealth');
+    Route::get('/philhealth/{philhealth}', 'view_philhealth');
 });
 
 // senior citizen routes
@@ -64,6 +65,7 @@ Route::middleware("auth")->controller(SeniorCitizenController::class)->prefix("c
     Route::post("/{citizen}/recover", "recover");
     Route::put("/{citizen}/update", "update");
     Route::delete("/{citizen}/destroy", "destory");
+    Route::get('/{citizen}/validate/', 'validate_citizen');
 });
 
 // barangay routes
@@ -85,10 +87,12 @@ Route::middleware("auth")->controller(PensionIntakeController::class)->prefix("i
 
 // philhealth 
 Route::middleware('auth')->controller(PhilHealthController::class)->prefix('philhealth')->group(function () {
+    Route::post('/register/submit', 'store');
 });
 
 // User login/logout routes
 Route::post("/user/authenticate", [UserController::class, "authenticate"]);
+Route::get("/user/logout", [UserController::class, "logout"]);
 Route::post("/user/logout", [UserController::class, "logout"]);
 
 // users page

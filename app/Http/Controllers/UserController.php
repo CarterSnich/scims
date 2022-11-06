@@ -26,7 +26,7 @@ class UserController extends Controller
 
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
-            return redirect('citizens');
+            return redirect('dashboard');
         }
 
         return

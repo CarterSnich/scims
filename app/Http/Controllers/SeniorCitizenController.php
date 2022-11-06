@@ -335,4 +335,9 @@ class SeniorCitizenController extends Controller
                 ]);
         }
     }
+
+    // validated citizen
+    public function validate_citizen(Request $request)
+    {
+    }
 }

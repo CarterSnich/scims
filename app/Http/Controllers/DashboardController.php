@@ -18,18 +18,36 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
 
+    public function dashboard(Request $request)
+    {
+        return view('pages.dashboard');
+    }
+
     // senior citizens list page
     public function citizens(Request $request)
     {
+        // intial query
+        $query = SeniorCitizen::orderBy('lastname');
+
+        // append WHERE statement if there is a search query
         if ($search_key = $request->search) {
-            $citizens = SeniorCitizen::orderBy('lastname')->paginate(50);
-        } else {
-            $citizens = SeniorCitizen::orderBy('lastname')->paginate(50);
-        };
+            $query = $query->where('lastname', 'LIKE', "%{$search_key}%");
+        }
+
+        // add WHERE statement for filter
+        switch ($request->get('filter')) {
+            case 'validated':
+                $query = $query->where('is_validated', '=', true);
+                break;
+
+            case 'unvalidated':
+                $query = $query->where('is_validated', '=', false);
+                break;
+        }
 
         return
             view('pages.citizens', [
-                'citizens' => $citizens
+                'citizens' => $query->paginate(50)
             ]);
     }
 
@@ -302,10 +320,10 @@ class DashboardController extends Controller
     }
 
     // view philhealth registration
-    public function view_philhealth()
+    public function view_philhealth(Philhealth $philhealth)
     {
         return view('pages.view-philhealth', [
-            'philhealth' => Philhealth::first()
+            'philhealth' => $philhealth
         ]);
     }
 }
