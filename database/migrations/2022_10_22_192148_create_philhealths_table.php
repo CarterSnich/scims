@@ -71,6 +71,7 @@ class CreatePhilhealthsTable extends Migration
             $table->string('permanent_zip_code')->nullable();
 
             // mailing address
+            $table->boolean('same_as_above')->default(false);
             $table->string('mailing_unit_room_no_floor')->nullable();
             $table->string('mailing_building_name')->nullable();
             $table->string('mailing_lot_block_phase_house_no')->nullable();

@@ -430,7 +430,7 @@
                                 <div class="d-flex flex-row gap-3">
                                     <p class="mb-0 lead">MAILING ADDRESS</p>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="same-as-above" value="1">
+                                        <input class="form-check-input" type="checkbox" id="same-as-above" name="same_as_above" value="1">
                                         <label class="form-check-label" for="same-as-above">SAME AS ABOVE</label>
                                     </div>
                                 </div>

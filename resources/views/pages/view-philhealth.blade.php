@@ -63,7 +63,6 @@
     <meta name="form2" content="{{ asset('images/pmrf-2.jpg') }}">
     <meta name="philhealth" content="{{ json_encode($philhealth) }}">
 
-    <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
     <script>
         (function() {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-has-tooltip="true"]'))
@@ -73,5 +72,7 @@
         })()
     </script>
 
+    <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/pdf-philhealth.js') }}"></script>
 @endsection

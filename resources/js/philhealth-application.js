@@ -1,18 +1,10 @@
-let initialValues = {};
-
 $('#same-as-above').on('change', function () {
     if (this.checked) {
-        $('#permanent-home-address input[data-same-field]').each(function () {
-            let field = $(this)
-            let fieldName = field.attr('data-same-field');
-            let sameField = $(`#mailing-address input[data-same-field=${fieldName}]`);
-            initialValues[fieldName] = sameField.val()
-            sameField.val(field.val()).attr('disabled', true)
-        })
+        $('#mailing-address > div.row.g-3 :input').attr('disabled', true)
+        $('#mailing-address > div.row.g-3 :input').addClass('disabled')
     } else {
-        $.each(initialValues, function (fieldName, value) {
-            $(`#mailing-address input[data-same-field=${fieldName}]`).val(value).attr('disabled', false)
-        })
+        $('#mailing-address > div.row.g-3 :input').attr('disabled', false)
+        $('#mailing-address > div.row.g-3 :input').removeClass('disabled')
     }
 })
 

@@ -69,6 +69,7 @@ class PhilHealthController extends Controller
                 'permanent_zip_code' => ['nullable'],
 
                 // mailing address
+                'same_as_above' => ['boolean'],
                 'mailing_unit_room_no_floor' => ['nullable'],
                 'mailing_building_name' => ['nullable'],
                 'mailing_lot_block_phase_house_no' => ['nullable'],

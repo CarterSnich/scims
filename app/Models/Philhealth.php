@@ -63,6 +63,7 @@ class Philhealth extends Model
         'permanent_zip_code',
 
         // mailing address
+        'same_as_above',
         'mailing_unit_room_no_floor',
         'mailing_building_name',
         'mailing_lot_block_phase_house_no',
