@@ -7,6 +7,7 @@ use App\Models\Constants;
 use Illuminate\Http\Request;
 use App\Models\IdApplication;
 use App\Models\SeniorCitizen;
+use App\Models\SocialPension;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -39,13 +40,15 @@ class PrintController extends Controller
         $fullname = "{$citizen['lastname']}, {$citizen['firstname']} {$citizen['middlename']}";
         $age = Carbon::parse($citizen->date_of_birth)->age;
         $educational_attainment = Constants::EDUCATIONAL_ATTAINMENTS[$citizen->educational_attainment];
+        $barangay = Barangay::where('id', '=', $citizen->barangay)->first();
 
         return view('print.print_citizen', [
             'citizen' => $citizen,
             'citizen_id' => $citizen_id,
             'fullname' => $fullname,
             'age' => $age,
-            'educational_attainment' => $educational_attainment
+            'educational_attainment' => $educational_attainment,
+            'barangay' => $barangay
         ]);
     }
 
@@ -72,5 +75,12 @@ class PrintController extends Controller
                 'barangay' => $barangay,
                 'residents' => SeniorCitizen::where('barangay', '=', $barangay->id)->get()
             ]);
+    }
+
+    public function pension(SocialPension $pension)
+    {
+        return view('print.print_pension', [
+            'pension' => $pension
+        ]);
     }
 }

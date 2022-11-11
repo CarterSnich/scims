@@ -7,20 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="font" content="{{ asset('fonts/Roboto/Roboto-Regular.ttf') }}">
     <meta name="logo" content="{{ asset('images/logo.png') }}">
-    <meta name="form" content="{{ asset('images/scims-application-form.png') }}">
+    <meta name="form" content="{{ asset('images/') }}">
 
     <meta name="citizen" content="{{ json_encode($citizen) }}">
     <meta name="citizen_id" content="{{ $citizen_id }}">
     <meta name="fullname" content="{{ $fullname }}">
     <meta name="age" content="{{ $age }}">
     <meta name="educational_attainment" content="{{ $educational_attainment }}">
-    <meta name="barangay" content="{{ json_encode($barangay) }}">
-    <meta name="picture" content="{{ asset("storage/pictures/{$citizen->picture}") }}">
+    <meta name="picture" content="{{ asset("storage/pension-pictures/{$citizen->picture}") }}">
 
     <title>Senior Citizen ID #{{ $citizen_id }} {{ $fullname }}</title>
 
-    <script src="{{ asset('js/jspdf.umd.min.js') }}" defer></script>
-    <script src="{{ asset('js/print-citizen.js') }}" defer></script>
+    <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
     <style>
         body {
             padding: 0;

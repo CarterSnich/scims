@@ -109,4 +109,5 @@ Route::middleware("auth")->controller(PrintController::class)->prefix("/print")-
     Route::get("/citizen/{citizen}", "citizen");
     Route::get("/barangays", "barangays");
     Route::get("/barangay/{barangay}", "barangay");
+    Route::get("/pension/{pension}", "pension");
 });
