@@ -80,7 +80,9 @@ class PrintController extends Controller
     public function pension(SocialPension $pension)
     {
         return view('print.print_pension', [
-            'pension' => $pension
+            'pension' => $pension,
+            'fullname' => "{$pension->lastname}, {$pension->firstname} {$pension->middlename}",
+            'barangay' => Barangay::where('id', '=', $pension->barangay)->first()
         ]);
     }
 }

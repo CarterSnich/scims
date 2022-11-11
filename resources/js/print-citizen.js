@@ -1,7 +1,6 @@
 const ucfirst = function (string) {
-    return string[0].toUpperCase() + string.substring(1)
+    return string[0].toUpperCase() + string.substring(1);
 }
-
 
 let citizen = JSON.parse(document.querySelector('meta[name=citizen]').getAttribute('content'))
 let citizenId = document.querySelector('meta[name=citizen_id]').getAttribute('content')

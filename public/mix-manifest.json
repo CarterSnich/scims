@@ -4,6 +4,7 @@
     "/js/philhealth-application.js": "/js/philhealth-application.js",
     "/js/pdf-philhealth.js": "/js/pdf-philhealth.js",
     "/js/print-citizen.js": "/js/print-citizen.js",
+    "/js/print-pension.js": "/js/print-pension.js",
     "/css/administrator-sidebar.css": "/css/administrator-sidebar.css",
     "/css/dashboard-style.css": "/css/dashboard-style.css",
     "/css/style.css": "/css/style.css",

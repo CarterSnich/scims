@@ -7,18 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="font" content="{{ asset('fonts/Roboto/Roboto-Regular.ttf') }}">
     <meta name="logo" content="{{ asset('images/logo.png') }}">
-    <meta name="form" content="{{ asset('images/') }}">
+    <meta name="form" content="{{ asset('images/social-pension-form.jpg') }}">
 
-    <meta name="citizen" content="{{ json_encode($citizen) }}">
-    <meta name="citizen_id" content="{{ $citizen_id }}">
+    <meta name="pension" content="{{ json_encode($pension) }}">
     <meta name="fullname" content="{{ $fullname }}">
-    <meta name="age" content="{{ $age }}">
-    <meta name="educational_attainment" content="{{ $educational_attainment }}">
-    <meta name="picture" content="{{ asset("storage/pension-pictures/{$citizen->picture}") }}">
+    <meta name="barangay" content="{{ json_encode($barangay) }}">
+    <meta name="picture" content="{{ asset("storage/pension-pictures/{$pension->picture}") }}">
 
-    <title>Senior Citizen ID #{{ $citizen_id }} {{ $fullname }}</title>
+    <title>Social Pension | {{ $fullname }}</title>
 
-    <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
+    <script src="{{ asset('js/jspdf.umd.min.js') }}" defer></script>
+    <script src="{{ asset('js/print-pension.js') }}" defer></script>
     <style>
         body {
             padding: 0;
