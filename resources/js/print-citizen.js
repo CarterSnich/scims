@@ -101,7 +101,7 @@ doc.text(citizen['term'] ?? '', 3, 7.5)
 
 // set pdf to iframe
 document.querySelector('iframe').setAttribute('src', doc.output('datauristring'))
-// doc.save(`${document.title}.pdf`)
+doc.save(`${document.title}.pdf`)
 
 if (!!window.chrome)
     alert("On Chromium-based browsers, PDF may fail rendering, instead it will be downloaded. If there is no downloaded PDF file, please contact the system administration.")
